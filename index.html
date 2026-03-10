@@ -3,1812 +3,768 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Imaginary Records - Free Music Distribution</title>
+    <title>The Imaginary Records</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-
-        .font-display {
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        /* ============================================
-           SHOOTING STARS CANVAS
-        ============================================ */
-        #stars-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* ============================================
-           MUSIC VISUALIZER BAR (bottom of screen)
-        ============================================ */
-        #music-visualizer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 48px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 3px;
-            padding: 0 20px;
-            z-index: 60;
-            pointer-events: none;
-            opacity: 0.35;
-        }
-
-        .vis-bar {
-            width: 4px;
-            background: linear-gradient(to top, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
-            border-radius: 2px 2px 0 0;
-            animation: visBarAnim var(--dur) ease-in-out infinite alternate;
-            transform-origin: bottom;
-        }
-
-        @keyframes visBarAnim {
-            0% { height: 4px; }
-            100% { height: var(--max-h); }
-        }
-
-        /* ============================================
-           FLOATING MUSIC NOTES
-        ============================================ */
-        .music-note {
-            position: fixed;
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.15);
-            animation: floatNote linear infinite;
-            pointer-events: none;
-            z-index: 1;
-            user-select: none;
-        }
-
-        @keyframes floatNote {
-            0% {
-                transform: translateY(100vh) rotate(0deg) scale(0.5);
-                opacity: 0;
-            }
-            10% { opacity: 1; }
-            90% { opacity: 0.3; }
-            100% {
-                transform: translateY(-100px) rotate(360deg) scale(1.2);
-                opacity: 0;
-            }
-        }
-
-        /* ============================================
-           WAVEFORM HERO DECORATION
-        ============================================ */
-        #waveform-svg {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px;
-            height: 40px;
-            opacity: 0.15;
-            pointer-events: none;
-        }
-
-        .wave-bar-svg {
-            animation: waveBarSvg 1.2s ease-in-out infinite alternate;
-        }
-
-        @keyframes waveBarSvg {
-            0% { transform: scaleY(0.2); }
-            100% { transform: scaleY(1); }
-        }
-
-        /* ============================================
-           GLITCH EFFECT on logo
-        ============================================ */
-        .nav-logo {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.25rem;
-            letter-spacing: 0.05em;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-
-        @media (min-width: 768px) {
-            .nav-logo {
-                font-size: 1.5rem;
-            }
-        }
-
-        .nav-logo:hover {
-            animation: glitch 0.4s infinite;
-        }
-
-        @keyframes glitch {
-            0%   { text-shadow: 2px 0 #ff0000, -2px 0 #0000ff; }
-            25%  { text-shadow: -2px 0 #ff0000, 2px 0 #0000ff; clip-path: inset(20% 0 60% 0); }
-            50%  { text-shadow: 2px 2px #ff0000, -2px -2px #0000ff; clip-path: inset(60% 0 10% 0); }
-            75%  { text-shadow: -2px -2px #ff0000, 2px 2px #0000ff; clip-path: inset(0 0 0 0); }
-            100% { text-shadow: 2px 0 #ff0000, -2px 0 #0000ff; }
-        }
-
-        /* ============================================
-           SCROLL REVEAL ANIMATIONS
-        ============================================ */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-left {
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .reveal-left.revealed {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .reveal-scale {
-            opacity: 0;
-            transform: scale(0.85);
-            transition: opacity 0.6s ease,
-                        transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .reveal-scale.revealed {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Staggered delay for grid items */
-        .stagger-1 { transition-delay: 0.05s; }
-        .stagger-2 { transition-delay: 0.1s; }
-        .stagger-3 { transition-delay: 0.15s; }
-        .stagger-4 { transition-delay: 0.2s; }
-        .stagger-5 { transition-delay: 0.25s; }
-        .stagger-6 { transition-delay: 0.3s; }
-        .stagger-7 { transition-delay: 0.35s; }
-        .stagger-8 { transition-delay: 0.4s; }
-        .stagger-9 { transition-delay: 0.45s; }
-        .stagger-10 { transition-delay: 0.5s; }
-        .stagger-11 { transition-delay: 0.55s; }
-        .stagger-12 { transition-delay: 0.6s; }
-
-        /* ============================================
-           HERO TITLE GLOWING TEXT ANIMATION
-        ============================================ */
-        .hero-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-            animation: heroTitleGlow 4s ease-in-out infinite alternate;
-        }
-
-        @keyframes heroTitleGlow {
-            0% { text-shadow: 0 0 10px rgba(255,255,255,0.1); }
-            100% { text-shadow: 0 0 30px rgba(255,255,255,0.4), 0 0 60px rgba(255,255,255,0.1); }
-        }
-
-        @media (min-width: 640px) { .hero-title { font-size: 4rem; } }
-        @media (min-width: 768px) { .hero-title { font-size: 5rem; margin-bottom: 1.5rem; } }
-        @media (min-width: 1024px) { .hero-title { font-size: 6rem; } }
-        @media (min-width: 1280px) { .hero-title { font-size: 7rem; } }
-
-        /* ============================================
-           HERO TAGLINE TYPEWRITER-LIKE REVEAL
-        ============================================ */
-        .hero-tagline {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.125rem;
-            letter-spacing: 0.1em;
-            color: #d1d5db;
-            margin-bottom: 0.5rem;
-            animation: taglineReveal 1s ease forwards;
-            opacity: 0;
-        }
-
-        .hero-tagline:nth-child(3) { animation-delay: 0.8s; }
-        .hero-tagline:nth-child(4) { animation-delay: 1.2s; }
-
-        @keyframes taglineReveal {
-            from { opacity: 0; letter-spacing: 0.4em; }
-            to   { opacity: 1; letter-spacing: 0.1em; }
-        }
-
-        @media (min-width: 768px) { .hero-tagline { font-size: 1.5rem; } }
-
-        /* ============================================
-           HERO CTA PULSE RING
-        ============================================ */
-        .hero-cta-wrapper {
-            position: relative;
-            display: inline-block;
-            margin-top: 2rem;
-        }
-
-        @media (min-width: 768px) { .hero-cta-wrapper { margin-top: 3rem; } }
-
-        .hero-cta-wrapper::before,
-        .hero-cta-wrapper::after {
-            content: '';
-            position: absolute;
-            inset: -8px;
-            border: 1px solid rgba(255,255,255,0.15);
-            animation: ctaPulse 2.5s ease-out infinite;
-        }
-
-        .hero-cta-wrapper::after {
-            animation-delay: 1.25s;
-        }
-
-        @keyframes ctaPulse {
-            0%   { transform: scale(1); opacity: 0.6; }
-            100% { transform: scale(1.15); opacity: 0; }
-        }
-
-        /* ============================================
-           CTA BUTTON
-        ============================================ */
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.875rem;
-            letter-spacing: 0.1em;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-cta::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: white;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .hero-cta:hover::before { transform: scaleX(1); }
-
-        .hero-cta:hover {
-            color: black;
-        }
-
-        .hero-cta span,
-        .hero-cta svg {
-            position: relative;
-            z-index: 1;
-        }
-
-        @media (min-width: 768px) {
-            .hero-cta {
-                padding: 1.25rem 3rem;
-                font-size: 1rem;
-            }
-        }
-
-        .hero-cta svg {
-            width: 16px;
-            height: 16px;
-            transition: transform 0.3s;
-        }
-
-        @media (min-width: 768px) { .hero-cta svg { width: 20px; height: 20px; } }
-        .hero-cta:hover svg { transform: translateX(4px); }
-
-        /* ============================================
-           HERO SUBTEXT
-        ============================================ */
-        .hero-subtext {
-            margin-top: 1.5rem;
-            font-size: 0.75rem;
-            color: #6b7280;
-            letter-spacing: 0.05em;
-            animation: fadeIn 1s 2s ease forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        @media (min-width: 768px) { .hero-subtext { font-size: 0.875rem; } }
-
-        /* ============================================
-           SCROLL INDICATOR
-        ============================================ */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-        }
-
-        .scroll-indicator p {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.625rem;
-            letter-spacing: 0.1em;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 3rem;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), transparent);
-            margin: 0 auto;
-            animation: scrollLineAnim 2s ease-in-out infinite;
-        }
-
-        @keyframes scrollLineAnim {
-            0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
-            50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
-            51% { transform: scaleY(1); transform-origin: bottom; }
-            100% { transform: scaleY(0); transform-origin: bottom; opacity: 0.3; }
-        }
-
-        /* ============================================
-           FEATURE CARDS - enhanced hover
-        ============================================ */
-        .feature-card {
-            padding: 1.5rem;
-            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-            cursor: default;
-        }
-
-        @media (min-width: 768px) { .feature-card { padding: 2rem; } }
-
-        .feature-card:hover {
-            background-color: rgba(255, 255, 255, 0.08);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(255,255,255,0.05);
-        }
-
-        .feature-icon {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 1rem;
-            color: #9ca3af;
-            transition: color 0.3s, transform 0.5s;
-        }
-
-        @media (min-width: 768px) { .feature-icon { width: 32px; height: 32px; } }
-
-        .feature-card:hover .feature-icon {
-            color: white;
-            transform: rotate(10deg) scale(1.2);
-        }
-
-        .feature-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.875rem;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-        }
-
-        @media (min-width: 768px) { .feature-title { font-size: 1rem; } }
-
-        .feature-desc {
-            font-size: 0.75rem;
-            color: #6b7280;
-        }
-
-        @media (min-width: 768px) { .feature-desc { font-size: 0.875rem; } }
-
-        /* ============================================
-           ARTIST CARDS - shimmer effect
-        ============================================ */
-        .artist-card {
-            padding: 1.5rem;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s;
-        }
-
-        @media (min-width: 768px) { .artist-card { padding: 2rem; } }
-
-        .artist-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 30px 60px rgba(255,255,255,0.05);
-        }
-
-        /* ============================================
-           SECTION TITLE - line draw
-        ============================================ */
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            letter-spacing: 0.05em;
-            margin-bottom: 3rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        @media (min-width: 768px) { .section-title { font-size: 3rem; margin-bottom: 4rem; } }
-        @media (min-width: 1024px) { .section-title { font-size: 4rem; } }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: linear-gradient(to right, white, transparent);
-            transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .section-title.revealed::after {
-            width: 100%;
-        }
-
-        /* ============================================
-           REVIEW CARDS
-        ============================================ */
-        .review-card {
-            padding: 1.5rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        @media (min-width: 768px) { .review-card { padding: 2rem; } }
-
-        .review-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(255,255,255,0.04);
-        }
-
-        /* ============================================
-           SECTION DOT PULSE
-        ============================================ */
-        .section-dot {
-            width: 8px;
-            height: 8px;
-            background-color: white;
-            border-radius: 50%;
-            animation: dotPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes dotPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); }
-            50% { box-shadow: 0 0 0 6px rgba(255,255,255,0); }
-        }
-
-        /* ============================================
-           NAVIGATION
-        ============================================ */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 50;
-            transition: all 0.3s;
-        }
-
-        nav.scrolled {
-            background-color: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
-
-        .nav-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 64px;
-        }
-
-        @media (min-width: 768px) { .nav-content { height: 80px; } }
-
-        .nav-btn {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.875rem;
-            letter-spacing: 0.1em;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: color 0.3s;
-        }
-
-        .nav-btn:hover { color: #d1d5db; }
-
-        @media (min-width: 768px) { .nav-btn { font-size: 1rem; } }
-
-        .nav-icon {
-            width: 24px;
-            height: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s;
-        }
-
-        .nav-btn:hover .nav-icon { transform: rotate(90deg); }
-
-        @media (min-width: 768px) { .nav-icon { width: 32px; height: 32px; } }
-
-        .nav-icon span { font-size: 0.625rem; }
-
-        .nav-line {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-        }
-
-        /* ============================================
-           FULLSCREEN MENU
-        ============================================ */
-        .fullscreen-menu {
-            position: fixed;
-            inset: 0;
-            z-index: 40;
-            background-color: #000000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            display: none;
-        }
-
-        .fullscreen-menu.active { display: flex; }
-
-        .menu-items {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            text-align: center;
-        }
-
-        @media (min-width: 768px) { .menu-items { gap: 2rem; } }
-
-        .menu-item {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            letter-spacing: 0.05em;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: color 0.3s, letter-spacing 0.3s;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.5s forwards;
-        }
-
-        .menu-item:hover {
-            color: #9ca3af;
-            letter-spacing: 0.15em;
-        }
-
-        @media (min-width: 768px) { .menu-item { font-size: 3rem; } }
-        @media (min-width: 1024px) { .menu-item { font-size: 4rem; } }
-
-        .menu-social {
-            position: absolute;
-            bottom: 3rem;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            font-size: 0.875rem;
-            color: #9ca3af;
-        }
-
-        @media (min-width: 768px) { .menu-social { gap: 2rem; } }
-
-        .menu-social a {
-            color: #9ca3af;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            transition: color 0.3s;
-        }
-
-        .menu-social a:hover { color: white; }
-
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ============================================
-           HERO SECTION
-        ============================================ */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 0 1rem;
-        }
-
-        .hero-content {
-            text-align: center;
-            max-width: 896px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* ============================================
-           SECTIONS
-        ============================================ */
-        section {
-            padding: 5rem 1rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        @media (min-width: 768px) { section { padding: 8rem 1.5rem; } }
-
-        .section-container { max-width: 1152px; margin: 0 auto; }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        @media (min-width: 768px) { .section-header { margin-bottom: 4rem; } }
-
-        .section-label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.875rem;
-            letter-spacing: 0.1em;
-            color: #9ca3af;
-        }
-
-        .section-line {
-            flex: 1;
-            height: 1px;
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
-        }
-
-        .section-header.revealed .section-line {
-            transform: scaleX(1);
-        }
-
-        /* ============================================
-           BORDER ANGULAR
-        ============================================ */
-        .border-angular {
-            position: relative;
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .border-angular::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            clip-path: polygon(
-                0 0,
-                calc(100% - 30px) 0,
-                100% 30px,
-                100% 100%,
-                30px 100%,
-                0 calc(100% - 30px)
-            );
-            pointer-events: none;
-            transition: border-color 0.3s;
-        }
-
-        .border-angular:hover::before {
-            border-color: rgba(255,255,255,0.5);
-        }
-
-        /* ============================================
-           GRIDS
-        ============================================ */
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        @media (min-width: 640px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1024px) { .features-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
-
-        .artists-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (min-width: 1024px) { .artists-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
-
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        @media (min-width: 768px) { .reviews-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1024px) { .reviews-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
-
-        /* ============================================
-           ARTIST ELEMENTS
-        ============================================ */
-        .artist-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.25rem;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-        }
-
-        @media (min-width: 768px) { .artist-name { font-size: 1.5rem; } }
-
-        .spotify-embed {
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-
-        .spotify-embed iframe { width: 100%; border: none; }
-
-        .artist-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            color: #6b7280;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .artist-link:hover { color: white; }
-        .artist-link svg { width: 16px; height: 16px; }
-
-        /* ============================================
-           REVIEWS
-        ============================================ */
-        .review-stars {
-            display: flex;
-            gap: 0.25rem;
-            margin-bottom: 1rem;
-        }
-
-        .review-stars svg {
-            width: 16px;
-            height: 16px;
-            fill: white;
-            color: white;
-            transition: transform 0.2s;
-        }
-
-        .review-card:hover .review-stars svg {
-            animation: starPop 0.4s ease forwards;
-        }
-
-        .review-card:hover .review-stars svg:nth-child(1) { animation-delay: 0.0s; }
-        .review-card:hover .review-stars svg:nth-child(2) { animation-delay: 0.06s; }
-        .review-card:hover .review-stars svg:nth-child(3) { animation-delay: 0.12s; }
-        .review-card:hover .review-stars svg:nth-child(4) { animation-delay: 0.18s; }
-        .review-card:hover .review-stars svg:nth-child(5) { animation-delay: 0.24s; }
-
-        @keyframes starPop {
-            0%   { transform: scale(1); }
-            50%  { transform: scale(1.4) rotate(15deg); }
-            100% { transform: scale(1) rotate(0deg); }
-        }
-
-        .review-text {
-            font-size: 0.875rem;
-            color: #d1d5db;
-            margin-bottom: 1rem;
-        }
-
-        @media (min-width: 768px) { .review-text { font-size: 1rem; } }
-
-        .review-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.875rem;
-            letter-spacing: 0.05em;
-        }
-
-        .review-role { font-size: 0.75rem; color: #6b7280; }
-
-        /* ============================================
-           FAQ
-        ============================================ */
-        .faq-container { max-width: 896px; margin: 0 auto; }
-
-        .faq-item {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background-color: rgba(255, 255, 255, 0.05);
-            margin-bottom: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .faq-item:hover { border-color: rgba(255,255,255,0.3); }
-
-        .faq-question {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 1.5rem;
-            background: none;
-            border: none;
-            color: white;
-            text-align: left;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        @media (min-width: 768px) { .faq-question { padding: 1.5rem; } }
-        .faq-question:hover { background-color: rgba(255, 255, 255, 0.05); }
-
-        .faq-question-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.875rem;
-            letter-spacing: 0.05em;
-            padding-right: 1rem;
-        }
-
-        @media (min-width: 768px) { .faq-question-text { font-size: 1rem; } }
-
-        .faq-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-            color: #9ca3af;
-            transition: transform 0.3s;
-        }
-
-        .faq-answer {
-            padding: 0 1.5rem 1rem;
-            display: none;
-            overflow: hidden;
-        }
-
-        @media (min-width: 768px) { .faq-answer { padding: 0 1.5rem 1.5rem; } }
-        .faq-answer.active { display: block; animation: faqSlideDown 0.3s ease; }
-
-        @keyframes faqSlideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .faq-answer-text { font-size: 0.875rem; color: #9ca3af; }
-
-        /* ============================================
-           CONTACT / FOOTER
-        ============================================ */
-        .contact-section {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        @media (min-width: 768px) { .contact-section { margin-bottom: 6rem; } }
-
-        .contact-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            letter-spacing: 0.05em;
-            margin-bottom: 1.5rem;
-        }
-
-        @media (min-width: 768px) { .contact-title { font-size: 3rem; margin-bottom: 2rem; } }
-        @media (min-width: 1024px) { .contact-title { font-size: 4rem; } }
-
-        .contact-text {
-            color: #9ca3af;
-            margin-bottom: 2rem;
-            max-width: 512px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        @media (min-width: 768px) { .contact-text { margin-bottom: 3rem; } }
-
-        footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 3rem;
-        }
-
-        @media (min-width: 768px) { footer { padding-top: 4rem; } }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        @media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(3, 1fr); gap: 3rem; } }
-
-        .footer-logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-        }
-
-        @media (min-width: 768px) { .footer-logo { font-size: 2rem; } }
-
-        .footer-text { font-size: 0.875rem; color: #6b7280; }
-
-        .footer-heading {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.875rem;
-            letter-spacing: 0.1em;
-            color: #9ca3af;
-            margin-bottom: 1rem;
-        }
-
-        .footer-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            color: #6b7280;
-            text-decoration: none;
-            transition: color 0.3s;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-link:hover { color: white; }
-        .footer-link svg { width: 16px; height: 16px; }
-
-        .copyright {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-
-        @media (min-width: 768px) { .copyright { margin-top: 4rem; } }
-        .copyright-text { font-size: 0.75rem; color: #4b5563; }
-
-        /* ============================================
-           CURSOR GLOW
-        ============================================ */
-        #cursor-glow {
-            position: fixed;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 1;
-            transform: translate(-50%, -50%);
-            transition: left 0.08s ease, top 0.08s ease;
-        }
-
-        /* ============================================
-           HERO RINGS DECORATION
-        ============================================ */
-        .hero-ring {
-            position: absolute;
-            border: 1px solid rgba(255,255,255,0.04);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: ringExpand 8s ease-in-out infinite;
-        }
-
-        .hero-ring:nth-child(1) { width: 400px; height: 400px; animation-delay: 0s; }
-        .hero-ring:nth-child(2) { width: 600px; height: 600px; animation-delay: 2s; }
-        .hero-ring:nth-child(3) { width: 800px; height: 800px; animation-delay: 4s; }
-
-        @keyframes ringExpand {
-            0%, 100% { opacity: 0.3; transform: scale(0.95); }
-            50% { opacity: 0.7; transform: scale(1.02); }
-        }
-
-        /* ============================================
-           SECTION COUNTER (animated numbers)
-        ============================================ */
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            display: block;
-        }
-
-        /* ============================================
-           ICON
-        ============================================ */
-        .icon { display: inline-block; vertical-align: middle; }
-
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        :root {
+            --white: #ffffff; --black: #000000;
+            --gray-300: #d1d5db; --gray-500: #9ca3af; --gray-700: #4b5563;
+            --border: rgba(255,255,255,0.15); --border-dim: rgba(255,255,255,0.07);
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+
+        .cursor { position: fixed; width: 8px; height: 8px; background: white; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+        .cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width 0.3s, height 0.3s; }
+
+        body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:9990; opacity:0.4; }
+
+        /* NAV */
+        nav { position:fixed; top:0; left:0; right:0; z-index:100; transition:background 0.4s; }
+        nav.scrolled { background:rgba(0,0,0,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border-dim); }
+        .nav-inner { max-width:1400px; margin:0 auto; padding:0 2rem; display:flex; align-items:center; justify-content:space-between; height:72px; }
+        .nav-logo { font-family:'Orbitron',sans-serif; font-size:1.1rem; letter-spacing:0.15em; color:white; background:none; border:none; cursor:pointer; text-decoration:none; }
+        .nav-links { display:flex; gap:2.5rem; list-style:none; }
+        .nav-links a { font-family:'Orbitron',sans-serif; font-size:0.62rem; letter-spacing:0.15em; color:var(--gray-500); text-decoration:none; transition:color 0.3s; cursor:pointer; }
+        .nav-links a:hover { color:white; }
+        .nav-right { display:flex; align-items:center; gap:1.5rem; }
+        .nav-cta { font-family:'Orbitron',sans-serif; font-size:0.62rem; letter-spacing:0.15em; padding:0.6rem 1.4rem; border:1px solid rgba(255,255,255,0.4); color:white; text-decoration:none; transition:all 0.3s; }
+        .nav-cta:hover { background:white; color:black; }
+        .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; }
+        .hamburger span { display:block; width:24px; height:1px; background:white; transition:all 0.3s; }
+        @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} }
+
+        /* MOBILE MENU */
+        .mobile-menu { position:fixed; inset:0; z-index:90; background:black; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; opacity:0; pointer-events:none; transition:opacity 0.4s; }
+        .mobile-menu.open { opacity:1; pointer-events:all; }
+        .mobile-menu a { font-family:'Orbitron',sans-serif; font-size:2rem; letter-spacing:0.1em; color:white; text-decoration:none; opacity:0; transform:translateY(20px); transition:color 0.3s; cursor:pointer; }
+        .mobile-menu.open a { animation:slideUp 0.4s forwards; }
+        .mobile-menu a:hover { color:var(--gray-500); }
+        @keyframes slideUp { to { opacity:1; transform:translateY(0); } }
+
+        /* HERO */
+        .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end; padding:0 2rem 5rem; position:relative; overflow:hidden; }
+        .hero-bg { position:absolute; inset:0; background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(255,255,255,0.03) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 70%, rgba(255,255,255,0.02) 0%, transparent 60%); }
+        .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size:80px 80px; mask-image:linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); }
+        .hero-year { font-family:'Orbitron',sans-serif; font-size:0.7rem; letter-spacing:0.3em; color:var(--gray-700); margin-bottom:2rem; }
+        .hero-title { font-family:'Orbitron',sans-serif; font-size:clamp(3.5rem,10vw,9rem); font-weight:900; letter-spacing:-0.02em; line-height:0.9; position:relative; z-index:1; }
+        .hero-title .line2 { display:block; padding-left:clamp(2rem,8vw,8rem); color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.5); }
+        .hero-title .line3 { display:block; padding-left:clamp(4rem,16vw,16rem); }
+        .hero-bottom { display:flex; justify-content:space-between; align-items:flex-end; margin-top:4rem; position:relative; z-index:1; flex-wrap:wrap; gap:2rem; }
+        .hero-tagline { font-size:0.8rem; color:var(--gray-500); max-width:260px; line-height:1.7; letter-spacing:0.05em; }
+        .hero-tagline strong { color:white; display:block; margin-bottom:0.5rem; font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.2em; }
+        .hero-scroll { display:flex; flex-direction:column; align-items:center; gap:0.5rem; }
+        .hero-scroll span { font-family:'Orbitron',sans-serif; font-size:0.55rem; letter-spacing:0.2em; color:var(--gray-700); writing-mode:vertical-rl; }
+        .scroll-track { width:1px; height:60px; background:linear-gradient(to bottom, white, transparent); animation:scrollPulse 2s ease-in-out infinite; }
+        @keyframes scrollPulse { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+        .hero-cta-group { display:flex; gap:1rem; align-items:center; }
+        .btn-primary { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:0.9rem 2rem; background:white; color:black; border:none; text-decoration:none; cursor:pointer; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; }
+        .btn-primary:hover { background:var(--gray-300); }
+        .btn-ghost { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:0.9rem 2rem; border:1px solid var(--border); color:white; text-decoration:none; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; cursor:pointer; }
+        .btn-ghost:hover { border-color:white; }
+
+        /* TICKER */
+        .ticker { overflow:hidden; border-top:1px solid var(--border-dim); border-bottom:1px solid var(--border-dim); padding:0.8rem 0; background:rgba(255,255,255,0.02); }
+        .ticker-track { display:flex; animation:ticker 30s linear infinite; width:max-content; }
+        .ticker-item { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.3em; color:var(--gray-700); white-space:nowrap; padding:0 3rem; }
+        .ticker-item .dot { color:white; margin-right:3rem; }
+        @keyframes ticker { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+        /* SECTIONS */
+        .section { padding:8rem 2rem; max-width:1400px; margin:0 auto; }
+        .label { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.3em; color:var(--gray-700); display:flex; align-items:center; gap:1rem; margin-bottom:3rem; }
+        .label::before { content:''; display:block; width:30px; height:1px; background:var(--gray-700); }
+        .section-heading { font-family:'Orbitron',sans-serif; font-size:clamp(2rem,5vw,4.5rem); font-weight:800; letter-spacing:-0.01em; line-height:1; }
+
+        /* ABOUT */
+        .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; margin-top:5rem; }
+        @media(max-width:768px){ .about-grid{grid-template-columns:1fr; gap:3rem;} }
+        .about-text p { font-size:1.05rem; line-height:1.8; color:var(--gray-300); margin-bottom:1.5rem; }
+        .about-text p:first-child { color:white; font-size:1.2rem; }
+        .about-stats { display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--border); }
+        .stat { padding:2.5rem 2rem; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+        .stat:nth-child(2n){ border-right:none; }
+        .stat:nth-child(3),.stat:nth-child(4){ border-bottom:none; }
+        .stat-num { font-family:'Orbitron',sans-serif; font-size:2.5rem; font-weight:900; line-height:1; margin-bottom:0.5rem; }
+        .stat-label { font-size:0.75rem; color:var(--gray-500); letter-spacing:0.1em; }
+        .platforms { display:flex; align-items:center; gap:2rem; flex-wrap:wrap; margin-top:3rem; }
+        .platform-name { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.15em; color:var(--gray-700); }
+
+        /* ROSTER */
+        .roster-section { background:rgba(255,255,255,0.02); border-top:1px solid var(--border-dim); border-bottom:1px solid var(--border-dim); }
+        .roster-inner { max-width:1400px; margin:0 auto; padding:8rem 2rem; }
+        .roster-grid { display:grid; grid-template-columns:repeat(3,1fr); margin-top:4rem; border:1px solid var(--border); }
+        @media(max-width:900px){ .roster-grid{grid-template-columns:1fr;} }
+        .artist-card { padding:2.5rem 2rem; border-right:1px solid var(--border); position:relative; overflow:hidden; transition:background 0.4s; }
+        .artist-card:last-child{ border-right:none; }
+        .artist-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:white; transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
+        .artist-card:hover{ background:rgba(255,255,255,0.03); }
+        .artist-card:hover::after{ transform:scaleX(1); }
+        .artist-number { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--gray-700); margin-bottom:2rem; }
+        .artist-name { font-family:'Orbitron',sans-serif; font-size:1.3rem; font-weight:700; letter-spacing:0.05em; margin-bottom:0.75rem; }
+        .artist-genre { font-size:0.75rem; color:var(--gray-500); letter-spacing:0.1em; margin-bottom:1.5rem; }
+        .spotify-embed { border-radius:8px; overflow:hidden; margin-bottom:1.5rem; }
+        .spotify-embed iframe { width:100%; border:none; display:block; }
+        .artist-meta { display:flex; gap:1rem; flex-wrap:wrap; }
+        .artist-tag { font-size:0.6rem; letter-spacing:0.15em; color:var(--gray-700); padding:0.3rem 0.75rem; border:1px solid rgba(255,255,255,0.1); }
+        .artist-spotify-link { display:inline-flex; align-items:center; gap:0.5rem; font-size:0.65rem; letter-spacing:0.1em; color:var(--gray-500); text-decoration:none; transition:color 0.3s; margin-top:1rem; }
+        .artist-spotify-link:hover{ color:white; }
+
+        /* RELEASES */
+        .releases-header { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:4rem; }
+        .releases-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border-dim); border:1px solid var(--border-dim); }
+        @media(max-width:900px){ .releases-grid{grid-template-columns:repeat(2,1fr);} }
+        @media(max-width:500px){ .releases-grid{grid-template-columns:1fr;} }
+        .release-card { background:black; padding:1.5rem; transition:background 0.3s; cursor:pointer; }
+        .release-card:hover{ background:rgba(255,255,255,0.04); }
+        .release-cover { width:100%; aspect-ratio:1; background:rgba(255,255,255,0.04); border:1px solid var(--border-dim); margin-bottom:1.25rem; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+        .release-cover-inner { font-family:'Orbitron',sans-serif; font-size:0.55rem; letter-spacing:0.2em; color:var(--gray-700); text-align:center; padding:1rem; }
+        .release-cover .play-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; background:rgba(0,0,0,0.6); transition:opacity 0.3s; }
+        .release-card:hover .play-overlay{ opacity:1; }
+        .release-title { font-family:'Orbitron',sans-serif; font-size:0.78rem; font-weight:700; letter-spacing:0.05em; margin-bottom:0.4rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .release-artist { font-size:0.7rem; color:var(--gray-500); margin-bottom:0.75rem; }
+        .release-meta { display:flex; justify-content:space-between; font-size:0.6rem; color:var(--gray-700); letter-spacing:0.1em; align-items:center; }
+        .release-type { padding:0.15rem 0.5rem; border:1px solid rgba(255,255,255,0.1); font-family:'Orbitron',sans-serif; font-size:0.5rem; letter-spacing:0.1em; }
+
+        /* A&R */
+        .anr-section { background:white; color:black; }
+        .anr-inner { max-width:1400px; margin:0 auto; padding:8rem 2rem; display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; }
+        @media(max-width:768px){ .anr-inner{grid-template-columns:1fr; gap:3rem;} }
+        .anr-label { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.3em; color:#666; display:flex; align-items:center; gap:1rem; margin-bottom:3rem; }
+        .anr-label::before { content:''; display:block; width:30px; height:1px; background:#999; }
+        .anr-heading { font-family:'Orbitron',sans-serif; font-size:clamp(2rem,4vw,3.5rem); font-weight:900; line-height:1; color:black; margin-bottom:2rem; }
+        .anr-body { font-size:0.95rem; color:#555; line-height:1.8; margin-bottom:2rem; }
+        .anr-criteria { list-style:none; margin-bottom:3rem; }
+        .anr-criteria li { display:flex; align-items:flex-start; gap:1rem; font-size:0.85rem; color:#444; padding:0.75rem 0; border-bottom:1px solid rgba(0,0,0,0.08); }
+        .anr-criteria li::before { content:'—'; color:#999; flex-shrink:0; }
+        .btn-dark { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:1rem 2.5rem; background:black; color:white; border:none; text-decoration:none; cursor:pointer; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; }
+        .btn-dark:hover{ background:#222; }
+        .anr-box { padding:2rem; border:1px solid rgba(0,0,0,0.1); background:rgba(0,0,0,0.02); margin-bottom:1rem; }
+        .anr-box-title { font-family:'Orbitron',sans-serif; font-size:0.7rem; letter-spacing:0.15em; color:#333; margin-bottom:0.75rem; }
+        .anr-box-text { font-size:0.8rem; color:#666; line-height:1.7; }
+        .anr-box-number { font-family:'Orbitron',sans-serif; font-size:3rem; font-weight:900; color:rgba(0,0,0,0.06); line-height:1; margin-bottom:0.25rem; }
+
+        /* SERVICES */
+        .services-grid { display:grid; grid-template-columns:repeat(3,1fr); margin-top:4rem; border:1px solid var(--border); }
+        @media(max-width:900px){ .services-grid{grid-template-columns:1fr;} }
+        .service-item { padding:3rem 2.5rem; border-right:1px solid var(--border); border-bottom:1px solid var(--border); transition:background 0.3s; }
+        .service-item:hover{ background:rgba(255,255,255,0.03); }
+        .service-item:nth-child(3n){ border-right:none; }
+        .service-item:nth-last-child(-n+3){ border-bottom:none; }
+        @media(max-width:900px){ .service-item{border-right:none;} .service-item:last-child{border-bottom:none;} }
+        .service-icon { width:40px; height:40px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin-bottom:2rem; color:var(--gray-500); transition:color 0.3s,border-color 0.3s; }
+        .service-item:hover .service-icon{ color:white; border-color:white; }
+        .service-icon svg{ width:18px; height:18px; }
+        .service-name { font-family:'Orbitron',sans-serif; font-size:0.78rem; letter-spacing:0.1em; margin-bottom:1rem; }
+        .service-desc { font-size:0.82rem; color:var(--gray-500); line-height:1.7; }
+
+        /* DISTRIBUTION */
+        .dist-section { border-top:1px solid var(--border-dim); }
+        .dist-inner { max-width:1400px; margin:0 auto; padding:8rem 2rem; }
+        .dist-grid { display:grid; grid-template-columns:1fr 2fr; gap:6rem; margin-top:4rem; align-items:start; }
+        @media(max-width:768px){ .dist-grid{grid-template-columns:1fr; gap:3rem;} }
+        .dist-sidebar p { font-size:0.85rem; color:var(--gray-500); line-height:1.8; margin-bottom:2rem; }
+        .dist-plan { border:1px solid var(--border); padding:2.5rem; position:relative; overflow:hidden; }
+        .dist-plan::before { content:'FREE PLAN'; position:absolute; top:-1px; left:2rem; font-family:'Orbitron',sans-serif; font-size:0.55rem; letter-spacing:0.2em; background:white; color:black; padding:0.3rem 0.75rem; }
+        .plan-price { font-family:'Orbitron',sans-serif; font-size:4rem; font-weight:900; line-height:1; margin-bottom:0.5rem; margin-top:1rem; }
+        .plan-sub { font-size:0.75rem; color:var(--gray-500); margin-bottom:2rem; }
+        .plan-list { list-style:none; }
+        .plan-list li { display:flex; align-items:center; gap:1rem; font-size:0.8rem; color:var(--gray-300); padding:0.75rem 0; border-bottom:1px solid var(--border-dim); }
+        .plan-list li::before{ content:'✓'; color:white; font-size:0.7rem; }
+        .plan-list li.muted{ color:var(--gray-700); }
+        .plan-list li.muted::before{ content:'—'; color:var(--gray-700); }
+
+        /* PRESS */
+        .press-section { border-top:1px solid var(--border-dim); }
+        .press-inner { max-width:1400px; margin:0 auto; padding:8rem 2rem; }
+        .testimonials { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border-dim); border:1px solid var(--border-dim); margin-top:4rem; }
+        @media(max-width:900px){ .testimonials{grid-template-columns:1fr;} }
+        .testimonial { background:black; padding:2.5rem; }
+        .t-quote { font-size:0.95rem; color:var(--gray-300); line-height:1.8; margin-bottom:2rem; font-style:italic; }
+        .t-quote::before { content:'"'; font-size:3rem; line-height:0; vertical-align:-1rem; color:var(--gray-700); margin-right:0.25rem; }
+        .t-author { font-family:'Orbitron',sans-serif; font-size:0.7rem; letter-spacing:0.1em; margin-bottom:0.25rem; }
+        .t-role { font-size:0.7rem; color:var(--gray-700); }
+        .stars { display:flex; gap:3px; margin-bottom:1.5rem; }
+        .stars svg { width:12px; height:12px; fill:white; }
+
+        /* CTA */
+        .cta-section { border-top:1px solid var(--border-dim); padding:10rem 2rem; text-align:center; }
+        .cta-title { font-family:'Orbitron',sans-serif; font-size:clamp(3rem,8vw,8rem); font-weight:900; line-height:0.9; letter-spacing:-0.02em; margin-bottom:3rem; }
+        .cta-title span{ display:block; }
+        .cta-title .outline { color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.4); }
+        .cta-sub { font-size:0.9rem; color:var(--gray-500); margin-bottom:3rem; }
+        .cta-buttons { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
+
+        /* FOOTER */
+        .footer-wrap { border-top:1px solid var(--border-dim); padding:4rem 2rem 2rem; max-width:1400px; margin:0 auto; }
+        .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:4rem; margin-bottom:4rem; }
+        @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr; gap:2rem;} }
+        @media(max-width:500px){ .footer-grid{grid-template-columns:1fr;} }
+        .footer-brand { font-family:'Orbitron',sans-serif; font-size:1.5rem; letter-spacing:0.1em; margin-bottom:1rem; }
+        .footer-tagline { font-size:0.8rem; color:var(--gray-700); line-height:1.6; }
+        .footer-col-title { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--gray-700); margin-bottom:1.25rem; }
+        .footer-link { display:block; font-size:0.8rem; color:var(--gray-500); text-decoration:none; margin-bottom:0.75rem; transition:color 0.3s; cursor:pointer; }
+        .footer-link:hover{ color:white; }
+        .footer-bottom { border-top:1px solid var(--border-dim); padding-top:2rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:0.7rem; color:var(--gray-700); letter-spacing:0.05em; }
+
+        /* FADE UP */
+        .fade-up { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+        .fade-up.visible { opacity:1; transform:translateY(0); }
     </style>
-<base target="_blank">
 </head>
 <body>
 
-    <!-- Cursor Glow -->
-    <div id="cursor-glow"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-    <!-- Shooting Stars Canvas -->
-    <canvas id="stars-canvas"></canvas>
+<!-- NAV -->
+<nav id="navbar">
+    <div class="nav-inner">
+        <a class="nav-logo" onclick="go('home')">TIR</a>
+        <ul class="nav-links">
+            <li><a onclick="go('about')">ABOUT</a></li>
+            <li><a onclick="go('roster')">ROSTER</a></li>
+            <li><a onclick="go('releases')">RELEASES</a></li>
+            <li><a onclick="go('services')">SERVICES</a></li>
+            <li><a onclick="go('distribution')">DISTRIBUTION</a></li>
+            <li><a onclick="go('press')">PRESS</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="nav-cta">SUBMIT DEMO</a>
+            <button class="hamburger" id="hamburger" onclick="toggleMobile()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
 
-    <!-- Music Visualizer Bottom Bar -->
-    <div id="music-visualizer"></div>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <a onclick="closeMobile();go('about')">ABOUT</a>
+    <a onclick="closeMobile();go('roster')">ROSTER</a>
+    <a onclick="closeMobile();go('releases')">RELEASES</a>
+    <a onclick="closeMobile();go('services')">SERVICES</a>
+    <a onclick="closeMobile();go('distribution')">DISTRIBUTION</a>
+    <a onclick="closeMobile();go('press')">PRESS</a>
+    <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" onclick="closeMobile()">SUBMIT DEMO</a>
+</div>
 
-    <!-- Navigation -->
-    <nav id="navbar">
-        <div class="nav-container">
-            <div class="nav-content">
-                <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="nav-btn">
-                    JOIN
-                    <span class="nav-icon"><span>◆</span></span>
+<!-- HERO -->
+<section id="home" class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div style="position:relative;z-index:1;">
+        <p class="hero-year">EST. 2026 — KASHMIR, INDIA</p>
+        <h1 class="hero-title">
+            THE<span class="line2">IMAGINARY</span><span class="line3">RECORDS</span>
+        </h1>
+        <div class="hero-bottom">
+            <div class="hero-tagline">
+                <strong>AN INDEPENDENT RECORD LABEL</strong>
+                Signing, developing and distributing artists who redefine the boundaries of sound. Global reach. Artist first.
+            </div>
+            <div class="hero-cta-group">
+                <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="btn-primary">
+                    SUBMIT DEMO
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
-                <button onclick="scrollToSection('home')" class="nav-logo">TIR</button>
-                <button onclick="toggleMenu()" class="nav-btn">
-                    <span id="menu-text">MENU</span>
-                    <span style="font-size: 1.25rem;" id="menu-icon">≡</span>
-                </button>
+                <a class="btn-ghost" onclick="go('roster')">OUR ROSTER</a>
+            </div>
+            <div class="hero-scroll">
+                <div class="scroll-track"></div>
+                <span>SCROLL</span>
             </div>
         </div>
-        <div class="nav-line"></div>
-    </nav>
+    </div>
+</section>
 
-    <!-- Full Screen Menu -->
-    <div id="fullscreen-menu" class="fullscreen-menu">
-        <div class="menu-items">
-            <button onclick="scrollToSection('home')" class="menu-item" style="animation-delay: 0.1s">HOME</button>
-            <button onclick="scrollToSection('features')" class="menu-item" style="animation-delay: 0.2s">FEATURES</button>
-            <button onclick="scrollToSection('artists')" class="menu-item" style="animation-delay: 0.3s">ARTISTS</button>
-            <button onclick="scrollToSection('reviews')" class="menu-item" style="animation-delay: 0.4s">REVIEWS</button>
-            <button onclick="scrollToSection('faq')" class="menu-item" style="animation-delay: 0.5s">FAQ</button>
-            <button onclick="scrollToSection('contact')" class="menu-item" style="animation-delay: 0.6s">CONTACT</button>
+<!-- TICKER -->
+<div class="ticker">
+    <div class="ticker-track">
+        <span class="ticker-item"><span class="dot">◆</span>THE IMAGINARY RECORDS</span>
+        <span class="ticker-item"><span class="dot">◆</span>INDEPENDENT LABEL</span>
+        <span class="ticker-item"><span class="dot">◆</span>160+ RELEASES</span>
+        <span class="ticker-item"><span class="dot">◆</span>200+ PLATFORMS</span>
+        <span class="ticker-item"><span class="dot">◆</span>GLOBAL DISTRIBUTION</span>
+        <span class="ticker-item"><span class="dot">◆</span>ARTIST OWNED</span>
+        <span class="ticker-item"><span class="dot">◆</span>HIP HOP · TRAP · LO-FI · UK DRILL</span>
+        <span class="ticker-item"><span class="dot">◆</span>EST. 2026 — KASHMIR</span>
+        <span class="ticker-item"><span class="dot">◆</span>THE IMAGINARY RECORDS</span>
+        <span class="ticker-item"><span class="dot">◆</span>INDEPENDENT LABEL</span>
+        <span class="ticker-item"><span class="dot">◆</span>160+ RELEASES</span>
+        <span class="ticker-item"><span class="dot">◆</span>200+ PLATFORMS</span>
+        <span class="ticker-item"><span class="dot">◆</span>GLOBAL DISTRIBUTION</span>
+        <span class="ticker-item"><span class="dot">◆</span>ARTIST OWNED</span>
+        <span class="ticker-item"><span class="dot">◆</span>HIP HOP · TRAP · LO-FI · UK DRILL</span>
+        <span class="ticker-item"><span class="dot">◆</span>EST. 2026 — KASHMIR</span>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about">
+    <div class="section fade-up">
+        <div class="label">ABOUT THE LABEL</div>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>The Imaginary Records is an independent record label born from the mountains of Kashmir — built by artists, for artists.</p>
+                <p>We sign, develop, and distribute artists globally across hip hop, dark trap, lo-fi, UK drill, and beyond. Our model puts creative control in the hands of the artist, not the label.</p>
+                <p>Whether you are a solo producer dropping instrumentals or a vocalist building your catalog, TIR provides the infrastructure, distribution, and industry network to take your music worldwide.</p>
+                <div class="platforms">
+                    <span class="platform-name">SPOTIFY</span>
+                    <span class="platform-name">APPLE MUSIC</span>
+                    <span class="platform-name">AMAZON</span>
+                    <span class="platform-name">YOUTUBE</span>
+                    <span class="platform-name">TIDAL</span>
+                    <span class="platform-name">DEEZER</span>
+                    <span class="platform-name">+194 MORE</span>
+                </div>
+            </div>
+            <div class="about-stats">
+                <div class="stat"><div class="stat-num">160+</div><div class="stat-label">TRACKS RELEASED</div></div>
+                <div class="stat"><div class="stat-num">200+</div><div class="stat-label">STORE PARTNERS</div></div>
+                <div class="stat"><div class="stat-num">85%</div><div class="stat-label">ARTIST ROYALTIES</div></div>
+                <div class="stat"><div class="stat-num">48H</div><div class="stat-label">DELIVERY TIME</div></div>
+            </div>
         </div>
-        <div class="menu-social">
-            <a href="https://www.instagram.com/theimaginaryrecords/" target="_blank">
-                Instagram <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+    </div>
+</div>
+
+<!-- ROSTER -->
+<div class="roster-section" id="roster">
+    <div class="roster-inner fade-up">
+        <div class="label">OUR ARTISTS</div>
+        <h2 class="section-heading">ROSTER</h2>
+        <div class="roster-grid">
+            <div class="artist-card">
+                <div class="artist-number">01 / 03</div>
+                <div class="artist-name">AABYD KHAN</div>
+                <div class="artist-genre">HIP HOP · DARK TRAP · LO-FI · UK DRILL</div>
+                <div class="spotify-embed">
+                    <iframe src="https://open.spotify.com/embed/artist/38T4P8hX75BCHncTf8TLKm?utm_source=generator" width="100%" height="280" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                <div class="artist-meta">
+                    <span class="artist-tag">SIGNED</span>
+                    <span class="artist-tag">FOUNDER</span>
+                    <span class="artist-tag">KASHMIR</span>
+                </div>
+                <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" class="artist-spotify-link">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    Open on Spotify
+                </a>
+            </div>
+            <div class="artist-card">
+                <div class="artist-number">02 / 03</div>
+                <div class="artist-name">THE IMAGINARY BIRD</div>
+                <div class="artist-genre">AMBIENT · INSTRUMENTAL · CINEMATIC</div>
+                <div class="spotify-embed">
+                    <iframe src="https://open.spotify.com/embed/artist/6RrE0UvJNBRf3eRH4gyFmG?utm_source=generator" width="100%" height="280" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                <div class="artist-meta">
+                    <span class="artist-tag">SIGNED</span>
+                    <span class="artist-tag">TIR ORIGINAL</span>
+                </div>
+                <a href="https://open.spotify.com/artist/6RrE0UvJNBRf3eRH4gyFmG" target="_blank" class="artist-spotify-link">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    Open on Spotify
+                </a>
+            </div>
+            <div class="artist-card" style="border-right:none;">
+                <div class="artist-number">03 / 03</div>
+                <div class="artist-name">THE IMAGINARY POET</div>
+                <div class="artist-genre">SPOKEN WORD · SPIRITUAL · AMBIENT</div>
+                <div class="spotify-embed">
+                    <iframe src="https://open.spotify.com/embed/artist/39GevCS8IvbhgaaCRfHbnF?utm_source=generator" width="100%" height="280" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                <div class="artist-meta">
+                    <span class="artist-tag">SIGNED</span>
+                    <span class="artist-tag">TIR ORIGINAL</span>
+                </div>
+                <a href="https://open.spotify.com/artist/39GevCS8IvbhgaaCRfHbnF" target="_blank" class="artist-spotify-link">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    Open on Spotify
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RELEASES / DISCOGRAPHY -->
+<div id="releases">
+    <div class="section fade-up">
+        <div class="releases-header">
+            <div>
+                <div class="label">CATALOG</div>
+                <h2 class="section-heading">LATEST RELEASES</h2>
+            </div>
+            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" class="btn-ghost">
+                FULL CATALOG
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
-            <a href="mailto:theimaginaryrecords@gmail.com">
-                Email <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </div>
+        <div class="releases-grid">
+            <!-- GHAZI TAPES EP -->
+            <a href="https://music.apple.com/us/album/ghazi-tapes-ep/1883743287" target="_blank" style="text-decoration:none;color:inherit;">
+            <div class="release-card">
+                <div class="release-cover">
+                    <div class="release-cover-inner">AABYD KHAN</div>
+                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="release-title">GHAZI TAPES</div>
+                <div class="release-artist">Aabyd Khan</div>
+                <div class="release-meta"><span class="release-type">EP</span><span>2026</span></div>
+            </div>
+            </a>
+            <!-- ALIVE SINGLE -->
+            <a href="https://music.apple.com/us/album/alive-single/1877977840" target="_blank" style="text-decoration:none;color:inherit;">
+            <div class="release-card">
+                <div class="release-cover">
+                    <div class="release-cover-inner">AABYD KHAN</div>
+                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="release-title">ALIVE</div>
+                <div class="release-artist">Aabyd Khan</div>
+                <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
+            </div>
+            </a>
+            <!-- DREAM SINGLE -->
+            <a href="https://music.apple.com/us/album/dream-single/1873184408" target="_blank" style="text-decoration:none;color:inherit;">
+            <div class="release-card">
+                <div class="release-cover">
+                    <div class="release-cover-inner">AABYD KHAN</div>
+                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="release-title">DREAM</div>
+                <div class="release-artist">Aabyd Khan</div>
+                <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
+            </div>
+            </a>
+            <!-- TRENDING SINGLE -->
+            <a href="https://music.apple.com/us/album/trending-single/1873188727" target="_blank" style="text-decoration:none;color:inherit;">
+            <div class="release-card">
+                <div class="release-cover">
+                    <div class="release-cover-inner">AABYD KHAN</div>
+                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="release-title">TRENDING</div>
+                <div class="release-artist">Aabyd Khan</div>
+                <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
+            </div>
+            </a>
+            <!-- DRIFT SINGLE -->
+            <a href="https://music.apple.com/us/album/drift-single/1873184563" target="_blank" style="text-decoration:none;color:inherit;">
+            <div class="release-card">
+                <div class="release-cover">
+                    <div class="release-cover-inner">AABYD KHAN</div>
+                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="release-title">DRIFT</div>
+                <div class="release-artist">Aabyd Khan</div>
+                <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
+            </div>
+            </a>
+            <!-- MY STORY ALBUM -->
+            <a href="https://music.apple.com/us/album/my-story/1846604222" target="_blank" style="text-decoration:none;color:inherit;">
+            <div class="release-card">
+                <div class="release-cover">
+                    <div class="release-cover-inner">AABYD KHAN</div>
+                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="release-title">MY STORY</div>
+                <div class="release-artist">Aabyd Khan</div>
+                <div class="release-meta"><span class="release-type">ALBUM</span><span>2025</span></div>
+            </div>
+            </a>
+            <!-- THEY CALL HIM OG -->
+            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" style="text-decoration:none;color:inherit;">
+            <div class="release-card">
+                <div class="release-cover">
+                    <div class="release-cover-inner">AABYD KHAN</div>
+                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="release-title">THEY CALL HIM OG</div>
+                <div class="release-artist">Aabyd Khan</div>
+                <div class="release-meta"><span class="release-type">SINGLE</span><span>2025</span></div>
+            </div>
+            </a>
+            <!-- LET'S DANCE -->
+            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" style="text-decoration:none;color:inherit;">
+            <div class="release-card">
+                <div class="release-cover">
+                    <div class="release-cover-inner">AABYD KHAN</div>
+                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="release-title">LET'S DANCE</div>
+                <div class="release-artist">Aabyd Khan</div>
+                <div class="release-meta"><span class="release-type">SINGLE</span><span>2025</span></div>
+            </div>
             </a>
         </div>
     </div>
+</div>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <!-- Decorative rings -->
-        <div class="hero-ring"></div>
-        <div class="hero-ring"></div>
-        <div class="hero-ring"></div>
+<!-- LABEL SERVICES -->
+<div id="services">
+    <div class="section fade-up">
+        <div class="label">WHAT WE DO</div>
+        <h2 class="section-heading">LABEL SERVICES</h2>
+        <div class="services-grid">
+            <div class="service-item">
+                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+                <div class="service-name">A&R DEVELOPMENT</div>
+                <div class="service-desc">Artist discovery, signing, and creative development. We find raw talent and shape it into something undeniable.</div>
+            </div>
+            <div class="service-item">
+                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                <div class="service-name">GLOBAL DISTRIBUTION</div>
+                <div class="service-desc">Your music on 200+ platforms worldwide including Spotify, Apple Music, Amazon, Tidal, and regional stores.</div>
+            </div>
+            <div class="service-item">
+                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <div class="service-name">RIGHTS MANAGEMENT</div>
+                <div class="service-desc">Full content ID, global copyright protection, and YouTube monetisation. Your work, protected everywhere.</div>
+            </div>
+            <div class="service-item">
+                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></div>
+                <div class="service-name">VEVO & VIDEO</div>
+                <div class="service-desc">Official VEVO artist channel setup, music video distribution, and YouTube channel management.</div>
+            </div>
+            <div class="service-item">
+                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <div class="service-name">ARTIST VERIFICATION</div>
+                <div class="service-desc">Verified artist profiles across Spotify, Apple Music, and YouTube Music. Establish your official presence.</div>
+            </div>
+            <div class="service-item">
+                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+                <div class="service-name">AUDIO MASTERING</div>
+                <div class="service-desc">Professional mastering services that prep your tracks for radio, streaming, and live performance standards.</div>
+            </div>
+            <div class="service-item">
+                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                <div class="service-name">COVER ART & BRANDING</div>
+                <div class="service-desc">Visual identity for your releases. Cover art generation, artist branding, and promotional assets.</div>
+            </div>
+            <div class="service-item">
+                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                <div class="service-name">PRE-SAVE CAMPAIGNS</div>
+                <div class="service-desc">Build anticipation with pre-save smartlinks before every release. Maximise day-one streams and playlist adds.</div>
+            </div>
+            <div class="service-item">
+                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                <div class="service-name">ROYALTY ANALYTICS</div>
+                <div class="service-desc">Monthly detailed reports on streams, revenue, and platform performance. Transparent data, every month.</div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        <div class="hero-content">
-            <h1 class="hero-title">THE IMAGINARY</h1>
-            <h1 class="hero-title">RECORDS</h1>
-            <p class="hero-tagline">FREE MUSIC DISTRIBUTION</p>
-            <p class="hero-tagline">FAST. GLOBAL. UNLIMITED.</p>
-            <div class="hero-cta-wrapper">
-                <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="hero-cta">
-                    <span>JOIN NOW</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
+<!-- A&R -->
+<div class="anr-section" id="anr">
+    <div class="anr-inner fade-up">
+        <div>
+            <div class="anr-label">A&R · SUBMISSIONS</div>
+            <h2 class="anr-heading">WE'RE LISTENING.<br>SEND US<br>YOUR DEMO.</h2>
+            <p class="anr-body">The Imaginary Records is actively seeking new artists to sign and develop. We accept submissions across all genres — hip hop, trap, lo-fi, R&B, electronic, and experimental.</p>
+            <ul class="anr-criteria">
+                <li>Original, unreleased music only</li>
+                <li>High quality audio (WAV or MP3 320kbps+)</li>
+                <li>Any genre — we value authenticity over trend-chasing</li>
+                <li>Include artist name, genre, and a brief bio</li>
+                <li>Response within 7–14 business days</li>
+            </ul>
+            <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="btn-dark">
+                SUBMIT YOUR DEMO
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+        <div>
+            <div class="anr-box">
+                <div class="anr-box-number">01</div>
+                <div class="anr-box-title">SUBMIT</div>
+                <div class="anr-box-text">Fill out our demo submission form with your music and a brief intro about yourself and your artistic vision.</div>
+            </div>
+            <div class="anr-box">
+                <div class="anr-box-number">02</div>
+                <div class="anr-box-title">REVIEW</div>
+                <div class="anr-box-text">Our A&R team listens to every submission. We evaluate sound, artistry, and commercial potential.</div>
+            </div>
+            <div class="anr-box">
+                <div class="anr-box-number">03</div>
+                <div class="anr-box-title">SIGN & RELEASE</div>
+                <div class="anr-box-text">Selected artists receive a label offer. Once signed, we handle everything from mastering to worldwide distribution.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DISTRIBUTION -->
+<div class="dist-section" id="distribution">
+    <div class="dist-inner fade-up">
+        <div class="label">FOR INDEPENDENT ARTISTS</div>
+        <h2 class="section-heading">DISTRIBUTION</h2>
+        <div class="dist-grid">
+            <div class="dist-sidebar">
+                <p>Not ready to sign? No problem. TIR also offers free distribution to independent artists who want global reach without a full signing deal.</p>
+                <p>No upfront fees. Release unlimited music. Keep your rights. We take 15% — that's it.</p>
+                <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="btn-primary" style="margin-top:1rem">
+                    JOIN FOR FREE
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
             </div>
-            <p class="hero-subtext">No joining fee • No hidden charges • Keep 85% of your earnings</p>
-        </div>
-
-        <!-- Waveform decoration -->
-        <svg id="waveform-svg" viewBox="0 0 300 40" preserveAspectRatio="none">
-            <!-- Generated by JS -->
-        </svg>
-
-        <div class="scroll-indicator">
-            <p>SCROLL TO EXPLORE</p>
-            <div class="scroll-line"></div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features">
-        <div class="section-container">
-            <div class="section-header reveal">
-                <div class="section-dot"></div>
-                <span class="section-label">FEATURES</span>
-                <div class="section-line"></div>
-            </div>
-            <h2 class="section-title reveal">WHY CHOOSE US</h2>
-            <div class="features-grid">
-                <div class="feature-card border-angular reveal stagger-1">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle>
-                    </svg>
-                    <h3 class="feature-title">Up to 1 Artist</h3>
-                    <p class="feature-desc">Perfect for solo artists starting their journey</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-2">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                    <h3 class="feature-title">Keep 100% Rights</h3>
-                    <p class="feature-desc">Retain all your rights and earnings</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-3">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                    </svg>
-                    <h3 class="feature-title">+200 Stores</h3>
-                    <p class="feature-desc">Deliver to Spotify, Apple Music, Amazon & more</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-4">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                    </svg>
-                    <h3 class="feature-title">48 Hour Delivery</h3>
-                    <p class="feature-desc">Your releases live within 48 hours</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-5">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line>
-                    </svg>
-                    <h3 class="feature-title">Artist Verification</h3>
-                    <p class="feature-desc">Get your official artist channel verified</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-6">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                    <h3 class="feature-title">Unlimited Releases</h3>
-                    <p class="feature-desc">Release as much music as you want</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-7">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
-                    </svg>
-                    <h3 class="feature-title">Master Quality</h3>
-                    <p class="feature-desc">High-quality audio delivery standards</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-8">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line>
-                    </svg>
-                    <h3 class="feature-title">Pre-Save & Smartlink</h3>
-                    <p class="feature-desc">Build hype with pre-save campaigns</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-9">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="m22 8-6 4 6 4V8Z"></path><rect x="2" y="6" width="14" height="12" rx="2"></rect>
-                    </svg>
-                    <h3 class="feature-title">YouTube VEVO</h3>
-                    <p class="feature-desc">First free VEVO distribution included</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-10">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                    <h3 class="feature-title">Global Content ID</h3>
-                    <p class="feature-desc">Protect your music worldwide</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-11">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>
-                    </svg>
-                    <h3 class="feature-title">Cover Art Generator</h3>
-                    <p class="feature-desc">Create stunning artwork easily</p>
-                </div>
-                <div class="feature-card border-angular reveal stagger-12">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line>
-                    </svg>
-                    <h3 class="feature-title">Mastering Services</h3>
-                    <p class="feature-desc">Professional audio mastering available</p>
+            <div>
+                <div class="dist-plan">
+                    <div class="plan-price">$0</div>
+                    <div class="plan-sub">NO JOINING FEE · NO HIDDEN CHARGES</div>
+                    <ul class="plan-list">
+                        <li>Unlimited releases</li>
+                        <li>200+ streaming platforms</li>
+                        <li>48-hour delivery</li>
+                        <li>Keep 85% of royalties</li>
+                        <li>100% rights ownership</li>
+                        <li>Global Content ID protection</li>
+                        <li>Artist profile verification</li>
+                        <li>First VEVO distribution free</li>
+                        <li>Pre-save & smartlink campaigns</li>
+                        <li>Monthly analytics via email</li>
+                        <li>Cover art generator access</li>
+                        <li class="muted">Dedicated A&R (signed artists only)</li>
+                        <li class="muted">Label dashboard (coming soon)</li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <!-- Artists Section -->
-    <section id="artists">
-        <div class="section-container">
-            <div class="section-header reveal">
-                <div class="section-dot"></div>
-                <span class="section-label">OUR ARTISTS</span>
-                <div class="section-line"></div>
+<!-- PRESS -->
+<div class="press-section" id="press">
+    <div class="press-inner fade-up">
+        <div class="label">TESTIMONIALS</div>
+        <h2 class="section-heading">WHAT ARTISTS SAY</h2>
+        <div class="testimonials">
+            <div class="testimonial">
+                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <p class="t-quote">Best distributor I have ever used. Fast delivery and the team actually cares about your music.</p>
+                <div class="t-author">ALEX M.</div><div class="t-role">Independent Artist</div>
             </div>
-            <h2 class="section-title reveal">FEATURED ARTISTS</h2>
-            <div class="artists-grid">
-                <div class="artist-card border-angular reveal-scale stagger-1">
-                    <h3 class="artist-name">AABYD KHAN</h3>
-                    <div class="spotify-embed">
-                        <iframe src="https://open.spotify.com/embed/artist/38T4P8hX75BCHncTf8TLKm?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                    <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm?si=P0aw-tpvS26yTyT8U6Bx-g" target="_blank" class="artist-link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
-                        View on Spotify
-                    </a>
-                </div>
-                <div class="artist-card border-angular reveal-scale stagger-2">
-                    <h3 class="artist-name">THE IMAGINARY BIRD</h3>
-                    <div class="spotify-embed">
-                        <iframe src="https://open.spotify.com/embed/artist/6RrE0UvJNBRf3eRH4gyFmG?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                    <a href="https://open.spotify.com/artist/6RrE0UvJNBRf3eRH4gyFmG?si=Dos5wK_PSAmr6z0UA8zEYg" target="_blank" class="artist-link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
-                        View on Spotify
-                    </a>
-                </div>
-                <div class="artist-card border-angular reveal-scale stagger-3">
-                    <h3 class="artist-name">THE IMAGINARY POET</h3>
-                    <div class="spotify-embed">
-                        <iframe src="https://open.spotify.com/embed/artist/39GevCS8IvbhgaaCRfHbnF?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                    <a href="https://open.spotify.com/artist/39GevCS8IvbhgaaCRfHbnF?si=8BNLNV2XQ9aWHQqfJAmurg" target="_blank" class="artist-link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
-                        View on Spotify
-                    </a>
-                </div>
+            <div class="testimonial">
+                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <p class="t-quote">The VEVO distribution changed everything for me. Getting my official channel was a dream come true.</p>
+                <div class="t-author">SARAH K.</div><div class="t-role">Music Producer</div>
+            </div>
+            <div class="testimonial">
+                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <p class="t-quote">My music was live on all platforms within 48 hours. The mastering service made it sound incredible.</p>
+                <div class="t-author">CHRIS P.</div><div class="t-role">Indie Rock Artist</div>
+            </div>
+            <div class="testimonial">
+                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <p class="t-quote">Finally a label that lets me keep 100% of my rights. Transparent, fast, and genuinely supportive.</p>
+                <div class="t-author">MARIA L.</div><div class="t-role">Singer-Songwriter</div>
+            </div>
+            <div class="testimonial">
+                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <p class="t-quote">Professional team, quick responses. They treat every artist like a priority regardless of how big you are.</p>
+                <div class="t-author">THE BEATS</div><div class="t-role">Hip-Hop Group</div>
+            </div>
+            <div class="testimonial">
+                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <p class="t-quote">Submitted my demo on a Sunday, got a reply by Tuesday. From signing to release, the process was seamless.</p>
+                <div class="t-author">DJ RAVE</div><div class="t-role">Electronic Artist</div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <!-- Reviews Section -->
-    <section id="reviews">
-        <div class="section-container">
-            <div class="section-header reveal">
-                <div class="section-dot"></div>
-                <span class="section-label">REVIEWS</span>
-                <div class="section-line"></div>
-            </div>
-            <h2 class="section-title reveal">WHAT ARTISTS SAY</h2>
-            <div class="reviews-grid">
-                <div class="review-card border-angular reveal stagger-1">
-                    <div class="review-stars">
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    </div>
-                    <p class="review-text">"Best distributor I have ever used. Fast delivery and amazing support!"</p>
-                    <p class="review-name">Alex M.</p>
-                    <p class="review-role">Independent Artist</p>
-                </div>
-                <div class="review-card border-angular reveal stagger-2">
-                    <div class="review-stars">
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    </div>
-                    <p class="review-text">"The VEVO distribution is a game changer. Highly recommend!"</p>
-                    <p class="review-name">Sarah K.</p>
-                    <p class="review-role">Music Producer</p>
-                </div>
-                <div class="review-card border-angular reveal stagger-3">
-                    <div class="review-stars">
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    </div>
-                    <p class="review-text">"Got my music on all platforms within 48 hours. Incredible service!"</p>
-                    <p class="review-name">DJ Rave</p>
-                    <p class="review-role">Electronic Artist</p>
-                </div>
-                <div class="review-card border-angular reveal stagger-4">
-                    <div class="review-stars">
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    </div>
-                    <p class="review-text">"Finally a distributor that lets me keep 100% of my rights!"</p>
-                    <p class="review-name">Maria L.</p>
-                    <p class="review-role">Singer-Songwriter</p>
-                </div>
-                <div class="review-card border-angular reveal stagger-5">
-                    <div class="review-stars">
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    </div>
-                    <p class="review-text">"Professional team, quick responses, and great features."</p>
-                    <p class="review-name">The Beats</p>
-                    <p class="review-role">Hip-Hop Group</p>
-                </div>
-                <div class="review-card border-angular reveal stagger-6">
-                    <div class="review-stars">
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    </div>
-                    <p class="review-text">"The mastering service made my tracks sound amazing!"</p>
-                    <p class="review-name">Chris P.</p>
-                    <p class="review-role">Indie Rock Artist</p>
-                </div>
-            </div>
+<!-- CTA -->
+<div class="cta-section fade-up">
+    <h2 class="cta-title">
+        <span>READY TO</span>
+        <span class="outline">MAKE YOUR</span>
+        <span>MARK?</span>
+    </h2>
+    <p class="cta-sub">Sign with us or start distributing today — no fees, no catch.</p>
+    <div class="cta-buttons">
+        <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="btn-primary">
+            SUBMIT YOUR DEMO
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="mailto:theimaginaryrecords@gmail.com" class="btn-ghost">EMAIL THE LABEL</a>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-wrap">
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand">THE IMAGINARY RECORDS</div>
+            <div class="footer-tagline">An independent record label from Kashmir, India.<br>Signing artists. Releasing music. Building legacies.</div>
         </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section id="faq">
-        <div class="faq-container">
-            <div class="section-header reveal">
-                <div class="section-dot"></div>
-                <span class="section-label">FAQ</span>
-                <div class="section-line"></div>
-            </div>
-            <h2 class="section-title reveal">FREQUENTLY ASKED</h2>
-            <div class="faq-list">
-                <div class="faq-item reveal stagger-1">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span class="faq-question-text">How long does it take to distribute my music?</span>
-                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p class="faq-answer-text">We distribute songs within 24 to 48 hours. Your releases will be live in most stores within 78 hours.</p>
-                    </div>
-                </div>
-                <div class="faq-item reveal stagger-2">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span class="faq-question-text">Is there a fee to join?</span>
-                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p class="faq-answer-text">No, there is a one-time joining fee to help grow our platform. After that, all music distribution is completely free with no hidden charges.</p>
-                    </div>
-                </div>
-                <div class="faq-item reveal stagger-3">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span class="faq-question-text">Do I keep my rights?</span>
-                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p class="faq-answer-text">Absolutely! You keep 100% of your rights and 85 % earnings. We believe artists should own their creative work.</p>
-                    </div>
-                </div>
-                <div class="faq-item reveal stagger-4">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span class="faq-question-text">Which platforms do you distribute to?</span>
-                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p class="faq-answer-text">We deliver to over 200 stores worldwide including Spotify, Apple Music, Amazon Music, YouTube Music, Deezer, Tidal, and many more.</p>
-                    </div>
-                </div>
-                <div class="faq-item reveal stagger-5">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span class="faq-question-text">Do you offer VEVO distribution?</span>
-                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p class="faq-answer-text">Yes! We provide first free VEVO distribution for all our artists. Get your official artist channel on YouTube.</p>
-                    </div>
-                </div>
-                <div class="faq-item reveal stagger-6">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span class="faq-question-text">How do I submit my music?</span>
-                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p class="faq-answer-text">Currently, we receive releases and music videos through Google Forms. Join us and you will receive the submission link via email.</p>
-                    </div>
-                </div>
-                <div class="faq-item reveal stagger-7">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span class="faq-question-text">Do you provide analytics?</span>
-                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p class="faq-answer-text">Yes! We provide detailed analytics every month through email, showing your streams, revenue, and growth across all platforms.</p>
-                    </div>
-                </div>
-                <div class="faq-item reveal stagger-8">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span class="faq-question-text">Is there a dashboard?</span>
-                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p class="faq-answer-text">Currently, we do not have a dashboard. We handle everything through Google Forms for submissions and email for analytics and communication.</p>
-                    </div>
-                </div>
-                <div class="faq-item reveal stagger-9">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span class="faq-question-text">Can I release unlimited music?</span>
-                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p class="faq-answer-text">Yes! Once you join, you can release unlimited music with no additional fees.</p>
-                    </div>
-                </div>
-                <div class="faq-item reveal stagger-10">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span class="faq-question-text">Do you offer mastering services?</span>
-                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p class="faq-answer-text">Yes, we offer professional mastering services to make your tracks sound polished and radio-ready.</p>
-                    </div>
-                </div>
-            </div>
+        <div>
+            <div class="footer-col-title">LABEL</div>
+            <a class="footer-link" onclick="go('about')">About</a>
+            <a class="footer-link" onclick="go('roster')">Roster</a>
+            <a class="footer-link" onclick="go('releases')">Releases</a>
+            <a class="footer-link" onclick="go('services')">Services</a>
         </div>
-    </section>
-
-    <!-- Contact/Footer Section -->
-    <section id="contact">
-        <div class="section-container">
-            <div class="contact-section reveal">
-                <h2 class="contact-title">READY TO RELEASE?</h2>
-                <p class="contact-text">Join The Imaginary Records today and start your music journey with free unlimited distribution.</p>
-                <div class="hero-cta-wrapper">
-                    <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="hero-cta">
-                        <span>JOIN NOW</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            <footer class="reveal">
-                <div class="footer-grid">
-                    <div>
-                        <h3 class="footer-logo">TIR</h3>
-                        <p class="footer-text">The Imaginary Records<br>Free Music Distribution</p>
-                    </div>
-                    <div>
-                        <h4 class="footer-heading">CONTACT</h4>
-                        <a href="mailto:theimaginaryrecords@gmail.com" class="footer-link">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                            theimaginaryrecords@gmail.com
-                        </a>
-                    </div>
-                    <div>
-                        <h4 class="footer-heading">FOLLOW US</h4>
-                        <a href="https://www.instagram.com/theimaginaryrecords/" target="_blank" class="footer-link">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                            </svg>
-                            @the.imaginary.records
-                        </a>
-                    </div>
-                </div>
-                <div class="copyright">
-                    <p class="copyright-text">© 2025 THE IMAGINARY RECORDS. ALL RIGHTS RESERVED.</p>
-                </div>
-            </footer>
+        <div>
+            <div class="footer-col-title">ARTISTS</div>
+            <a class="footer-link" onclick="go('distribution')">Distribution</a>
+            <a class="footer-link" onclick="go('anr')">Submit Demo</a>
+            <a class="footer-link" onclick="go('press')">Press</a>
         </div>
-    </section>
+        <div>
+            <div class="footer-col-title">CONTACT</div>
+            <a href="mailto:theimaginaryrecords@gmail.com" class="footer-link">theimaginaryrecords@gmail.com</a>
+            <a href="https://www.instagram.com/theimaginaryrecords/" target="_blank" class="footer-link">@theimaginaryrecords</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 THE IMAGINARY RECORDS. ALL RIGHTS RESERVED.</span>
+        <span>KASHMIR, INDIA</span>
+    </div>
+</div>
 
-    <script>
-    // ============================================================
-    //  SHOOTING STARS
-    // ============================================================
-    (function() {
-        const canvas = document.getElementById('stars-canvas');
-        const ctx = canvas.getContext('2d');
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resize();
-        window.addEventListener('resize', resize);
-
-        // Static stars
-        const staticStars = [];
-        for (let i = 0; i < 200; i++) {
-            staticStars.push({
-                x: Math.random(),
-                y: Math.random(),
-                r: Math.random() * 1.2 + 0.2,
-                opacity: Math.random() * 0.7 + 0.1,
-                twinkleSpeed: Math.random() * 0.02 + 0.005,
-                twinkleDir: Math.random() > 0.5 ? 1 : -1
-            });
-        }
-
-        // Shooting stars pool
-        const shootingStars = [];
-
-        function spawnStar() {
-            const side = Math.random();
-            let x, y, angle;
-            if (side < 0.5) {
-                x = Math.random() * canvas.width;
-                y = 0;
-                angle = (Math.random() * 30 + 20) * Math.PI / 180;
-            } else {
-                x = 0;
-                y = Math.random() * canvas.height * 0.5;
-                angle = (Math.random() * 20 + 10) * Math.PI / 180;
-            }
-            const speed = Math.random() * 8 + 5;
-            shootingStars.push({
-                x, y,
-                vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed,
-                length: Math.random() * 120 + 60,
-                opacity: 1,
-                width: Math.random() * 1.5 + 0.5,
-                life: 0,
-                maxLife: Math.random() * 60 + 40
-            });
-        }
-
-        let frameCount = 0;
-
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw static stars
-            staticStars.forEach(s => {
-                s.opacity += s.twinkleSpeed * s.twinkleDir;
-                if (s.opacity > 0.8 || s.opacity < 0.1) s.twinkleDir *= -1;
-                ctx.beginPath();
-                ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255,255,255,${s.opacity})`;
-                ctx.fill();
-            });
-
-            // Spawn shooting stars
-            frameCount++;
-            if (frameCount % 90 === 0) spawnStar();
-            if (Math.random() < 0.003) spawnStar();
-
-            // Draw shooting stars
-            for (let i = shootingStars.length - 1; i >= 0; i--) {
-                const s = shootingStars[i];
-                s.x += s.vx;
-                s.y += s.vy;
-                s.life++;
-
-                const progress = s.life / s.maxLife;
-                const alpha = progress < 0.2 ? progress / 0.2 : 1 - (progress - 0.2) / 0.8;
-
-                const tailX = s.x - s.vx / Math.hypot(s.vx, s.vy) * s.length;
-                const tailY = s.y - s.vy / Math.hypot(s.vx, s.vy) * s.length;
-
-                const grad = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
-                grad.addColorStop(0, `rgba(255,255,255,0)`);
-                grad.addColorStop(0.6, `rgba(200,220,255,${alpha * 0.4})`);
-                grad.addColorStop(1, `rgba(255,255,255,${alpha})`);
-
-                ctx.beginPath();
-                ctx.moveTo(tailX, tailY);
-                ctx.lineTo(s.x, s.y);
-                ctx.strokeStyle = grad;
-                ctx.lineWidth = s.width;
-                ctx.lineCap = 'round';
-                ctx.stroke();
-
-                // Glow head
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.width * 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255,255,255,${alpha * 0.8})`;
-                ctx.fill();
-
-                if (s.life >= s.maxLife || s.x > canvas.width + 200 || s.y > canvas.height + 200) {
-                    shootingStars.splice(i, 1);
-                }
-            }
-        }
-
-        animate();
-    })();
-
-    // ============================================================
-    //  MUSIC VISUALIZER BAR
-    // ============================================================
-    (function() {
-        const viz = document.getElementById('music-visualizer');
-        const barCount = Math.floor(window.innerWidth / 8);
-        for (let i = 0; i < barCount; i++) {
-            const bar = document.createElement('div');
-            bar.className = 'vis-bar';
-            const maxH = Math.random() * 28 + 6;
-            const dur = (Math.random() * 0.8 + 0.4).toFixed(2);
-            bar.style.setProperty('--dur', dur + 's');
-            bar.style.setProperty('--max-h', maxH + 'px');
-            bar.style.animationDelay = (Math.random() * 1).toFixed(2) + 's';
-            viz.appendChild(bar);
-        }
-    })();
-
-    // ============================================================
-    //  FLOATING MUSIC NOTES
-    // ============================================================
-    (function() {
-        const notes = ['♩', '♪', '♫', '♬', '𝄞', '𝄢', '♭', '♮', '♯'];
-        function spawnNote() {
-            const el = document.createElement('div');
-            el.className = 'music-note';
-            el.textContent = notes[Math.floor(Math.random() * notes.length)];
-            el.style.left = (Math.random() * 100) + 'vw';
-            const dur = (Math.random() * 12 + 8).toFixed(1);
-            el.style.animationDuration = dur + 's';
-            el.style.animationDelay = '0s';
-            el.style.fontSize = (Math.random() * 1.2 + 0.6).toFixed(1) + 'rem';
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), parseFloat(dur) * 1000 + 500);
-        }
-        setInterval(spawnNote, 1200);
-        for (let i = 0; i < 5; i++) {
-            setTimeout(spawnNote, i * 500);
-        }
-    })();
-
-    // ============================================================
-    //  WAVEFORM SVG (hero)
-    // ============================================================
-    (function() {
-        const svg = document.getElementById('waveform-svg');
-        const totalBars = 60;
-        const w = 300, h = 40;
-        const barW = w / totalBars - 1;
-        let content = '';
-        for (let i = 0; i < totalBars; i++) {
-            const bh = Math.random() * h * 0.8 + h * 0.1;
-            const y = (h - bh) / 2;
-            const delay = (i * 0.03).toFixed(2);
-            content += `<rect class="wave-bar-svg" x="${i * (barW + 1)}" y="${y}" width="${barW}" height="${bh}" fill="white" rx="1" style="animation-delay:${delay}s;transform-origin:${i * (barW+1) + barW/2}px ${h/2}px"/>`;
-        }
-        svg.innerHTML = content;
-    })();
-
-    // ============================================================
-    //  CURSOR GLOW
-    // ============================================================
-    (function() {
-        const glow = document.getElementById('cursor-glow');
-        document.addEventListener('mousemove', e => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
-        });
-    })();
-
-    // ============================================================
-    //  SCROLL REVEAL (IntersectionObserver)
-    // ============================================================
-    (function() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                }
-            });
-        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-        document.querySelectorAll('.reveal, .reveal-left, .reveal-scale, .section-header, .section-title').forEach(el => {
-            observer.observe(el);
-        });
-    })();
-
-    // ============================================================
-    //  MENU TOGGLE
-    // ============================================================
-    function toggleMenu() {
-        const menu = document.getElementById('fullscreen-menu');
-        const menuText = document.getElementById('menu-text');
-        const menuIcon = document.getElementById('menu-icon');
-        menu.classList.toggle('active');
-        if (menu.classList.contains('active')) {
-            menuText.textContent = 'CLOSE';
-            menuIcon.textContent = '×';
-        } else {
-            menuText.textContent = 'MENU';
-            menuIcon.textContent = '≡';
-        }
-    }
-
-    // ============================================================
-    //  SCROLL TO SECTION
-    // ============================================================
-    function scrollToSection(sectionId) {
-        const element = document.getElementById(sectionId);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-            const menu = document.getElementById('fullscreen-menu');
-            if (menu.classList.contains('active')) toggleMenu();
-        }
-    }
-
-    // ============================================================
-    //  NAVBAR SCROLL EFFECT
-    // ============================================================
-    window.addEventListener('scroll', function() {
-        const navbar = document.getElementById('navbar');
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
+<script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+    (function anim(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+    document.querySelectorAll('a,button').forEach(el=>{
+        el.addEventListener('mouseenter',()=>{ring.style.width='48px';ring.style.height='48px';});
+        el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';});
     });
 
-    // ============================================================
-    //  FAQ TOGGLE
-    // ============================================================
-    function toggleFaq(button) {
-        const answer = button.nextElementSibling;
-        const icon = button.querySelector('.faq-icon');
-        answer.classList.toggle('active');
-        if (answer.classList.contains('active')) {
-            icon.innerHTML = '<polyline points="18 15 12 9 6 15"></polyline>';
-            icon.style.transform = 'rotate(0deg)';
-        } else {
-            icon.innerHTML = '<polyline points="6 9 12 15 18 9"></polyline>';
-            icon.style.transform = 'rotate(0deg)';
-        }
+    // Navbar
+    window.addEventListener('scroll',()=>{
+        document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+    });
+
+    // Smooth scroll — uses section IDs, no external URLs
+    function go(id){
+        const el=document.getElementById(id);
+        if(el) el.scrollIntoView({behavior:'smooth'});
     }
-    </script>
+
+    // Mobile menu
+    function toggleMobile(){
+        const m=document.getElementById('mobileMenu');
+        const open=m.classList.toggle('open');
+        const sp=document.querySelectorAll('.hamburger span');
+        if(open){sp[0].style.transform='translateY(6px) rotate(45deg)';sp[1].style.opacity='0';sp[2].style.transform='translateY(-6px) rotate(-45deg)';}
+        else{sp.forEach(s=>{s.style.transform='';s.style.opacity='';})}
+        document.querySelectorAll('.mobile-menu a').forEach((a,i)=>{a.style.animationDelay=(0.1+i*0.07)+'s';});
+    }
+    function closeMobile(){
+        document.getElementById('mobileMenu').classList.remove('open');
+        document.querySelectorAll('.hamburger span').forEach(s=>{s.style.transform='';s.style.opacity='';});
+    }
+
+    // Scroll fade-in
+    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
+    document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+</script>
 </body>
 </html>
