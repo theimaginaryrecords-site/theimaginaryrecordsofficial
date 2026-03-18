@@ -28,12 +28,15 @@
         .nav-links { display:flex; gap:2.5rem; list-style:none; }
         .nav-links a { font-family:'Orbitron',sans-serif; font-size:0.62rem; letter-spacing:0.15em; color:var(--gray-500); text-decoration:none; transition:color 0.3s; cursor:pointer; }
         .nav-links a:hover { color:white; }
-        .nav-right { display:flex; align-items:center; gap:1.5rem; }
+        .nav-right { display:flex; align-items:center; gap:1rem; }
         .nav-cta { font-family:'Orbitron',sans-serif; font-size:0.62rem; letter-spacing:0.15em; padding:0.6rem 1.4rem; border:1px solid rgba(255,255,255,0.4); color:white; text-decoration:none; transition:all 0.3s; }
         .nav-cta:hover { background:white; color:black; }
+        .nav-artist-login { font-family:'Orbitron',sans-serif; font-size:0.62rem; letter-spacing:0.15em; padding:0.6rem 1.4rem; background:white; color:black; text-decoration:none; transition:all 0.3s; border:1px solid white; display:flex; align-items:center; gap:0.5rem; }
+        .nav-artist-login:hover { background:transparent; color:white; }
+        .nav-artist-login svg { width:12px; height:12px; }
         .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; }
         .hamburger span { display:block; width:24px; height:1px; background:white; transition:all 0.3s; }
-        @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} }
+        @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} .nav-artist-login span{display:none;} }
 
         /* MOBILE MENU */
         .mobile-menu { position:fixed; inset:0; z-index:90; background:black; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; opacity:0; pointer-events:none; transition:opacity 0.4s; }
@@ -41,6 +44,7 @@
         .mobile-menu a { font-family:'Orbitron',sans-serif; font-size:2rem; letter-spacing:0.1em; color:white; text-decoration:none; opacity:0; transform:translateY(20px); transition:color 0.3s; cursor:pointer; }
         .mobile-menu.open a { animation:slideUp 0.4s forwards; }
         .mobile-menu a:hover { color:var(--gray-500); }
+        .mobile-menu .mobile-artist-login { font-size:1rem; padding:0.8rem 2rem; border:1px solid white; margin-top:1rem; }
         @keyframes slideUp { to { opacity:1; transform:translateY(0); } }
 
         /* HERO */
@@ -231,6 +235,10 @@
             <li><a onclick="go('press')">PRESS</a></li>
         </ul>
         <div class="nav-right">
+            <a href="https://tir-artist-portal.vercel.app/" target="_blank" class="nav-artist-login">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>ARTIST LOGIN</span>
+            </a>
             <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="nav-cta">SUBMIT DEMO</a>
             <button class="hamburger" id="hamburger" onclick="toggleMobile()">
                 <span></span><span></span><span></span>
@@ -247,6 +255,7 @@
     <a onclick="closeMobile();go('services')">SERVICES</a>
     <a onclick="closeMobile();go('distribution')">DISTRIBUTION</a>
     <a onclick="closeMobile();go('press')">PRESS</a>
+    <a href="https://tir-artist-portal.vercel.app/" target="_blank" onclick="closeMobile()" class="mobile-artist-login">ARTIST LOGIN</a>
     <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" onclick="closeMobile()">SUBMIT DEMO</a>
 </div>
 
@@ -403,97 +412,65 @@
             </a>
         </div>
         <div class="releases-grid">
-            <!-- GHAZI TAPES EP -->
             <a href="https://music.apple.com/us/album/ghazi-tapes-ep/1883743287" target="_blank" style="text-decoration:none;color:inherit;">
             <div class="release-card">
-                <div class="release-cover">
-                    <div class="release-cover-inner">AABYD KHAN</div>
-                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-                </div>
+                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
                 <div class="release-title">GHAZI TAPES</div>
                 <div class="release-artist">Aabyd Khan</div>
                 <div class="release-meta"><span class="release-type">EP</span><span>2026</span></div>
             </div>
             </a>
-            <!-- ALIVE SINGLE -->
             <a href="https://music.apple.com/us/album/alive-single/1877977840" target="_blank" style="text-decoration:none;color:inherit;">
             <div class="release-card">
-                <div class="release-cover">
-                    <div class="release-cover-inner">AABYD KHAN</div>
-                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-                </div>
+                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
                 <div class="release-title">ALIVE</div>
                 <div class="release-artist">Aabyd Khan</div>
                 <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
             </div>
             </a>
-            <!-- DREAM SINGLE -->
             <a href="https://music.apple.com/us/album/dream-single/1873184408" target="_blank" style="text-decoration:none;color:inherit;">
             <div class="release-card">
-                <div class="release-cover">
-                    <div class="release-cover-inner">AABYD KHAN</div>
-                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-                </div>
+                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
                 <div class="release-title">DREAM</div>
                 <div class="release-artist">Aabyd Khan</div>
                 <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
             </div>
             </a>
-            <!-- TRENDING SINGLE -->
             <a href="https://music.apple.com/us/album/trending-single/1873188727" target="_blank" style="text-decoration:none;color:inherit;">
             <div class="release-card">
-                <div class="release-cover">
-                    <div class="release-cover-inner">AABYD KHAN</div>
-                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-                </div>
+                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
                 <div class="release-title">TRENDING</div>
                 <div class="release-artist">Aabyd Khan</div>
                 <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
             </div>
             </a>
-            <!-- DRIFT SINGLE -->
             <a href="https://music.apple.com/us/album/drift-single/1873184563" target="_blank" style="text-decoration:none;color:inherit;">
             <div class="release-card">
-                <div class="release-cover">
-                    <div class="release-cover-inner">AABYD KHAN</div>
-                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-                </div>
+                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
                 <div class="release-title">DRIFT</div>
                 <div class="release-artist">Aabyd Khan</div>
                 <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
             </div>
             </a>
-            <!-- MY STORY ALBUM -->
             <a href="https://music.apple.com/us/album/my-story/1846604222" target="_blank" style="text-decoration:none;color:inherit;">
             <div class="release-card">
-                <div class="release-cover">
-                    <div class="release-cover-inner">AABYD KHAN</div>
-                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-                </div>
+                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
                 <div class="release-title">MY STORY</div>
                 <div class="release-artist">Aabyd Khan</div>
                 <div class="release-meta"><span class="release-type">ALBUM</span><span>2025</span></div>
             </div>
             </a>
-            <!-- THEY CALL HIM OG -->
             <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" style="text-decoration:none;color:inherit;">
             <div class="release-card">
-                <div class="release-cover">
-                    <div class="release-cover-inner">AABYD KHAN</div>
-                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-                </div>
+                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
                 <div class="release-title">THEY CALL HIM OG</div>
                 <div class="release-artist">Aabyd Khan</div>
                 <div class="release-meta"><span class="release-type">SINGLE</span><span>2025</span></div>
             </div>
             </a>
-            <!-- LET'S DANCE -->
             <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" style="text-decoration:none;color:inherit;">
             <div class="release-card">
-                <div class="release-cover">
-                    <div class="release-cover-inner">AABYD KHAN</div>
-                    <div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-                </div>
+                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
                 <div class="release-title">LET'S DANCE</div>
                 <div class="release-artist">Aabyd Khan</div>
                 <div class="release-meta"><span class="release-type">SINGLE</span><span>2025</span></div>
@@ -712,6 +689,7 @@
             <a class="footer-link" onclick="go('distribution')">Distribution</a>
             <a class="footer-link" onclick="go('anr')">Submit Demo</a>
             <a class="footer-link" onclick="go('press')">Press</a>
+            <a class="footer-link" href="https://tir-artist-portal.vercel.app/" target="_blank">Artist Login</a>
         </div>
         <div>
             <div class="footer-col-title">CONTACT</div>
@@ -726,7 +704,6 @@
 </div>
 
 <script>
-    // Cursor
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
     let mx=0,my=0,rx=0,ry=0;
@@ -736,19 +713,8 @@
         el.addEventListener('mouseenter',()=>{ring.style.width='48px';ring.style.height='48px';});
         el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';});
     });
-
-    // Navbar
-    window.addEventListener('scroll',()=>{
-        document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
-    });
-
-    // Smooth scroll — uses section IDs, no external URLs
-    function go(id){
-        const el=document.getElementById(id);
-        if(el) el.scrollIntoView({behavior:'smooth'});
-    }
-
-    // Mobile menu
+    window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);});
+    function go(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});}
     function toggleMobile(){
         const m=document.getElementById('mobileMenu');
         const open=m.classList.toggle('open');
@@ -761,8 +727,6 @@
         document.getElementById('mobileMenu').classList.remove('open');
         document.querySelectorAll('.hamburger span').forEach(s=>{s.style.transform='';s.style.opacity='';});
     }
-
-    // Scroll fade-in
     const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
     document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 </script>
