@@ -431,7 +431,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
     <p class="cta-sub">Sign with us or start distributing today — no fees, no catch.</p>
     <div class="cta-btns">
       <a id="cta-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      <a id="cta-email-btn" href="mailto:theimaginaryrecords@gmail.com" class="btn-outline">EMAIL THE LABEL</a>
+      <a id="cta-email-btn" href="/cdn-cgi/l/email-protection#790d111c1014181e1017180b000b1c1a160b1d0a391e14181015571a1614" class="btn-outline">EMAIL THE LABEL</a>
     </div>
   </div>
 
@@ -457,7 +457,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
       </div>
       <div>
         <div class="footer-col-title">CONTACT</div>
-        <a id="footer-email" href="mailto:theimaginaryrecords@gmail.com" class="footer-link">theimaginaryrecords@gmail.com</a>
+        <a id="footer-email" href="/cdn-cgi/l/email-protection#72061a171b1f13151b1c13000b0017111d00160132151f131b1e5c111d1f" class="footer-link"><span class="__cf_email__" data-cfemail="15617d707c7874727c7b74676c6770767a677166557278747c793b767a78">[email&#160;protected]</span></a>
         <a id="footer-instagram" href="https://www.instagram.com/theimaginaryrecords/" target="_blank" class="footer-link">@theimaginaryrecords</a>
       </div>
     </div>
@@ -621,7 +621,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
 
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ═══════════════════════════════════════════
 // SITE DATA STORE
 // ═══════════════════════════════════════════
@@ -680,16 +680,18 @@ const FB_REVIEWS=[
 async function loadAllContent(){
   try{
     const [aSnap,rSnap,sSnap,rvSnap,stDoc] = await Promise.all([
-      db.collection('site_artists').orderBy('order').get().catch(()=>null),
-      db.collection('site_releases').orderBy('order').get().catch(()=>null),
-      db.collection('site_services').orderBy('order').get().catch(()=>null),
-      db.collection('site_reviews').orderBy('order').get().catch(()=>null),
-      db.collection('site_settings').doc('main').get().catch(()=>null)
+      db.collection('site_artists').get().catch(e=>{console.error('artists:',e);return null;}),
+      db.collection('site_releases').get().catch(e=>{console.error('releases:',e);return null;}),
+      db.collection('site_services').get().catch(e=>{console.error('services:',e);return null;}),
+      db.collection('site_reviews').get().catch(e=>{console.error('reviews:',e);return null;}),
+      db.collection('site_settings').doc('main').get().catch(e=>{console.error('settings:',e);return null;})
     ]);
-    siteArtists = aSnap&&!aSnap.empty ? aSnap.docs.map(d=>({id:d.id,...d.data()})) : FB_ARTISTS;
-    siteReleases = rSnap&&!rSnap.empty ? rSnap.docs.map(d=>({id:d.id,...d.data()})) : FB_RELEASES;
-    siteServices = sSnap&&!sSnap.empty ? sSnap.docs.map(d=>({id:d.id,...d.data()})) : FB_SERVICES;
-    siteReviews = rvSnap&&!rvSnap.empty ? rvSnap.docs.map(d=>({id:d.id,...d.data()})) : FB_REVIEWS;
+    const sortByOrder = docs => docs.sort((a,b)=>(a.order??99)-(b.order??99));
+    siteArtists = aSnap&&!aSnap.empty ? sortByOrder(aSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_ARTISTS;
+    siteReleases = rSnap&&!rSnap.empty ? sortByOrder(rSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_RELEASES;
+    siteServices = sSnap&&!sSnap.empty ? sortByOrder(sSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_SERVICES;
+    siteReviews = rvSnap&&!rvSnap.empty ? sortByOrder(rvSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_REVIEWS;
+    console.log('Loaded from Firestore — Artists:',siteArtists.length,'Releases:',siteReleases.length,'Services:',siteServices.length,'Reviews:',siteReviews.length);
     if(stDoc&&stDoc.exists) applySettings(stDoc.data());
 
     // Load hero settings
@@ -702,7 +704,10 @@ async function loadAllContent(){
     renderReviews();
     populateArtistFilter();
   }catch(e){
-    console.log('Firebase err:',e);
+    console.error('Firebase load error:',e.code, e.message);
+    if(e.code==='permission-denied'||e.message.includes('Missing or insufficient permissions')){
+      console.warn('FIRESTORE RULES BLOCKING READ — using fallback data. Update rules in Firebase Console.');
+    }
     siteArtists=FB_ARTISTS; siteReleases=FB_RELEASES; siteServices=FB_SERVICES; siteReviews=FB_REVIEWS;
     renderRoster(); renderCatalogue(); renderServices(); renderReviews(); populateArtistFilter();
   }
@@ -1022,11 +1027,7 @@ document.querySelectorAll('a,button').forEach(el=>{
 // ═══════════════════════════════════════════
 function esc(v){return(v||'').toString().replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3000);}
-
-// ═══════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════
-loadAllContent();
+loadSiteContent();
 </script>
 </body>
 </html>
