@@ -302,7 +302,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
 .fade-in.visible{opacity:1;transform:translateY(0)}
 
 /* LOADING overlay */
-.loading-overlay{position:fixed;inset:0;background:var(--black);z-index:8000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .5s}
+.loading-overlay{position:fixed;inset:0;background:var(--black);z-index:8000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .5s;opacity:1}
 .loading-overlay.hidden{opacity:0;pointer-events:none}
 .loading-logo{font-family:var(--font-display);font-size:2rem;letter-spacing:.4em;color:var(--gold);animation:pulse 1.5s ease infinite}
 .loading-bar{width:120px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
@@ -675,44 +675,63 @@ const FB_REVIEWS=[
 ];
 
 // ═══════════════════════════════════════════
+// ═══════════════════════════════════════════
+// LOADER HIDE — always runs no matter what
+// ═══════════════════════════════════════════
+function hideLoader(){
+  const el=document.getElementById('loader');
+  if(el){el.style.opacity='0';setTimeout(()=>el.style.display='none',500);}
+}
+// Hard safety timeout — if Firebase hangs for 5s, show site anyway with fallback data
+const LOAD_TIMEOUT=setTimeout(()=>{
+  console.warn('Firebase timeout — loading fallback data');
+  if(!siteArtists.length) siteArtists=FB_ARTISTS;
+  if(!siteReleases.length) siteReleases=FB_RELEASES;
+  if(!siteServices.length) siteServices=FB_SERVICES;
+  if(!siteReviews.length) siteReviews=FB_REVIEWS;
+  renderRoster(); renderCatalogue(); renderServices(); renderReviews(); populateArtistFilter();
+  hideLoader();
+},5000);
+
+// ═══════════════════════════════════════════
 // FIREBASE LOAD
 // ═══════════════════════════════════════════
 async function loadAllContent(){
   try{
+    // Race each query against a 4s timeout so one slow query can't hang everything
+    const withTimeout=(promise,ms=4000)=>Promise.race([promise,new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),ms))]);
+
     const [aSnap,rSnap,sSnap,rvSnap,stDoc] = await Promise.all([
-      db.collection('site_artists').get().catch(e=>{console.error('artists:',e);return null;}),
-      db.collection('site_releases').get().catch(e=>{console.error('releases:',e);return null;}),
-      db.collection('site_services').get().catch(e=>{console.error('services:',e);return null;}),
-      db.collection('site_reviews').get().catch(e=>{console.error('reviews:',e);return null;}),
-      db.collection('site_settings').doc('main').get().catch(e=>{console.error('settings:',e);return null;})
+      withTimeout(db.collection('site_artists').get()).catch(e=>{console.warn('artists failed:',e.message);return null;}),
+      withTimeout(db.collection('site_releases').get()).catch(e=>{console.warn('releases failed:',e.message);return null;}),
+      withTimeout(db.collection('site_services').get()).catch(e=>{console.warn('services failed:',e.message);return null;}),
+      withTimeout(db.collection('site_reviews').get()).catch(e=>{console.warn('reviews failed:',e.message);return null;}),
+      withTimeout(db.collection('site_settings').doc('main').get()).catch(e=>{console.warn('settings failed:',e.message);return null;})
     ]);
-    const sortByOrder = docs => docs.sort((a,b)=>(a.order??99)-(b.order??99));
+
+    const sortByOrder=docs=>docs.sort((a,b)=>(a.order??99)-(b.order??99));
     siteArtists = aSnap&&!aSnap.empty ? sortByOrder(aSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_ARTISTS;
     siteReleases = rSnap&&!rSnap.empty ? sortByOrder(rSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_RELEASES;
     siteServices = sSnap&&!sSnap.empty ? sortByOrder(sSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_SERVICES;
     siteReviews = rvSnap&&!rvSnap.empty ? sortByOrder(rvSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_REVIEWS;
-    console.log('Loaded from Firestore — Artists:',siteArtists.length,'Releases:',siteReleases.length,'Services:',siteServices.length,'Reviews:',siteReviews.length);
-    if(stDoc&&stDoc.exists) applySettings(stDoc.data());
+    console.log('Loaded — Artists:',siteArtists.length,'Releases:',siteReleases.length);
 
-    // Load hero settings
-    const heroDoc = await db.collection('site_settings').doc('hero').get().catch(()=>null);
+    if(stDoc&&stDoc.exists) applySettings(stDoc.data());
+    const heroDoc=await withTimeout(db.collection('site_settings').doc('hero').get()).catch(()=>null);
     if(heroDoc&&heroDoc.exists) applyHero(heroDoc.data());
 
-    renderRoster();
-    renderCatalogue();
-    renderServices();
-    renderReviews();
-    populateArtistFilter();
   }catch(e){
-    console.error('Firebase load error:',e.code, e.message);
-    if(e.code==='permission-denied'||e.message.includes('Missing or insufficient permissions')){
-      console.warn('FIRESTORE RULES BLOCKING READ — using fallback data. Update rules in Firebase Console.');
-    }
+    console.error('Firebase error:',e.message);
     siteArtists=FB_ARTISTS; siteReleases=FB_RELEASES; siteServices=FB_SERVICES; siteReviews=FB_REVIEWS;
+  }finally{
+    // ALWAYS render and hide loader regardless of success or failure
+    clearTimeout(LOAD_TIMEOUT);
     renderRoster(); renderCatalogue(); renderServices(); renderReviews(); populateArtistFilter();
+    hideLoader();
   }
-  setTimeout(()=>{document.getElementById('loader').classList.add('hidden');},600);
 }
+// Alias so both names work
+function loadSiteContent(){ loadAllContent(); }
 
 function applySettings(s){
   if(!s) return;
