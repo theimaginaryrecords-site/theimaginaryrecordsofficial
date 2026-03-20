@@ -1,564 +1,650 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Imaginary Records</title>
-        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-    <script>
-    firebase.initializeApp({
-      apiKey:"AIzaSyDq7PGSfxGfwAJhzpEVq0Bj2TBhCg09NTU",
-      authDomain:"tir-portal.firebaseapp.com",
-      projectId:"tir-portal",
-      storageBucket:"tir-portal.firebasestorage.app",
-      messagingSenderId:"941411383328",
-      appId:"1:941411383328:web:4b7b0aa63e2c7e44d82a445"
-    });
-    const db=firebase.firestore();
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        :root {
-            --white: #ffffff; --black: #000000;
-            --gray-300: #d1d5db; --gray-500: #9ca3af; --gray-700: #4b5563;
-            --border: rgba(255,255,255,0.15); --border-dim: rgba(255,255,255,0.07);
-        }
-        body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Imaginary Records</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyDq7PGSfxGfwAJhzpEVq0Bj2TBhCg09NTU",
+  authDomain:"tir-portal.firebaseapp.com",
+  projectId:"tir-portal",
+  storageBucket:"tir-portal.firebasestorage.app",
+  messagingSenderId:"941411383328",
+  appId:"1:941411383328:web:4b7b0aa63e2c7e44d82a445"
+});
+const db=firebase.firestore();
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#050505;--white:#f5f5f0;--gold:#c9a84c;--gold2:#e8c97a;
+  --gray:#1a1a1a;--gray2:#2a2a2a;--gray3:#555;--gray4:#888;
+  --border:rgba(255,255,255,0.1);
+  --font-display:'Bebas Neue',sans-serif;
+  --font-body:'Space Grotesk',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden;cursor:none}
 
-        .cursor { position: fixed; width: 8px; height: 8px; background: white; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
-        .cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width 0.3s, height 0.3s; }
-        @media(max-width:768px){ .cursor,.cursor-ring{display:none;} }
+/* CURSOR */
+.cur{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s}
+.cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+body:hover .cur{opacity:1}
+@media(max-width:768px){.cur,.cur-ring{display:none}body{cursor:auto}}
 
-        body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:9990; opacity:0.4; }
+/* VIEWS — single page app */
+.view{display:none;min-height:100vh}
+.view.active{display:block}
 
-        /* NAV */
-        nav { position:fixed; top:0; left:0; right:0; z-index:100; transition:background 0.4s; }
-        nav.scrolled { background:rgba(0,0,0,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border-dim); }
-        .nav-inner { max-width:1400px; margin:0 auto; padding:0 1.5rem; display:flex; align-items:center; justify-content:space-between; height:64px; }
-        .nav-logo { font-family:'Orbitron',sans-serif; font-size:1.1rem; letter-spacing:0.15em; color:white; background:none; border:none; cursor:pointer; text-decoration:none; }
-        .nav-links { display:flex; gap:2rem; list-style:none; }
-        .nav-links a { font-family:'Orbitron',sans-serif; font-size:0.62rem; letter-spacing:0.15em; color:var(--gray-500); text-decoration:none; transition:color 0.3s; cursor:pointer; }
-        .nav-links a:hover { color:white; }
-        .nav-right { display:flex; align-items:center; gap:0.75rem; }
-        .nav-cta { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.12em; padding:0.55rem 1.2rem; border:1px solid rgba(255,255,255,0.4); color:white; text-decoration:none; transition:all 0.3s; white-space:nowrap; }
-        .nav-cta:hover { background:white; color:black; }
-        .nav-artist-login { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.12em; padding:0.55rem 1.2rem; background:white; color:black; text-decoration:none; transition:all 0.3s; border:1px solid white; display:flex; align-items:center; gap:0.5rem; white-space:nowrap; }
-        .nav-artist-login:hover { background:transparent; color:white; }
-        .nav-artist-login svg { width:12px; height:12px; flex-shrink:0; }
-        .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px; z-index:101; }
-        .hamburger span { display:block; width:22px; height:1px; background:white; transition:all 0.3s; }
-        @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} .nav-inner{height:58px;} }
-        @media(max-width:480px){ .nav-cta{display:none;} .nav-artist-login .nav-login-txt{display:none;} }
+/* ════════════════════════════
+   NAV
+   ════════════════════════════ */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;transition:background .4s,border .4s}
+nav.scrolled{background:rgba(5,5,5,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--font-display);font-size:1.4rem;letter-spacing:6px;color:var(--white);cursor:pointer;text-decoration:none;transition:color .2s}
+.nav-logo:hover{color:var(--gold)}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{font-size:.7rem;letter-spacing:.2em;color:var(--gray4);text-decoration:none;transition:color .2s;cursor:pointer;font-weight:500;text-transform:uppercase}
+.nav-links a:hover,.nav-links a.active{color:var(--white)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-btn{font-size:.65rem;letter-spacing:.15em;padding:8px 18px;border:1px solid rgba(255,255,255,.25);color:var(--white);text-decoration:none;transition:all .2s;text-transform:uppercase;cursor:pointer;background:none}
+.nav-btn:hover{background:var(--white);color:var(--black)}
+.nav-btn.gold{background:var(--gold);border-color:var(--gold);color:#000}
+.nav-btn.gold:hover{background:var(--gold2)}
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.ham span{display:block;width:22px;height:1px;background:var(--white);transition:all .3s}
+@media(max-width:900px){.nav-links{display:none}.ham{display:flex}nav{padding:0 20px}}
 
-        /* MOBILE MENU */
-        .mobile-menu { position:fixed; inset:0; z-index:90; background:black; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.6rem; opacity:0; pointer-events:none; transition:opacity 0.4s; padding:2rem; overflow-y:auto; }
-        .mobile-menu.open { opacity:1; pointer-events:all; }
-        .mobile-menu a { font-family:'Orbitron',sans-serif; font-size:clamp(1.2rem,5vw,2rem); letter-spacing:0.1em; color:white; text-decoration:none; opacity:0; transform:translateY(20px); transition:color 0.3s; cursor:pointer; text-align:center; }
-        .mobile-menu.open a { animation:slideUp 0.4s forwards; }
-        .mobile-menu a:hover { color:var(--gray-500); }
-        .mob-login-btn { font-size:clamp(0.75rem,3vw,1rem) !important; padding:0.75rem 2rem; border:1px solid white; margin-top:0.5rem; }
-        .mob-demo-btn { font-size:clamp(0.75rem,3vw,1rem) !important; padding:0.75rem 2rem; background:white !important; color:black !important; }
-        @keyframes slideUp { to { opacity:1; transform:translateY(0); } }
+/* MOBILE MENU */
+.mob-menu{position:fixed;inset:0;z-index:900;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;opacity:0;pointer-events:none;transition:opacity .4s}
+.mob-menu.open{opacity:1;pointer-events:all}
+.mob-menu a{font-family:var(--font-display);font-size:3rem;letter-spacing:.1em;color:var(--white);text-decoration:none;cursor:pointer;transition:color .2s}
+.mob-menu a:hover{color:var(--gold)}
 
-        /* HERO */
-        .hero { min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; justify-content:flex-end; padding:0 1.5rem 4rem; position:relative; overflow:hidden; }
-        .hero-bg { position:absolute; inset:0; background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(255,255,255,0.03) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 70%, rgba(255,255,255,0.02) 0%, transparent 60%); }
-        .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size:80px 80px; mask-image:linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); }
-        .hero-year { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.3em; color:var(--gray-700); margin-bottom:1.5rem; }
-        .hero-title { font-family:'Orbitron',sans-serif; font-size:clamp(2.8rem,10vw,9rem); font-weight:900; letter-spacing:-0.02em; line-height:0.9; position:relative; z-index:1; }
-        .hero-title .line2 { display:block; padding-left:clamp(1.5rem,6vw,8rem); color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.5); }
-        .hero-title .line3 { display:block; padding-left:clamp(3rem,12vw,16rem); }
-        .hero-bottom { display:flex; justify-content:space-between; align-items:flex-end; margin-top:2.5rem; position:relative; z-index:1; flex-wrap:wrap; gap:1.5rem; }
-        .hero-tagline { font-size:0.8rem; color:var(--gray-500); max-width:260px; line-height:1.7; letter-spacing:0.05em; }
-        .hero-tagline strong { color:white; display:block; margin-bottom:0.5rem; font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.2em; }
-        .hero-scroll { display:flex; flex-direction:column; align-items:center; gap:0.5rem; }
-        .hero-scroll span { font-family:'Orbitron',sans-serif; font-size:0.55rem; letter-spacing:0.2em; color:var(--gray-700); writing-mode:vertical-rl; }
-        .scroll-track { width:1px; height:60px; background:linear-gradient(to bottom, white, transparent); animation:scrollPulse 2s ease-in-out infinite; }
-        @keyframes scrollPulse { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
-        .hero-cta-group { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
-        .btn-primary { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:0.9rem 2rem; background:white; color:black; border:none; text-decoration:none; cursor:pointer; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; white-space:nowrap; }
-        .btn-primary:hover { background:var(--gray-300); }
-        .btn-ghost { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:0.9rem 2rem; border:1px solid var(--border); color:white; text-decoration:none; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; cursor:pointer; white-space:nowrap; }
-        .btn-ghost:hover { border-color:white; }
-        @media(max-width:600px){
-            .hero{padding:0 1rem 3rem;}
-            .hero-scroll{display:none;}
-            .hero-tagline{max-width:100%;}
-            .hero-cta-group{width:100%;}
-            .btn-primary,.btn-ghost{flex:1;justify-content:center;font-size:0.6rem;padding:0.8rem 1rem;}
-        }
+/* ════════════════════════════
+   HOME / HERO
+   ════════════════════════════ */
+#view-home{position:relative;overflow:hidden}
+.hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 40px 60px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 30%,rgba(201,168,76,.04) 0%,transparent 70%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom,transparent,black 25%,black 75%,transparent)}
+.hero-year{font-size:.65rem;letter-spacing:.35em;color:var(--gray3);margin-bottom:1.5rem;font-family:var(--font-mono);text-transform:uppercase}
+.hero-title{font-family:var(--font-display);font-size:clamp(4rem,13vw,14rem);font-weight:400;letter-spacing:-.01em;line-height:.88;position:relative;z-index:1}
+.hero-title .line2{display:block;padding-left:clamp(2rem,8vw,10rem);color:transparent;-webkit-text-stroke:1px rgba(245,245,240,.4)}
+.hero-title .line3{display:block;padding-left:clamp(4rem,16vw,20rem)}
+.hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:3rem;position:relative;z-index:1;flex-wrap:wrap;gap:2rem}
+.hero-tag{font-size:.75rem;color:var(--gray4);max-width:280px;line-height:1.8;letter-spacing:.05em}
+.hero-tag strong{color:var(--white);display:block;margin-bottom:.5rem;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{font-size:.65rem;letter-spacing:.15em;padding:12px 28px;background:var(--white);color:var(--black);border:none;text-decoration:none;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;font-weight:600;font-family:var(--font-body)}
+.btn-primary:hover{background:var(--gold);color:#000}
+.btn-outline{font-size:.65rem;letter-spacing:.15em;padding:12px 28px;border:1px solid rgba(255,255,255,.3);color:var(--white);text-decoration:none;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;font-weight:600;background:none;font-family:var(--font-body)}
+.btn-outline:hover{border-color:var(--white)}
+.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.3}
+.scroll-hint span{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;writing-mode:vertical-rl;font-family:var(--font-mono)}
+.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--white),transparent);animation:scrollpulse 2s ease-in-out infinite}
+@keyframes scrollpulse{0%,100%{opacity:.2}50%{opacity:1}}
 
-        /* TICKER */
-        .ticker { overflow:hidden; border-top:1px solid var(--border-dim); border-bottom:1px solid var(--border-dim); padding:0.8rem 0; background:rgba(255,255,255,0.02); }
-        .ticker-track { display:flex; animation:ticker 30s linear infinite; width:max-content; }
-        .ticker-item { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.3em; color:var(--gray-700); white-space:nowrap; padding:0 3rem; }
-        .ticker-item .dot { color:white; margin-right:3rem; }
-        @keyframes ticker { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+/* TICKER */
+.ticker{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.7rem 0;background:rgba(255,255,255,.02)}
+.ticker-track{display:flex;animation:ticker 35s linear infinite;width:max-content}
+.ticker-item{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.3em;color:var(--gray3);white-space:nowrap;padding:0 3rem}
+.ticker-item .dot{color:var(--gold);margin-right:3rem}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-        /* SECTIONS */
-        .section { padding:6rem 1.5rem; max-width:1400px; margin:0 auto; }
-        @media(max-width:600px){ .section{padding:4rem 1rem;} }
-        .label { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.3em; color:var(--gray-700); display:flex; align-items:center; gap:1rem; margin-bottom:2.5rem; }
-        .label::before { content:''; display:block; width:30px; height:1px; background:var(--gray-700); }
-        .section-heading { font-family:'Orbitron',sans-serif; font-size:clamp(2rem,5vw,4.5rem); font-weight:800; letter-spacing:-0.01em; line-height:1; }
+/* ════════════════════════════
+   SECTION PAGE VIEWS
+   ════════════════════════════ */
+.page-hero{padding:120px 40px 60px;border-bottom:1px solid var(--border)}
+.page-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,8rem);letter-spacing:-.01em;line-height:.9;margin-bottom:1rem}
+.page-sub{font-size:.75rem;color:var(--gray4);letter-spacing:.15em;text-transform:uppercase;font-family:var(--font-mono)}
+@media(max-width:600px){.page-hero{padding:90px 20px 40px}.page-title{font-size:clamp(2.5rem,10vw,5rem)}}
 
-        /* ABOUT */
-        .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; margin-top:4rem; }
-        .about-text p { font-size:1rem; line-height:1.8; color:var(--gray-300); margin-bottom:1.5rem; }
-        .about-text p:first-child { color:white; font-size:1.1rem; }
-        .about-stats { display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--border); }
-        .stat { padding:2rem 1.5rem; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
-        .stat:nth-child(2n){ border-right:none; }
-        .stat:nth-child(3),.stat:nth-child(4){ border-bottom:none; }
-        .stat-num { font-family:'Orbitron',sans-serif; font-size:2.2rem; font-weight:900; line-height:1; margin-bottom:0.5rem; }
-        .stat-label { font-size:0.7rem; color:var(--gray-500); letter-spacing:0.1em; }
-        .platforms { display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; margin-top:2rem; }
-        .platform-name { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.15em; color:var(--gray-700); }
-        @media(max-width:768px){ .about-grid{grid-template-columns:1fr; gap:2.5rem;} }
+/* ════════════════════════════
+   ABOUT
+   ════════════════════════════ */
+#view-about .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:80px 40px;max-width:1400px;margin:0 auto;align-items:start}
+.about-text p{font-size:1rem;line-height:1.9;color:rgba(245,245,240,.75);margin-bottom:1.5rem}
+.about-text p:first-child{color:var(--white);font-size:1.1rem}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.stat-box{background:var(--black);padding:2rem 1.5rem}
+.stat-n{font-family:var(--font-display);font-size:3rem;color:var(--gold);line-height:1;margin-bottom:.4rem}
+.stat-l{font-size:.65rem;color:var(--gray4);letter-spacing:.15em;text-transform:uppercase;font-family:var(--font-mono)}
+.platforms-row{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:2.5rem}
+.plat-name{font-size:.6rem;letter-spacing:.2em;color:var(--gray3);text-transform:uppercase;font-family:var(--font-mono)}
+@media(max-width:768px){#view-about .about-grid{grid-template-columns:1fr;gap:40px;padding:40px 20px}}
 
-        /* ROSTER */
-        .roster-section { background:rgba(255,255,255,0.02); border-top:1px solid var(--border-dim); border-bottom:1px solid var(--border-dim); }
-        .roster-inner { max-width:1400px; margin:0 auto; padding:6rem 1.5rem; }
-        @media(max-width:600px){ .roster-inner{padding:4rem 1rem;} }
-        .roster-grid { display:grid; grid-template-columns:repeat(3,1fr); margin-top:3.5rem; border:1px solid var(--border); }
-        .artist-card { padding:2rem 1.5rem; border-right:1px solid var(--border); position:relative; overflow:hidden; transition:background 0.4s; }
-        .artist-card:last-child{ border-right:none; }
-        .artist-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:white; transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
-        .artist-card:hover{ background:rgba(255,255,255,0.03); }
-        .artist-card:hover::after{ transform:scaleX(1); }
-        .artist-number { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--gray-700); margin-bottom:1.5rem; }
-        .artist-name { font-family:'Orbitron',sans-serif; font-size:1.15rem; font-weight:700; letter-spacing:0.05em; margin-bottom:0.6rem; }
-        .artist-genre { font-size:0.7rem; color:var(--gray-500); letter-spacing:0.1em; margin-bottom:1.25rem; line-height:1.5; }
-        .spotify-embed { border-radius:8px; overflow:hidden; margin-bottom:1.25rem; }
-        .spotify-embed iframe { width:100%; border:none; display:block; }
-        .artist-meta { display:flex; gap:0.6rem; flex-wrap:wrap; }
-        .artist-tag { font-size:0.6rem; letter-spacing:0.15em; color:var(--gray-700); padding:0.3rem 0.65rem; border:1px solid rgba(255,255,255,0.1); }
-        .artist-spotify-link { display:inline-flex; align-items:center; gap:0.5rem; font-size:0.65rem; letter-spacing:0.1em; color:var(--gray-500); text-decoration:none; transition:color 0.3s; margin-top:1rem; }
-        .artist-spotify-link:hover{ color:white; }
-        @media(max-width:900px){ .roster-grid{grid-template-columns:1fr;} .artist-card{border-right:none; border-bottom:1px solid var(--border);} .artist-card:last-child{border-bottom:none;} }
+/* ════════════════════════════
+   ROSTER
+   ════════════════════════════ */
+#view-roster .roster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.roster-card{position:relative;aspect-ratio:3/4;overflow:hidden;cursor:pointer;background:var(--gray)}
+.roster-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s}
+.roster-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.2) 50%,transparent 100%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem}
+.roster-card:hover .roster-card-overlay{opacity:1}
+.roster-card:hover img{transform:scale(1.05);filter:brightness(.8)}
+.roster-card-name{font-family:var(--font-display);font-size:1.6rem;letter-spacing:.05em;margin-bottom:.3rem}
+.roster-card-genre{font-size:.65rem;color:rgba(245,245,240,.6);letter-spacing:.15em;text-transform:uppercase;font-family:var(--font-mono)}
+.roster-placeholder{background:linear-gradient(135deg,var(--gray) 0%,var(--gray2) 100%);display:flex;align-items:center;justify-content:center;font-size:3rem}
+@media(max-width:900px){#view-roster .roster-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){#view-roster .roster-grid{grid-template-columns:1fr}}
 
-        /* RELEASES */
-        .releases-header { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:3rem; }
-        .releases-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border-dim); border:1px solid var(--border-dim); }
-        .release-card { background:black; padding:1.25rem; transition:background 0.3s; cursor:pointer; }
-        .release-card:hover{ background:rgba(255,255,255,0.04); }
-        .release-cover { width:100%; aspect-ratio:1; background:rgba(255,255,255,0.04); border:1px solid var(--border-dim); margin-bottom:1rem; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
-        .release-cover-inner { font-family:'Orbitron',sans-serif; font-size:0.5rem; letter-spacing:0.2em; color:var(--gray-700); text-align:center; padding:0.75rem; }
-        .release-cover .play-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; background:rgba(0,0,0,0.6); transition:opacity 0.3s; }
-        .release-card:hover .play-overlay{ opacity:1; }
-        .release-title { font-family:'Orbitron',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:0.05em; margin-bottom:0.3rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .release-artist { font-size:0.68rem; color:var(--gray-500); margin-bottom:0.6rem; }
-        .release-meta { display:flex; justify-content:space-between; font-size:0.58rem; color:var(--gray-700); letter-spacing:0.1em; align-items:center; }
-        .release-type { padding:0.15rem 0.5rem; border:1px solid rgba(255,255,255,0.1); font-family:'Orbitron',sans-serif; font-size:0.48rem; letter-spacing:0.1em; }
-        @media(max-width:900px){ .releases-grid{grid-template-columns:repeat(2,1fr);} }
+/* ARTIST PANEL (slide in) */
+.artist-panel{position:fixed;inset:0;z-index:2000;pointer-events:none}
+.artist-panel-bg{position:absolute;inset:0;background:rgba(0,0,0,.8);opacity:0;transition:opacity .4s;backdrop-filter:blur(4px)}
+.artist-panel-box{position:absolute;top:0;right:0;bottom:0;width:min(700px,100vw);background:var(--black);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .45s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column}
+.artist-panel.open .artist-panel-bg{opacity:1;pointer-events:all}
+.artist-panel.open .artist-panel-box{transform:translateX(0);pointer-events:all}
+.ap-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.ap-img-placeholder{width:100%;aspect-ratio:4/3;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:4rem}
+.ap-body{padding:40px}
+.ap-name{font-family:var(--font-display);font-size:clamp(2rem,5vw,4rem);letter-spacing:.03em;margin-bottom:.5rem}
+.ap-role{font-size:.7rem;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;font-family:var(--font-mono);margin-bottom:2rem}
+.ap-bio{font-size:.9rem;color:rgba(245,245,240,.75);line-height:1.9;margin-bottom:2rem}
+.ap-links{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:2rem}
+.ap-link{display:flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid var(--border);font-size:.65rem;letter-spacing:.1em;color:var(--white);text-decoration:none;transition:all .2s;text-transform:uppercase}
+.ap-link:hover{border-color:var(--gold);color:var(--gold)}
+.ap-link img{width:18px;height:18px;object-fit:contain;border-radius:3px}
+.ap-close{position:absolute;top:20px;right:20px;width:44px;height:44px;background:rgba(0,0,0,.7);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--white);transition:all .2s;z-index:10}
+.ap-close:hover{background:var(--white);color:var(--black)}
 
-        /* A&R */
-        .anr-section { background:white; color:black; }
-        .anr-inner { max-width:1400px; margin:0 auto; padding:6rem 1.5rem; display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
-        .anr-label { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.3em; color:#666; display:flex; align-items:center; gap:1rem; margin-bottom:2.5rem; }
-        .anr-label::before { content:''; display:block; width:30px; height:1px; background:#999; }
-        .anr-heading { font-family:'Orbitron',sans-serif; font-size:clamp(1.8rem,4vw,3.5rem); font-weight:900; line-height:1; color:black; margin-bottom:1.5rem; }
-        .anr-body { font-size:0.9rem; color:#555; line-height:1.8; margin-bottom:1.5rem; }
-        .anr-criteria { list-style:none; margin-bottom:2.5rem; }
-        .anr-criteria li { display:flex; align-items:flex-start; gap:1rem; font-size:0.82rem; color:#444; padding:0.6rem 0; border-bottom:1px solid rgba(0,0,0,0.08); }
-        .anr-criteria li::before { content:'—'; color:#999; flex-shrink:0; }
-        .btn-dark { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:1rem 2.5rem; background:black; color:white; border:none; text-decoration:none; cursor:pointer; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; }
-        .btn-dark:hover{ background:#222; }
-        .anr-box { padding:1.75rem; border:1px solid rgba(0,0,0,0.1); background:rgba(0,0,0,0.02); margin-bottom:1rem; }
-        .anr-box-title { font-family:'Orbitron',sans-serif; font-size:0.7rem; letter-spacing:0.15em; color:#333; margin-bottom:0.6rem; }
-        .anr-box-text { font-size:0.8rem; color:#666; line-height:1.7; }
-        .anr-box-number { font-family:'Orbitron',sans-serif; font-size:2.5rem; font-weight:900; color:rgba(0,0,0,0.06); line-height:1; margin-bottom:0.25rem; }
-        @media(max-width:768px){ .anr-inner{grid-template-columns:1fr; gap:2.5rem; padding:4rem 1rem;} }
+/* ════════════════════════════
+   CATALOGUE / RELEASES
+   ════════════════════════════ */
+.cat-filters{padding:20px 40px;border-bottom:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.cat-filter-btn{font-size:.65rem;letter-spacing:.12em;padding:7px 18px;border:1px solid var(--border);color:var(--gray4);background:none;cursor:pointer;transition:all .2s;text-transform:uppercase;font-family:var(--font-body)}
+.cat-filter-btn:hover,.cat-filter-btn.active{background:var(--white);color:var(--black);border-color:var(--white)}
+.cat-filter-select{font-size:.65rem;letter-spacing:.1em;padding:7px 14px;border:1px solid var(--border);color:var(--gray4);background:var(--black);cursor:pointer;transition:all .2s;text-transform:uppercase;font-family:var(--font-body);outline:none;appearance:none;padding-right:28px}
+.cat-filter-wrap{position:relative;display:inline-block}
+.cat-filter-wrap::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--gray4);pointer-events:none;font-size:10px}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:40px;max-width:1600px;margin:0 auto}
+.cat-card{cursor:pointer;transition:transform .2s}
+.cat-card:hover{transform:translateY(-4px)}
+.cat-art{width:100%;aspect-ratio:1;background:var(--gray);overflow:hidden;margin-bottom:14px;position:relative}
+.cat-art img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.cat-card:hover .cat-art img{transform:scale(1.05)}
+.cat-art-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.7rem;letter-spacing:.2em;color:var(--gray3)}
+.cat-title{font-size:.85rem;font-weight:700;margin-bottom:.2rem;letter-spacing:.03em}
+.cat-artist{font-size:.75rem;color:var(--gray4)}
+.cat-type{display:inline-block;font-size:.55rem;letter-spacing:.15em;color:var(--gray3);border:1px solid var(--gray2);padding:2px 8px;margin-top:6px;font-family:var(--font-mono);text-transform:uppercase}
+.cat-empty{grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3)}
+@media(max-width:1100px){.cat-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){.cat-grid{grid-template-columns:repeat(2,1fr);padding:20px;gap:16px}.cat-filters{padding:14px 20px}}
+@media(max-width:400px){.cat-grid{grid-template-columns:1fr}}
 
-        /* SERVICES */
-        .services-grid { display:grid; grid-template-columns:repeat(3,1fr); margin-top:3.5rem; border:1px solid var(--border); }
-        .service-item { padding:2.5rem 2rem; border-right:1px solid var(--border); border-bottom:1px solid var(--border); transition:background 0.3s; }
-        .service-item:hover{ background:rgba(255,255,255,0.03); }
-        .service-item:nth-child(3n){ border-right:none; }
-        .service-item:nth-last-child(-n+3){ border-bottom:none; }
-        .service-icon { width:40px; height:40px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem; color:var(--gray-500); transition:color 0.3s,border-color 0.3s; }
-        .service-item:hover .service-icon{ color:white; border-color:white; }
-        .service-icon svg{ width:18px; height:18px; }
-        .service-name { font-family:'Orbitron',sans-serif; font-size:0.75rem; letter-spacing:0.1em; margin-bottom:0.85rem; }
-        .service-desc { font-size:0.8rem; color:var(--gray-500); line-height:1.7; }
-        @media(max-width:900px){ .services-grid{grid-template-columns:1fr 1fr;} .service-item:nth-child(3n){border-right:1px solid var(--border);} .service-item:nth-child(2n){border-right:none;} .service-item:nth-last-child(-n+3){border-bottom:1px solid var(--border);} .service-item:last-child{border-bottom:none;} }
-        @media(max-width:540px){ .services-grid{grid-template-columns:1fr;} .service-item{border-right:none!important;} .service-item:last-child{border-bottom:none;} }
+/* ════════════════════════════
+   RELEASE DETAIL PAGE
+   ════════════════════════════ */
+#view-release .rel-hero{position:relative;background:var(--gray)}
+.rel-hero-inner{max-width:1400px;margin:0 auto;padding:120px 40px 60px;display:grid;grid-template-columns:auto 1fr;gap:80px;align-items:end}
+.rel-artwork{width:280px;height:280px;flex-shrink:0;background:var(--gray2);overflow:hidden}
+.rel-artwork img{width:100%;height:100%;object-fit:cover}
+.rel-artwork-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.rel-info-top{display:flex;flex-direction:column;gap:2rem}
+.rel-title-big{font-family:var(--font-display);font-size:clamp(3rem,7vw,8rem);letter-spacing:-.01em;line-height:.9}
+.rel-meta-row{display:grid;grid-template-columns:1fr 1fr auto;gap:3rem;align-items:end;padding-top:2rem;border-top:1px solid var(--border)}
+.rel-meta-item{}
+.rel-meta-label{font-size:.6rem;letter-spacing:.2em;color:var(--gray4);text-transform:uppercase;font-family:var(--font-mono);margin-bottom:.4rem}
+.rel-meta-value{font-size:.95rem;font-weight:600}
+.btn-stream{font-family:var(--font-display);font-size:1.1rem;letter-spacing:.1em;padding:14px 40px;background:var(--white);color:var(--black);border:none;cursor:pointer;transition:all .25s;text-transform:uppercase;white-space:nowrap}
+.btn-stream:hover{background:var(--gold);color:#000}
+.rel-body{max-width:1400px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1.5fr;gap:80px;align-items:start}
+.rel-desc{font-size:.95rem;line-height:1.9;color:rgba(245,245,240,.75)}
+.rel-platforms{display:flex;flex-direction:column;gap:10px}
+.rel-platform-link{display:flex;align-items:center;gap:14px;padding:14px 20px;border:1px solid var(--border);text-decoration:none;color:var(--white);transition:all .25s;cursor:pointer;background:none;width:100%;text-align:left}
+.rel-platform-link:hover{border-color:var(--gold);background:rgba(201,168,76,.05)}
+.rel-platform-logo{width:28px;height:28px;object-fit:contain;border-radius:4px;background:var(--gray2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px}
+.rel-platform-logo img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.rel-platform-name{font-size:.8rem;font-weight:600;letter-spacing:.05em}
+.rel-platform-sub{font-size:.65rem;color:var(--gray4);margin-left:auto;letter-spacing:.1em;text-transform:uppercase;font-family:var(--font-mono)}
+.rel-more{max-width:1400px;margin:0 auto;padding:0 40px 80px}
+.rel-more h3{font-family:var(--font-display);font-size:2rem;letter-spacing:.05em;margin-bottom:2rem;padding-top:2rem;border-top:1px solid var(--border)}
+.rel-more-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:900px){
+  .rel-hero-inner{grid-template-columns:1fr;gap:30px;padding:90px 20px 40px}
+  .rel-artwork{width:200px;height:200px}
+  .rel-meta-row{grid-template-columns:1fr 1fr;gap:1.5rem}
+  .btn-stream{grid-column:1/-1}
+  .rel-body{grid-template-columns:1fr;gap:40px;padding:40px 20px}
+  .rel-more{padding:0 20px 60px}
+  .rel-more-grid{grid-template-columns:1fr 1fr}
+}
 
-        /* DISTRIBUTION */
-        .dist-section { border-top:1px solid var(--border-dim); }
-        .dist-inner { max-width:1400px; margin:0 auto; padding:6rem 1.5rem; }
-        @media(max-width:600px){ .dist-inner{padding:4rem 1rem;} }
-        .dist-grid { display:grid; grid-template-columns:1fr 2fr; gap:4rem; margin-top:3.5rem; align-items:start; }
-        .dist-sidebar p { font-size:0.85rem; color:var(--gray-500); line-height:1.8; margin-bottom:1.5rem; }
-        .dist-plan { border:1px solid var(--border); padding:2rem; position:relative; overflow:hidden; }
-        .dist-plan::before { content:'FREE PLAN'; position:absolute; top:-1px; left:2rem; font-family:'Orbitron',sans-serif; font-size:0.55rem; letter-spacing:0.2em; background:white; color:black; padding:0.3rem 0.75rem; }
-        .plan-price { font-family:'Orbitron',sans-serif; font-size:3.5rem; font-weight:900; line-height:1; margin-bottom:0.5rem; margin-top:1rem; }
-        .plan-sub { font-size:0.7rem; color:var(--gray-500); margin-bottom:1.5rem; }
-        .plan-list { list-style:none; }
-        .plan-list li { display:flex; align-items:center; gap:1rem; font-size:0.78rem; color:var(--gray-300); padding:0.65rem 0; border-bottom:1px solid var(--border-dim); }
-        .plan-list li::before{ content:'✓'; color:white; font-size:0.7rem; }
-        .plan-list li.muted{ color:var(--gray-700); }
-        .plan-list li.muted::before{ content:'—'; color:var(--gray-700); }
-        @media(max-width:768px){ .dist-grid{grid-template-columns:1fr; gap:2.5rem;} }
+/* ════════════════════════════
+   SERVICES
+   ════════════════════════════ */
+#view-services .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:0}
+.service-block{background:var(--black);padding:3rem 2.5rem;transition:background .3s;border-bottom:1px solid var(--border)}
+.service-block:hover{background:rgba(255,255,255,.03)}
+.service-icon-wrap{width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:2rem;font-size:20px;transition:border-color .3s}
+.service-block:hover .service-icon-wrap{border-color:var(--gold)}
+.service-block-name{font-family:var(--font-display);font-size:1.2rem;letter-spacing:.06em;margin-bottom:1rem}
+.service-block-desc{font-size:.82rem;color:var(--gray4);line-height:1.8}
+@media(max-width:900px){#view-services .services-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){#view-services .services-grid{grid-template-columns:1fr}}
 
-        /* PRESS */
-        .press-section { border-top:1px solid var(--border-dim); }
-        .press-inner { max-width:1400px; margin:0 auto; padding:6rem 1.5rem; }
-        @media(max-width:600px){ .press-inner{padding:4rem 1rem;} }
-        .testimonials { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border-dim); border:1px solid var(--border-dim); margin-top:3.5rem; }
-        .testimonial { background:black; padding:2rem; }
-        .t-quote { font-size:0.9rem; color:var(--gray-300); line-height:1.8; margin-bottom:1.5rem; font-style:italic; }
-        .t-quote::before { content:'"'; font-size:2.5rem; line-height:0; vertical-align:-0.8rem; color:var(--gray-700); margin-right:0.2rem; }
-        .t-author { font-family:'Orbitron',sans-serif; font-size:0.7rem; letter-spacing:0.1em; margin-bottom:0.25rem; }
-        .t-role { font-size:0.7rem; color:var(--gray-700); }
-        .stars { display:flex; gap:3px; margin-bottom:1.25rem; }
-        .stars svg { width:12px; height:12px; fill:white; }
-        @media(max-width:900px){ .testimonials{grid-template-columns:1fr 1fr;} }
-        @media(max-width:540px){ .testimonials{grid-template-columns:1fr;} }
+/* ════════════════════════════
+   DISTRIBUTION
+   ════════════════════════════ */
+#view-distribution .dist-body{max-width:1400px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.dist-left p{font-size:.9rem;color:rgba(245,245,240,.7);line-height:1.9;margin-bottom:1.5rem}
+.plan-card{border:1px solid var(--border);padding:2.5rem;position:relative}
+.plan-card::before{content:'FREE PLAN';position:absolute;top:-1px;left:2rem;font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;background:var(--white);color:var(--black);padding:.3rem .75rem}
+.plan-price{font-family:var(--font-display);font-size:5rem;line-height:1;margin-bottom:.3rem;margin-top:.5rem}
+.plan-sub-txt{font-size:.7rem;color:var(--gray4);margin-bottom:2rem;font-family:var(--font-mono);letter-spacing:.1em}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:0}
+.plan-features li{display:flex;align-items:center;gap:12px;font-size:.8rem;color:rgba(245,245,240,.85);padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.plan-features li.muted{color:var(--gray3)}
+.plan-features li::before{content:'✓';color:var(--white);flex-shrink:0;font-size:.7rem}
+.plan-features li.muted::before{content:'—';color:var(--gray3)}
+@media(max-width:768px){#view-distribution .dist-body{grid-template-columns:1fr;gap:40px;padding:40px 20px}}
 
-        /* CTA */
-        .cta-section { border-top:1px solid var(--border-dim); padding:8rem 1.5rem; text-align:center; }
-        @media(max-width:600px){ .cta-section{padding:5rem 1rem;} }
-        .cta-title { font-family:'Orbitron',sans-serif; font-size:clamp(2.5rem,8vw,8rem); font-weight:900; line-height:0.9; letter-spacing:-0.02em; margin-bottom:2.5rem; }
-        .cta-title span{ display:block; }
-        .cta-title .outline { color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.4); }
-        .cta-sub { font-size:0.88rem; color:var(--gray-500); margin-bottom:2.5rem; }
-        .cta-buttons { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
-        @media(max-width:480px){ .cta-buttons{flex-direction:column;align-items:center;} .cta-buttons a{width:100%;max-width:280px;justify-content:center;} }
+/* ════════════════════════════
+   A&R / DEMO SUBMIT
+   ════════════════════════════ */
+#view-anr .anr-body{max-width:1400px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px}
+.anr-left p{font-size:.9rem;color:rgba(245,245,240,.7);line-height:1.9;margin-bottom:1.5rem}
+.anr-criteria{list-style:none;margin-bottom:2.5rem}
+.anr-criteria li{display:flex;align-items:flex-start;gap:12px;font-size:.82rem;color:rgba(245,245,240,.7);padding:.6rem 0;border-bottom:1px solid var(--border)}
+.anr-criteria li::before{content:'—';color:var(--gray3);flex-shrink:0}
+.step-box{padding:1.75rem;border:1px solid var(--border);margin-bottom:1rem;transition:border-color .2s}
+.step-box:hover{border-color:rgba(201,168,76,.4)}
+.step-num{font-family:var(--font-display);font-size:3rem;color:rgba(245,245,240,.07);line-height:1;margin-bottom:.3rem}
+.step-title{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;color:var(--gray4);text-transform:uppercase;margin-bottom:.5rem}
+.step-txt{font-size:.8rem;color:var(--gray4);line-height:1.7}
+@media(max-width:768px){#view-anr .anr-body{grid-template-columns:1fr;gap:40px;padding:40px 20px}}
 
-        /* FOOTER */
-        .footer-wrap { border-top:1px solid var(--border-dim); padding:4rem 1.5rem 2rem; max-width:1400px; margin:0 auto; }
-        .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
-        .footer-brand { font-family:'Orbitron',sans-serif; font-size:1.2rem; letter-spacing:0.1em; margin-bottom:0.85rem; }
-        .footer-tagline { font-size:0.78rem; color:var(--gray-700); line-height:1.6; }
-        .footer-col-title { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--gray-700); margin-bottom:1.1rem; }
-        .footer-link { display:block; font-size:0.78rem; color:var(--gray-500); text-decoration:none; margin-bottom:0.65rem; transition:color 0.3s; cursor:pointer; }
-        .footer-link:hover{ color:white; }
-        .footer-bottom { border-top:1px solid var(--border-dim); padding-top:1.75rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:0.68rem; color:var(--gray-700); letter-spacing:0.05em; }
-        @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr; gap:2rem;} }
-        @media(max-width:480px){ .footer-grid{grid-template-columns:1fr; gap:1.5rem;} }
+/* ════════════════════════════
+   REVIEWS / PRESS
+   ════════════════════════════ */
+#view-press .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);padding:0 0 80px}
+.review-tile{background:var(--black);padding:2.5rem;border-bottom:1px solid var(--border)}
+.r-stars{display:flex;gap:3px;margin-bottom:1.25rem}
+.r-star{color:var(--gold);font-size:12px}
+.r-quote{font-size:.9rem;color:rgba(245,245,240,.7);line-height:1.9;margin-bottom:1.5rem;font-style:italic}
+.r-quote::before{content:'"';font-size:2.5rem;line-height:0;vertical-align:-.8rem;color:var(--gray3);margin-right:.2rem}
+.r-author{font-family:var(--font-display);font-size:1rem;letter-spacing:.08em;margin-bottom:.2rem}
+.r-role{font-size:.7rem;color:var(--gray3);font-family:var(--font-mono)}
+@media(max-width:900px){#view-press .reviews-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){#view-press .reviews-grid{grid-template-columns:1fr}}
 
-        /* FADE UP */
-        .fade-up { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
-        .fade-up.visible { opacity:1; transform:translateY(0); }
-    </style>
+/* ════════════════════════════
+   FOOTER
+   ════════════════════════════ */
+footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand{font-family:var(--font-display);font-size:1.6rem;letter-spacing:.08em;margin-bottom:.85rem}
+.footer-tagline{font-size:.78rem;color:var(--gray4);line-height:1.7}
+.footer-col-title{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gray3);margin-bottom:1.1rem;text-transform:uppercase}
+.footer-link{display:block;font-size:.78rem;color:var(--gray4);text-decoration:none;margin-bottom:.65rem;transition:color .2s;cursor:pointer}
+.footer-link:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.68rem;color:var(--gray3);letter-spacing:.05em;font-family:var(--font-mono)}
+@media(max-width:900px){footer{padding:3rem 20px 2rem}.footer-grid{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr;gap:1.5rem}}
+
+/* ════════════════════════════
+   CTA SECTION
+   ════════════════════════════ */
+.cta-block{text-align:center;padding:8rem 40px;border-top:1px solid var(--border)}
+.cta-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,9rem);font-weight:400;line-height:.9;letter-spacing:-.01em;margin-bottom:2.5rem}
+.cta-title .outline{color:transparent;-webkit-text-stroke:1px rgba(245,245,240,.35)}
+.cta-sub{font-size:.88rem;color:var(--gray4);margin-bottom:2.5rem}
+.cta-btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+@media(max-width:480px){.cta-block{padding:5rem 20px}.cta-btns a{width:100%;justify-content:center}}
+
+/* FADE IN */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* LOADING overlay */
+.loading-overlay{position:fixed;inset:0;background:var(--black);z-index:8000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .5s}
+.loading-overlay.hidden{opacity:0;pointer-events:none}
+.loading-logo{font-family:var(--font-display);font-size:2rem;letter-spacing:.4em;color:var(--gold);animation:pulse 1.5s ease infinite}
+.loading-bar{width:120px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.loading-fill{height:100%;background:linear-gradient(90deg,transparent,var(--gold),transparent);background-size:200% 100%;animation:shimmer 1.2s ease infinite}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--gray);border:1px solid var(--border);border-radius:8px;color:var(--white);font-size:.8rem;padding:12px 18px;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;transform:translateY(8px)}
+.toast.on{opacity:1;transform:translateY(0)}
+</style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<!-- LOADING -->
+<div class="loading-overlay" id="loader">
+  <div class="loading-logo">T·I·R</div>
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+</div>
+
+<!-- CURSOR -->
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="cur-ring"></div>
 
 <!-- NAV -->
-<nav id="navbar">
-    <div class="nav-inner">
-        <a class="nav-logo" onclick="go('home')">TIR</a>
-        <ul class="nav-links">
-            <li><a onclick="go('about')">ABOUT</a></li>
-            <li><a onclick="go('roster')">ROSTER</a></li>
-            <li><a onclick="go('releases')">RELEASES</a></li>
-            <li><a onclick="go('services')">SERVICES</a></li>
-            <li><a onclick="go('distribution')">DISTRIBUTION</a></li>
-            <li><a onclick="go('press')">PRESS</a></li>
-        </ul>
-        <div class="nav-right">
-            <a href="https://tir-artist-portal.vercel.app/" target="_blank" class="nav-artist-login">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span class="nav-login-txt">ARTIST LOGIN</span>
-            </a>
-            <a id="nav-demo-link" href="https://tir-demo-portal.vercel.app/" target="_blank" class="nav-cta">SUBMIT DEMO</a>
-            <button class="hamburger" id="hamburger" onclick="toggleMobile()">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </div>
+<nav id="nav">
+  <a class="nav-logo" onclick="showView('home')">T·I·R</a>
+  <ul class="nav-links">
+    <li><a onclick="showView('about')" data-view="about">ABOUT</a></li>
+    <li><a onclick="showView('roster')" data-view="roster">ROSTER</a></li>
+    <li><a onclick="showView('catalogue')" data-view="catalogue">CATALOGUE</a></li>
+    <li><a onclick="showView('services')" data-view="services">SERVICES</a></li>
+    <li><a onclick="showView('distribution')" data-view="distribution">DISTRIBUTION</a></li>
+    <li><a onclick="showView('press')" data-view="press">PRESS</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://tir-artist-portal.vercel.app/" target="_blank" class="nav-btn">ARTIST LOGIN</a>
+    <a id="nav-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="nav-btn gold">SUBMIT DEMO</a>
+    <button class="ham" id="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
+  </div>
 </nav>
 
 <!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-    <a onclick="closeMobile();go('about')" style="animation-delay:.1s">ABOUT</a>
-    <a onclick="closeMobile();go('roster')" style="animation-delay:.17s">ROSTER</a>
-    <a onclick="closeMobile();go('releases')" style="animation-delay:.24s">RELEASES</a>
-    <a onclick="closeMobile();go('services')" style="animation-delay:.31s">SERVICES</a>
-    <a onclick="closeMobile();go('distribution')" style="animation-delay:.38s">DISTRIBUTION</a>
-    <a onclick="closeMobile();go('press')" style="animation-delay:.45s">PRESS</a>
-    <a href="https://tir-artist-portal.vercel.app/" target="_blank" onclick="closeMobile()" class="mob-login-btn" style="animation-delay:.52s">ARTIST LOGIN</a>
-    <a href="https://tir-demo-portal.vercel.app/" target="_blank" onclick="closeMobile()" class="mob-demo-btn" style="animation-delay:.59s">SUBMIT DEMO</a>
+<div class="mob-menu" id="mob-menu">
+  <a onclick="closeMob();showView('about')">ABOUT</a>
+  <a onclick="closeMob();showView('roster')">ROSTER</a>
+  <a onclick="closeMob();showView('catalogue')">CATALOGUE</a>
+  <a onclick="closeMob();showView('services')">SERVICES</a>
+  <a onclick="closeMob();showView('distribution')">DISTRIBUTION</a>
+  <a onclick="closeMob();showView('press')">PRESS</a>
+  <a href="https://tir-artist-portal.vercel.app/" target="_blank">ARTIST LOGIN</a>
+  <a id="mob-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" style="color:var(--gold)">SUBMIT DEMO</a>
 </div>
 
-<!-- HERO -->
-<section id="home" class="hero">
+<!-- ARTIST PANEL -->
+<div class="artist-panel" id="artist-panel">
+  <div class="artist-panel-bg" onclick="closeArtistPanel()"></div>
+  <div class="artist-panel-box" id="ap-box">
+    <button class="ap-close" onclick="closeArtistPanel()">✕</button>
+    <div id="ap-content"></div>
+  </div>
+</div>
+
+<!-- ═══════ VIEW: HOME ═══════ -->
+<div class="view active" id="view-home">
+  <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
-    <div style="position:relative;z-index:1;">
-        <p class="hero-year" id="tir-eyebrow">EST. 2026 — KASHMIR, INDIA</p>
-        <h1 class="hero-title">
-            THE<span class="line2">IMAGINARY</span><span class="line3">RECORDS</span>
-        </h1>
-        <div class="hero-bottom">
-            <div class="hero-tagline">
-                <strong>AN INDEPENDENT RECORD LABEL</strong>
-                Signing, developing and distributing artists who redefine the boundaries of sound. Global reach. Artist first.
-            </div>
-            <div class="hero-cta-group">
-                <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">
-                    SUBMIT DEMO
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
-                <a class="btn-ghost" onclick="go('roster')">OUR ROSTER</a>
-            </div>
-            <div class="hero-scroll">
-                <div class="scroll-track"></div>
-                <span>SCROLL</span>
-            </div>
+    <div style="position:relative;z-index:1">
+      <p class="hero-year" id="hero-eyebrow">EST. 2026 — KASHMIR, INDIA</p>
+      <h1 class="hero-title">THE<span class="line2">IMAGINARY</span><span class="line3">RECORDS</span></h1>
+      <div class="hero-bottom">
+        <div class="hero-tag">
+          <strong id="hero-subtitle">AN INDEPENDENT RECORD LABEL</strong>
+          <span id="hero-body">Signing, developing and distributing artists who redefine the boundaries of sound. Global reach. Artist first.</span>
         </div>
+        <div class="hero-ctas">
+          <a id="hero-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT DEMO <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          <button class="btn-outline" onclick="showView('roster')">OUR ROSTER</button>
+        </div>
+        <div class="scroll-hint"><div class="scroll-line"></div><span>SCROLL</span></div>
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- TICKER -->
-<div class="ticker">
+  <div class="ticker">
     <div class="ticker-track">
-        <span class="ticker-item"><span class="dot">◆</span>THE IMAGINARY RECORDS</span>
-        <span class="ticker-item"><span class="dot">◆</span>INDEPENDENT LABEL</span>
-        <span class="ticker-item"><span class="dot">◆</span>160+ RELEASES</span>
-        <span class="ticker-item"><span class="dot">◆</span>200+ PLATFORMS</span>
-        <span class="ticker-item"><span class="dot">◆</span>GLOBAL DISTRIBUTION</span>
-        <span class="ticker-item"><span class="dot">◆</span>ARTIST OWNED</span>
-        <span class="ticker-item"><span class="dot">◆</span>HIP HOP · TRAP · LO-FI · UK DRILL</span>
-        <span class="ticker-item"><span class="dot">◆</span>EST. 2026 — KASHMIR</span>
-        <span class="ticker-item"><span class="dot">◆</span>THE IMAGINARY RECORDS</span>
-        <span class="ticker-item"><span class="dot">◆</span>INDEPENDENT LABEL</span>
-        <span class="ticker-item"><span class="dot">◆</span>160+ RELEASES</span>
-        <span class="ticker-item"><span class="dot">◆</span>200+ PLATFORMS</span>
-        <span class="ticker-item"><span class="dot">◆</span>GLOBAL DISTRIBUTION</span>
-        <span class="ticker-item"><span class="dot">◆</span>ARTIST OWNED</span>
-        <span class="ticker-item"><span class="dot">◆</span>HIP HOP · TRAP · LO-FI · UK DRILL</span>
-        <span class="ticker-item"><span class="dot">◆</span>EST. 2026 — KASHMIR</span>
+      <span class="ticker-item"><span class="dot">◆</span>THE IMAGINARY RECORDS</span>
+      <span class="ticker-item"><span class="dot">◆</span>INDEPENDENT LABEL</span>
+      <span class="ticker-item"><span class="dot">◆</span>160+ RELEASES</span>
+      <span class="ticker-item"><span class="dot">◆</span>200+ PLATFORMS</span>
+      <span class="ticker-item"><span class="dot">◆</span>GLOBAL DISTRIBUTION</span>
+      <span class="ticker-item"><span class="dot">◆</span>ARTIST OWNED</span>
+      <span class="ticker-item"><span class="dot">◆</span>HIP HOP · TRAP · LO-FI · UK DRILL</span>
+      <span class="ticker-item"><span class="dot">◆</span>EST. 2026 — KASHMIR</span>
+      <span class="ticker-item"><span class="dot">◆</span>THE IMAGINARY RECORDS</span>
+      <span class="ticker-item"><span class="dot">◆</span>INDEPENDENT LABEL</span>
+      <span class="ticker-item"><span class="dot">◆</span>160+ RELEASES</span>
+      <span class="ticker-item"><span class="dot">◆</span>200+ PLATFORMS</span>
+      <span class="ticker-item"><span class="dot">◆</span>GLOBAL DISTRIBUTION</span>
+      <span class="ticker-item"><span class="dot">◆</span>ARTIST OWNED</span>
+      <span class="ticker-item"><span class="dot">◆</span>HIP HOP · TRAP · LO-FI · UK DRILL</span>
+      <span class="ticker-item"><span class="dot">◆</span>EST. 2026 — KASHMIR</span>
     </div>
-</div>
+  </div>
 
-<!-- ABOUT -->
-<div id="about">
-    <div class="section fade-up">
-        <div class="label">ABOUT THE LABEL</div>
-        <div class="about-grid">
-            <div class="about-text">
-                <p id="about-p1">The Imaginary Records is an independent record label born from the mountains of Kashmir — built by artists, for artists.</p>
-                <p id="about-p2">We sign, develop, and distribute artists globally across hip hop, dark trap, lo-fi, UK drill, and beyond. Our model puts creative control in the hands of the artist, not the label.</p>
-                <p id="about-p3">Whether you are a solo producer dropping instrumentals or a vocalist building your catalog, TIR provides the infrastructure, distribution, and industry network to take your music worldwide.</p>
-                <div class="platforms">
-                    <span class="platform-name">SPOTIFY</span>
-                    <span class="platform-name">APPLE MUSIC</span>
-                    <span class="platform-name">AMAZON</span>
-                    <span class="platform-name">YOUTUBE</span>
-                    <span class="platform-name">TIDAL</span>
-                    <span class="platform-name">DEEZER</span>
-                    <span class="platform-name">+194 MORE</span>
-                </div>
-            </div>
-            <div class="about-stats">
-                <div class="stat"><div class="stat-num" id="stat-1n">160+</div><div class="stat-label" id="stat-1l">TRACKS RELEASED</div></div>
-                <div class="stat"><div class="stat-num" id="stat-2n">200+</div><div class="stat-label" id="stat-2l">STORE PARTNERS</div></div>
-                <div class="stat"><div class="stat-num" id="stat-3n">85%</div><div class="stat-label" id="stat-3l">ARTIST ROYALTIES</div></div>
-                <div class="stat"><div class="stat-num" id="stat-4n">48H</div><div class="stat-label" id="stat-4l">DELIVERY TIME</div></div>
-            </div>
-        </div>
+  <!-- Home preview sections -->
+  <div style="max-width:1400px;margin:0 auto;padding:80px 40px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
+    <div style="background:var(--black);padding:3rem;cursor:pointer;transition:background .3s" onclick="showView('roster')" onmouseenter="this.style.background='rgba(255,255,255,.03)'" onmouseleave="this.style.background='var(--black)'">
+      <div style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gray3);margin-bottom:1rem;text-transform:uppercase">Our Artists</div>
+      <div style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);margin-bottom:1rem">ROSTER</div>
+      <div style="font-size:.8rem;color:var(--gray4);line-height:1.7">Meet the artists of The Imaginary Records. Signed, distributed and developed under the TIR umbrella.</div>
+      <div style="margin-top:1.5rem;font-size:.65rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;font-family:var(--font-mono)">VIEW ROSTER →</div>
     </div>
-</div>
-
-<!-- ROSTER -->
-<div class="roster-section" id="roster">
-    <div class="roster-inner fade-up">
-        <div class="label">OUR ARTISTS</div>
-        <h2 class="section-heading">ROSTER</h2>
-        <div class="roster-grid" id="tir-roster-grid"><div style="grid-column:1/-1;text-align:center;padding:3rem;color:#4b5563;font-family:Orbitron,sans-serif;font-size:0.7rem;letter-spacing:0.2em">LOADING ARTISTS...</div></div>
+    <div style="background:var(--black);padding:3rem;cursor:pointer;transition:background .3s" onclick="showView('catalogue')" onmouseenter="this.style.background='rgba(255,255,255,.03)'" onmouseleave="this.style.background='var(--black)'">
+      <div style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gray3);margin-bottom:1rem;text-transform:uppercase">Latest Music</div>
+      <div style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);margin-bottom:1rem">CATALOGUE</div>
+      <div style="font-size:.8rem;color:var(--gray4);line-height:1.7">Browse our full catalog of releases — singles, EPs and albums available on all major streaming platforms worldwide.</div>
+      <div style="margin-top:1.5rem;font-size:.65rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;font-family:var(--font-mono)">VIEW CATALOGUE →</div>
     </div>
-</div>
+  </div>
 
-<!-- RELEASES -->
-<div id="releases">
-    <div class="section fade-up">
-        <div class="releases-header">
-            <div>
-                <div class="label">CATALOG</div>
-                <h2 class="section-heading">LATEST RELEASES</h2>
-            </div>
-            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" class="btn-ghost">FULL CATALOG <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-        </div>
-        <div class="releases-grid" id="tir-releases-grid"><div style="grid-column:1/-1;text-align:center;padding:3rem;color:#4b5563;font-family:Orbitron,sans-serif;font-size:0.7rem;letter-spacing:0.2em">LOADING RELEASES...</div></div>
-    </div>
-</div>
-
-<!-- SERVICES -->
-<div id="services">
-    <div class="section fade-up">
-        <div class="label">WHAT WE DO</div>
-        <h2 class="section-heading">LABEL SERVICES</h2>
-        <div class="services-grid" id="tir-services-grid"><div style="grid-column:1/-1;text-align:center;padding:3rem;color:#4b5563;font-family:Orbitron,sans-serif;font-size:0.7rem;letter-spacing:0.2em">LOADING SERVICES...</div></div>
-    </div>
-</div>
-
-<!-- A&R -->
-<div class="anr-section" id="anr">
-    <div class="anr-inner fade-up">
-        <div>
-            <div class="anr-label">A&R · SUBMISSIONS</div>
-            <h2 class="anr-heading">WE'RE LISTENING.<br>SEND US<br>YOUR DEMO.</h2>
-            <p class="anr-body">The Imaginary Records is actively seeking new artists to sign and develop. We accept submissions across all genres — hip hop, trap, lo-fi, R&B, electronic, and experimental.</p>
-            <ul class="anr-criteria">
-                <li>Original, unreleased music only</li>
-                <li>High quality audio (WAV or MP3 320kbps+)</li>
-                <li>Any genre — we value authenticity over trend-chasing</li>
-                <li>Include artist name, genre, and a brief bio</li>
-                <li>Response within 24–48 hours</li>
-            </ul>
-            <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-dark">
-                SUBMIT YOUR DEMO
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
-        </div>
-        <div>
-            <div class="anr-box"><div class="anr-box-number">01</div><div class="anr-box-title">SUBMIT</div><div class="anr-box-text">Fill out our demo submission form with your music and a brief intro about yourself and your artistic vision.</div></div>
-            <div class="anr-box"><div class="anr-box-number">02</div><div class="anr-box-title">REVIEW</div><div class="anr-box-text">Our A&R team listens to every submission. We evaluate sound, artistry, and commercial potential.</div></div>
-            <div class="anr-box"><div class="anr-box-number">03</div><div class="anr-box-title">SIGN & RELEASE</div><div class="anr-box-text">Selected artists receive a label offer. Once signed, we handle everything from mastering to worldwide distribution.</div></div>
-        </div>
-    </div>
-</div>
-
-<!-- DISTRIBUTION -->
-<div class="dist-section" id="distribution">
-    <div class="dist-inner fade-up">
-        <div class="label">FOR INDEPENDENT ARTISTS</div>
-        <h2 class="section-heading">DISTRIBUTION</h2>
-        <div class="dist-grid">
-            <div class="dist-sidebar">
-                <p>Not ready to sign? No problem. TIR also offers free distribution to independent artists who want global reach without a full signing deal.</p>
-                <p>No upfront fees. Release unlimited music. Keep your rights. We take 15% — that's it.</p>
-                <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary" style="margin-top:1rem">
-                    JOIN FOR FREE
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
-            </div>
-            <div>
-                <div class="dist-plan">
-                    <div class="plan-price">$0</div>
-                    <div class="plan-sub">NO JOINING FEE · NO HIDDEN CHARGES</div>
-                    <ul class="plan-list">
-                        <li>Unlimited releases</li>
-                        <li>200+ streaming platforms</li>
-                        <li>48-hour delivery</li>
-                        <li>Keep 85% of royalties</li>
-                        <li>100% rights ownership</li>
-                        <li>Global Content ID protection</li>
-                        <li>Artist profile verification</li>
-                        <li>First VEVO distribution free</li>
-                        <li>Pre-save & smartlink campaigns</li>
-                        <li>Monthly analytics via email</li>
-                        <li>Cover art generator access</li>
-                        <li class="muted">Dedicated A&R (signed artists only)</li>
-                        <li class="muted">Label dashboard (coming soon)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- PRESS -->
-<div class="press-section" id="press">
-    <div class="press-inner fade-up">
-        <div class="label">TESTIMONIALS</div>
-        <h2 class="section-heading">WHAT ARTISTS SAY</h2>
-        <div class="testimonials" id="tir-reviews-grid"><div style="grid-column:1/-1;text-align:center;padding:3rem;color:#4b5563;font-family:Orbitron,sans-serif;font-size:0.7rem;letter-spacing:0.2em">LOADING REVIEWS...</div></div>
-    </div>
-</div>
-
-<!-- CTA -->
-<div class="cta-section fade-up">
-    <h2 class="cta-title"><span>READY TO</span><span class="outline">MAKE YOUR</span><span>MARK?</span></h2>
+  <!-- CTA -->
+  <div class="cta-block">
+    <h2 class="cta-title"><span>READY TO</span><span class="outline" style="display:block">MAKE YOUR</span><span>MARK?</span></h2>
     <p class="cta-sub">Sign with us or start distributing today — no fees, no catch.</p>
-    <div class="cta-buttons">
-        <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-        <a href="/cdn-cgi/l/email-protection#5a2e323f33373b3d33343b2823283f3935283e291a3d373b333674393537" class="btn-ghost">EMAIL THE LABEL</a>
+    <div class="cta-btns">
+      <a id="cta-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a id="cta-email-btn" href="mailto:theimaginaryrecords@gmail.com" class="btn-outline">EMAIL THE LABEL</a>
     </div>
-</div>
+  </div>
 
-<!-- FOOTER -->
-<div class="footer-wrap">
+  <footer>
     <div class="footer-grid">
-        <div>
-            <div class="footer-brand">THE IMAGINARY RECORDS</div>
-            <div class="footer-tagline" id="footer-tagline">An independent record label from Kashmir, India.<br>Signing artists. Releasing music. Building legacies.</div>
-        </div>
-        <div>
-            <div class="footer-col-title">LABEL</div>
-            <a class="footer-link" onclick="go('about')">About</a>
-            <a class="footer-link" onclick="go('roster')">Roster</a>
-            <a class="footer-link" onclick="go('releases')">Releases</a>
-            <a class="footer-link" onclick="go('services')">Services</a>
-        </div>
-        <div>
-            <div class="footer-col-title">ARTISTS</div>
-            <a class="footer-link" onclick="go('distribution')">Distribution</a>
-            <a class="footer-link" href="https://tir-demo-portal.vercel.app/" target="_blank">Submit Demo</a>
-            <a class="footer-link" onclick="go('press')">Press</a>
-            <a class="footer-link" href="https://tir-artist-portal.vercel.app/" target="_blank">Artist Login</a>
-        </div>
-        <div>
-            <div class="footer-col-title">CONTACT</div>
-            <a href="/cdn-cgi/l/email-protection#0b7f636e62666a6c62656a7972796e6864796f784b6c666a626725686466" class="footer-link"><span class="__cf_email__" data-cfemail="7c08141915111d1b15121d0e050e191f130e180f3c1b111d1510521f1311">[email&#160;protected]</span></a>
-            <a id="footer-instagram" href="https://www.instagram.com/theimaginaryrecords/" target="_blank" class="footer-link">@theimaginaryrecords</a>
-        </div>
+      <div>
+        <div class="footer-brand">THE IMAGINARY RECORDS</div>
+        <div class="footer-tagline" id="footer-tagline">An independent record label from Kashmir, India.<br>Signing artists. Releasing music. Building legacies.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">LABEL</div>
+        <a class="footer-link" onclick="showView('about')">About</a>
+        <a class="footer-link" onclick="showView('roster')">Roster</a>
+        <a class="footer-link" onclick="showView('catalogue')">Catalogue</a>
+        <a class="footer-link" onclick="showView('services')">Services</a>
+      </div>
+      <div>
+        <div class="footer-col-title">ARTISTS</div>
+        <a class="footer-link" onclick="showView('distribution')">Distribution</a>
+        <a class="footer-link" id="footer-demo-link" href="https://tir-demo-portal.vercel.app/" target="_blank">Submit Demo</a>
+        <a class="footer-link" onclick="showView('press')">Press</a>
+        <a class="footer-link" href="https://tir-artist-portal.vercel.app/" target="_blank">Artist Login</a>
+      </div>
+      <div>
+        <div class="footer-col-title">CONTACT</div>
+        <a id="footer-email" href="mailto:theimaginaryrecords@gmail.com" class="footer-link">theimaginaryrecords@gmail.com</a>
+        <a id="footer-instagram" href="https://www.instagram.com/theimaginaryrecords/" target="_blank" class="footer-link">@theimaginaryrecords</a>
+      </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 THE IMAGINARY RECORDS. ALL RIGHTS RESERVED.</span>
-        <span>KASHMIR, INDIA</span>
+      <span>© 2026 THE IMAGINARY RECORDS. ALL RIGHTS RESERVED.</span>
+      <span>KASHMIR, INDIA</span>
     </div>
+  </footer>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    const cursor=document.getElementById('cursor');
-    const ring=document.getElementById('cursorRing');
-    let mx=0,my=0,rx=0,ry=0;
-    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
-    (function anim(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
-    document.querySelectorAll('a,button').forEach(el=>{
-        el.addEventListener('mouseenter',()=>{ring.style.width='48px';ring.style.height='48px';});
-        el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';});
-    });
-    window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);});
-    function go(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});}
-    function toggleMobile(){
-        const m=document.getElementById('mobileMenu');
-        const open=m.classList.toggle('open');
-        const sp=document.querySelectorAll('.hamburger span');
-        if(open){sp[0].style.transform='translateY(6px) rotate(45deg)';sp[1].style.opacity='0';sp[2].style.transform='translateY(-6px) rotate(-45deg)';}
-        else{sp.forEach(s=>{s.style.transform='';s.style.opacity='';});}
-    }
-    function closeMobile(){
-        document.getElementById('mobileMenu').classList.remove('open');
-        document.querySelectorAll('.hamburger span').forEach(s=>{s.style.transform='';s.style.opacity='';});
-    }
-    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
-    document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
-</script>
+<!-- ═══════ VIEW: ABOUT ═══════ -->
+<div class="view" id="view-about">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">ABOUT</div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">THE IMAGINARY RECORDS</div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p id="about-p1">The Imaginary Records is an independent record label born from the mountains of Kashmir — built by artists, for artists.</p>
+      <p id="about-p2">We sign, develop, and distribute artists globally across hip hop, dark trap, lo-fi, UK drill, and beyond. Our model puts creative control in the hands of the artist, not the label.</p>
+      <p id="about-p3">Whether you are a solo producer dropping instrumentals or a vocalist building your catalog, TIR provides the infrastructure, distribution, and industry network to take your music worldwide.</p>
+      <div class="platforms-row">
+        <span class="plat-name">SPOTIFY</span>
+        <span class="plat-name">APPLE MUSIC</span>
+        <span class="plat-name">AMAZON</span>
+        <span class="plat-name">YOUTUBE</span>
+        <span class="plat-name">TIDAL</span>
+        <span class="plat-name">DEEZER</span>
+        <span class="plat-name">+194 MORE</span>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box"><div class="stat-n" id="stat-1n">160+</div><div class="stat-l" id="stat-1l">TRACKS RELEASED</div></div>
+      <div class="stat-box"><div class="stat-n" id="stat-2n">200+</div><div class="stat-l" id="stat-2l">STORE PARTNERS</div></div>
+      <div class="stat-box"><div class="stat-n" id="stat-3n">85%</div><div class="stat-l" id="stat-3l">ARTIST ROYALTIES</div></div>
+      <div class="stat-box"><div class="stat-n" id="stat-4n">48H</div><div class="stat-l" id="stat-4l">DELIVERY TIME</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ VIEW: ROSTER ═══════ -->
+<div class="view" id="view-roster">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">ROSTER</div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">OUR ARTISTS</div>
+  </div>
+  <div class="roster-grid" id="tir-roster-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
+  </div>
+</div>
+
+<!-- ═══════ VIEW: CATALOGUE ═══════ -->
+<div class="view" id="view-catalogue">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">CATALOGUE</div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">LATEST RELEASES</div>
+  </div>
+  <div class="cat-filters" id="cat-filters">
+    <button class="cat-filter-btn active" onclick="filterCat('all',this)">ALL</button>
+    <div class="cat-filter-wrap">
+      <select class="cat-filter-select" onchange="filterCatType(this.value)">
+        <option value="all">ALL TYPES</option>
+        <option value="SINGLE">SINGLE</option>
+        <option value="EP">EP</option>
+        <option value="ALBUM">ALBUM</option>
+        <option value="MIXTAPE">MIXTAPE</option>
+      </select>
+    </div>
+    <div class="cat-filter-wrap">
+      <select class="cat-filter-select" id="cat-artist-filter" onchange="filterCatArtist(this.value)">
+        <option value="all">ALL ARTISTS</option>
+      </select>
+    </div>
+  </div>
+  <div class="cat-grid" id="tir-releases-grid">
+    <div class="cat-empty">LOADING...</div>
+  </div>
+</div>
+
+<!-- ═══════ VIEW: RELEASE DETAIL ═══════ -->
+<div class="view" id="view-release">
+  <div id="release-detail-content"></div>
+</div>
+
+<!-- ═══════ VIEW: SERVICES ═══════ -->
+<div class="view" id="view-services">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">SERVICES</div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">WHAT WE OFFER</div>
+  </div>
+  <div class="services-grid" id="tir-services-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
+  </div>
+</div>
+
+<!-- ═══════ VIEW: DISTRIBUTION ═══════ -->
+<div class="view" id="view-distribution">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">DISTRIBUTION</div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">FOR INDEPENDENT ARTISTS</div>
+  </div>
+  <div class="dist-body">
+    <div class="dist-left">
+      <p>Not ready to sign? No problem. TIR also offers free distribution to independent artists who want global reach without a full signing deal.</p>
+      <p>No upfront fees. Release unlimited music. Keep your rights. We take 15% — that's it.</p>
+      <a id="dist-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary" style="margin-top:1rem">JOIN FOR FREE <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+    <div>
+      <div class="plan-card">
+        <div class="plan-price" id="plan-price">$0</div>
+        <div class="plan-sub-txt" id="plan-sub">NO JOINING FEE · NO HIDDEN CHARGES</div>
+        <ul class="plan-features" id="plan-features">
+          <li>Unlimited releases</li>
+          <li>200+ streaming platforms</li>
+          <li>48-hour delivery</li>
+          <li>Keep 85% of royalties</li>
+          <li>100% rights ownership</li>
+          <li class="muted">Dedicated A&R (signed artists only)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ VIEW: A&R ═══════ -->
+<div class="view" id="view-anr">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">SUBMIT DEMO</div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">A&R SUBMISSIONS</div>
+  </div>
+  <div class="anr-body">
+    <div class="anr-left">
+      <p>The Imaginary Records is actively seeking new artists to sign and develop. We accept submissions across all genres.</p>
+      <ul class="anr-criteria">
+        <li>Original, unreleased music only</li>
+        <li>High quality audio (WAV or MP3 320kbps+)</li>
+        <li>Any genre — we value authenticity</li>
+        <li>Include artist name, genre, and a brief bio</li>
+        <li id="anr-response">Response within 24–48 hours</li>
+      </ul>
+      <a id="anr-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+    <div>
+      <div class="step-box"><div class="step-num">01</div><div class="step-title">SUBMIT</div><div class="step-txt">Fill out our demo submission form with your music and a brief intro about yourself and your artistic vision.</div></div>
+      <div class="step-box"><div class="step-num">02</div><div class="step-title">REVIEW</div><div class="step-txt">Our A&R team listens to every submission. We evaluate sound, artistry, and commercial potential.</div></div>
+      <div class="step-box"><div class="step-num">03</div><div class="step-title">SIGN & RELEASE</div><div class="step-txt">Selected artists receive a label offer. Once signed, we handle everything from mastering to worldwide distribution.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ VIEW: PRESS ═══════ -->
+<div class="view" id="view-press">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">TESTIMONIALS</div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">WHAT ARTISTS SAY</div>
+  </div>
+  <div class="reviews-grid" id="tir-reviews-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════
-// TIR DYNAMIC CONTENT LOADER
-// Loads Artists, Releases, Services, Reviews,
-// and Site Settings from Firestore in real-time
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// SITE DATA STORE
+// ═══════════════════════════════════════════
+let siteArtists=[], siteReleases=[], siteServices=[], siteReviews=[], siteSettings={};
+let catFilter={type:'all',artist:'all'};
 
-// ── FALLBACK DATA (shown if Firestore is empty) ──
-const FALLBACK_ARTISTS = [
+// PLATFORM DEFAULT LOGOS (used if admin hasn't set custom ones)
+const DEFAULT_LOGOS = {
+  spotify: 'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Green.png',
+  apple: 'https://music.apple.com/assets/product/MusicNote_9th_gen_iPad.png',
+  jiosaavn: 'https://upload.wikimedia.org/wikipedia/commons/4/44/JioSaavn_Logo.png',
+  youtube: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg',
+  amazon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Amazon_Music_logo.svg/200px-Amazon_Music_logo.svg.png',
+  tidal: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Tidal_%28service%29_logo.svg/200px-Tidal_%28service%29_logo.svg.png'
+};
+
+// FALLBACK DATA
+const FB_ARTISTS=[
   {name:'AABYD KHAN',genre:'HIP HOP · DARK TRAP · LO-FI · UK DRILL',status:'signed',tags:['SIGNED','FOUNDER','KASHMIR'],spotifyEmbedUrl:'https://open.spotify.com/embed/artist/38T4P8hX75BCHncTf8TLKm?utm_source=generator',spotifyUrl:'https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm'},
   {name:'THE IMAGINARY BIRD',genre:'AMBIENT · INSTRUMENTAL · CINEMATIC',status:'signed',tags:['SIGNED','TIR ORIGINAL'],spotifyEmbedUrl:'https://open.spotify.com/embed/artist/6RrE0UvJNBRf3eRH4gyFmG?utm_source=generator',spotifyUrl:'https://open.spotify.com/artist/6RrE0UvJNBRf3eRH4gyFmG'},
   {name:'THE IMAGINARY POET',genre:'SPOKEN WORD · SPIRITUAL · AMBIENT',status:'signed',tags:['SIGNED','TIR ORIGINAL'],spotifyEmbedUrl:'https://open.spotify.com/embed/artist/39GevCS8IvbhgaaCRfHbnF?utm_source=generator',spotifyUrl:'https://open.spotify.com/artist/39GevCS8IvbhgaaCRfHbnF'}
 ];
-const FALLBACK_RELEASES = [
+const FB_RELEASES=[
   {title:'GHAZI TAPES',artist:'Aabyd Khan',type:'EP',year:'2026',appleMusicUrl:'https://music.apple.com/us/album/ghazi-tapes-ep/1883743287'},
   {title:'ALIVE',artist:'Aabyd Khan',type:'SINGLE',year:'2026',appleMusicUrl:'https://music.apple.com/us/album/alive-single/1877977840'},
   {title:'DREAM',artist:'Aabyd Khan',type:'SINGLE',year:'2026',appleMusicUrl:'https://music.apple.com/us/album/dream-single/1873184408'},
@@ -568,18 +654,18 @@ const FALLBACK_RELEASES = [
   {title:"THEY CALL HIM OG",artist:'Aabyd Khan',type:'SINGLE',year:'2025',spotifyUrl:'https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm'},
   {title:"LET'S DANCE",artist:'Aabyd Khan',type:'SINGLE',year:'2025',spotifyUrl:'https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm'}
 ];
-const FALLBACK_SERVICES = [
+const FB_SERVICES=[
   {icon:'🎵',name:'A&R DEVELOPMENT',description:'Artist discovery, signing, and creative development. We find raw talent and shape it into something undeniable.'},
   {icon:'🌍',name:'GLOBAL DISTRIBUTION',description:'Your music on 200+ platforms worldwide including Spotify, Apple Music, Amazon, Tidal, and regional stores.'},
   {icon:'🛡️',name:'RIGHTS MANAGEMENT',description:'Full content ID, global copyright protection, and YouTube monetisation. Your work, protected everywhere.'},
   {icon:'🎬',name:'VEVO & VIDEO',description:'Official VEVO artist channel setup, music video distribution, and YouTube channel management.'},
-  {icon:'⭐',name:'ARTIST VERIFICATION',description:'Verified artist profiles across Spotify, Apple Music, and YouTube Music. Establish your official presence.'},
-  {icon:'🎧',name:'AUDIO MASTERING',description:'Professional mastering services that prep your tracks for radio, streaming, and live performance standards.'},
+  {icon:'⭐',name:'ARTIST VERIFICATION',description:'Verified artist profiles across Spotify, Apple Music, and YouTube Music.'},
+  {icon:'🎧',name:'AUDIO MASTERING',description:'Professional mastering services that prep your tracks for radio and streaming standards.'},
   {icon:'🎨',name:'COVER ART & BRANDING',description:'Visual identity for your releases. Cover art generation, artist branding, and promotional assets.'},
-  {icon:'⚡',name:'PRE-SAVE CAMPAIGNS',description:'Build anticipation with pre-save smartlinks before every release. Maximise day-one streams and playlist adds.'},
-  {icon:'📊',name:'ROYALTY ANALYTICS',description:'Monthly detailed reports on streams, revenue, and platform performance. Transparent data, every month.'}
+  {icon:'⚡',name:'PRE-SAVE CAMPAIGNS',description:'Build anticipation with pre-save smartlinks. Maximise day-one streams and playlist adds.'},
+  {icon:'📊',name:'ROYALTY ANALYTICS',description:'Monthly detailed reports on streams, revenue, and platform performance. Transparent data.'}
 ];
-const FALLBACK_REVIEWS = [
+const FB_REVIEWS=[
   {text:'Best distributor I have ever used. Fast delivery and the team actually cares about your music.',author:'ALEX M.',role:'Independent Artist',stars:5},
   {text:'The VEVO distribution changed everything for me. Getting my official channel was a dream come true.',author:'SARAH K.',role:'Music Producer',stars:5},
   {text:'My music was live on all platforms within 48 hours. The mastering service made it sound incredible.',author:'CHRIS P.',role:'Indie Rock Artist',stars:5},
@@ -588,146 +674,359 @@ const FALLBACK_REVIEWS = [
   {text:'Submitted my demo on a Sunday, got a reply by Tuesday. From signing to release, the process was seamless.',author:'DJ RAVE',role:'Electronic Artist',stars:5}
 ];
 
-// ── RENDER ARTISTS ──
-function renderArtists(data){
-  const grid = document.getElementById('tir-roster-grid');
-  if(!grid) return;
-  const list = data && data.length ? data : FALLBACK_ARTISTS;
-  const total = list.length;
-  grid.innerHTML = list.map((a, i) => {
-    const num = String(i+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
-    const tags = (a.tags||[]).map(t=>`<span class="artist-tag">${t.toUpperCase()}</span>`).join('');
-    const embed = a.spotifyEmbedUrl ? `<div class="spotify-embed"><iframe src="${a.spotifyEmbedUrl}" width="100%" height="280" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>` : (a.imageUrl ? `<div class="spotify-embed" style="height:200px;overflow:hidden;border-radius:8px;margin-bottom:1.25rem;"><img src="${a.imageUrl}" style="width:100%;height:100%;object-fit:cover" /></div>` : '');
-    const mainLink = a.spotifyUrl || a.appleMusicUrl || a.jioSaavnUrl || a.youtubeUrl || '#';
-    const platformLinks = [
-      a.spotifyUrl && `<a href="${a.spotifyUrl}" target="_blank" class="artist-spotify-link" style="margin-right:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Spotify</a>`,
-      a.appleMusicUrl && `<a href="${a.appleMusicUrl}" target="_blank" class="artist-spotify-link" style="margin-right:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Apple</a>`,
-      a.jioSaavnUrl && `<a href="${a.jioSaavnUrl}" target="_blank" class="artist-spotify-link" style="margin-right:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> JioSaavn</a>`,
-      a.youtubeUrl && `<a href="${a.youtubeUrl}" target="_blank" class="artist-spotify-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> YouTube</a>`
-    ].filter(Boolean).join('');
-    const borderStyle = i === list.length-1 ? 'style="border-right:none;"' : '';
-    return `<div class="artist-card" ${borderStyle}>
-      <div class="artist-number">${num}</div>
-      <div class="artist-name">${a.name||'—'}</div>
-      <div class="artist-genre">${a.genre||'—'}</div>
-      ${embed}
-      <div class="artist-meta">${tags}</div>
-      <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:4px">${platformLinks}</div>
-    </div>`;
-  }).join('');
-}
-
-// ── RENDER RELEASES ──
-function renderReleases(data){
-  const grid = document.getElementById('tir-releases-grid');
-  if(!grid) return;
-  const list = data && data.length ? data : FALLBACK_RELEASES;
-  const svgArrow = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
-  grid.innerHTML = list.map(r => {
-    const link = r.spotifyUrl || r.appleMusicUrl || r.jioSaavnUrl || r.youtubeUrl || '#';
-    const cover = r.artworkUrl
-      ? `<img src="${r.artworkUrl}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.parentElement.querySelector('.release-cover-inner').style.display='flex'" /><div class="release-cover-inner" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center">${r.artist||'TIR'}</div>`
-      : `<div class="release-cover-inner">${r.artist||'TIR'}</div>`;
-    const platformBtns = [
-      r.spotifyUrl && `<a href="${r.spotifyUrl}" target="_blank" style="font-size:10px;color:var(--gray-500);text-decoration:none;display:flex;align-items:center;gap:3px;margin-top:4px" onclick="event.stopPropagation()">🎧 Spotify</a>`,
-      r.appleMusicUrl && `<a href="${r.appleMusicUrl}" target="_blank" style="font-size:10px;color:var(--gray-500);text-decoration:none;display:flex;align-items:center;gap:3px;margin-top:4px" onclick="event.stopPropagation()">🍎 Apple</a>`,
-      r.jioSaavnUrl && `<a href="${r.jioSaavnUrl}" target="_blank" style="font-size:10px;color:var(--gray-500);text-decoration:none;display:flex;align-items:center;gap:3px;margin-top:4px" onclick="event.stopPropagation()">🎵 JioSaavn</a>`,
-      r.youtubeUrl && `<a href="${r.youtubeUrl}" target="_blank" style="font-size:10px;color:var(--gray-500);text-decoration:none;display:flex;align-items:center;gap:3px;margin-top:4px" onclick="event.stopPropagation()">▶️ YouTube</a>`
-    ].filter(Boolean).join('');
-    return `<a href="${link}" target="_blank" style="text-decoration:none;color:inherit;">
-      <div class="release-card">
-        <div class="release-cover" style="position:relative">${cover}
-          <div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div>
-        <div class="release-title">${r.title||'—'}</div>
-        <div class="release-artist">${r.artist||'—'}</div>
-        <div class="release-meta"><span class="release-type">${r.type||'SINGLE'}</span><span>${r.year||'—'}</span></div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px">${platformBtns}</div>
-      </div>
-    </a>`;
-  }).join('');
-}
-
-// ── RENDER SERVICES ──
-function renderServices(data){
-  const grid = document.getElementById('tir-services-grid');
-  if(!grid) return;
-  const list = data && data.length ? data : FALLBACK_SERVICES;
-  grid.innerHTML = list.map(s => `
-    <div class="service-item">
-      <div class="service-icon" style="font-size:18px;color:var(--gray-500);width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:1.75rem;">${s.icon||'⚡'}</div>
-      <div class="service-name">${s.name||'—'}</div>
-      <div class="service-desc">${s.description||'—'}</div>
-    </div>`).join('');
-}
-
-// ── RENDER REVIEWS ──
-function renderReviews(data){
-  const grid = document.getElementById('tir-reviews-grid');
-  if(!grid) return;
-  const list = data && data.length ? data : FALLBACK_REVIEWS;
-  const starSVG = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:white"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
-  grid.innerHTML = list.map(r => `
-    <div class="testimonial">
-      <div class="stars">${starSVG.repeat(r.stars||5)}</div>
-      <p class="t-quote">${r.text||'—'}</p>
-      <div class="t-author">${r.author||'—'}</div>
-      <div class="t-role">${r.role||'—'}</div>
-    </div>`).join('');
-}
-
-// ── APPLY SITE SETTINGS ──
-function applySettings(s){
-  if(!s) return;
-  if(s.footerTagline){const el=document.getElementById('footer-tagline');if(el)el.innerHTML=s.footerTagline;}
-  if(s.email){const el=document.getElementById('footer-email');if(el){el.href='mailto:'+s.email;el.textContent=s.email;}}
-  if(s.instagramUrl||s.instagram){
-    const el=document.getElementById('footer-instagram');
-    if(el){if(s.instagramUrl)el.href=s.instagramUrl;if(s.instagram)el.textContent=s.instagram.startsWith('@')?s.instagram:'@'+s.instagram;}
-  }
-  if(s.demoPortal){
-    document.querySelectorAll('a[href="https://tir-demo-portal.vercel.app/"]').forEach(a=>a.href=s.demoPortal);
-  }
-  if(s.artistPortal){
-    document.querySelectorAll('a[href="https://tir-artist-portal.vercel.app/"]').forEach(a=>a.href=s.artistPortal);
-  }
-}
-
-// ── MAIN LOAD FUNCTION ──
-async function loadSiteContent(){
-  try {
-    // Load all in parallel
-    const [artistsSnap, releasesSnap, servicesSnap, reviewsSnap, settingsDoc] = await Promise.all([
+// ═══════════════════════════════════════════
+// FIREBASE LOAD
+// ═══════════════════════════════════════════
+async function loadAllContent(){
+  try{
+    const [aSnap,rSnap,sSnap,rvSnap,stDoc] = await Promise.all([
       db.collection('site_artists').orderBy('order').get().catch(()=>null),
       db.collection('site_releases').orderBy('order').get().catch(()=>null),
       db.collection('site_services').orderBy('order').get().catch(()=>null),
       db.collection('site_reviews').orderBy('order').get().catch(()=>null),
       db.collection('site_settings').doc('main').get().catch(()=>null)
     ]);
+    siteArtists = aSnap&&!aSnap.empty ? aSnap.docs.map(d=>({id:d.id,...d.data()})) : FB_ARTISTS;
+    siteReleases = rSnap&&!rSnap.empty ? rSnap.docs.map(d=>({id:d.id,...d.data()})) : FB_RELEASES;
+    siteServices = sSnap&&!sSnap.empty ? sSnap.docs.map(d=>({id:d.id,...d.data()})) : FB_SERVICES;
+    siteReviews = rvSnap&&!rvSnap.empty ? rvSnap.docs.map(d=>({id:d.id,...d.data()})) : FB_REVIEWS;
+    if(stDoc&&stDoc.exists) applySettings(stDoc.data());
 
-    const artists = artistsSnap && !artistsSnap.empty ? artistsSnap.docs.map(d=>d.data()) : null;
-    const releases = releasesSnap && !releasesSnap.empty ? releasesSnap.docs.map(d=>d.data()) : null;
-    const services = servicesSnap && !servicesSnap.empty ? servicesSnap.docs.map(d=>d.data()) : null;
-    const reviews = reviewsSnap && !reviewsSnap.empty ? reviewsSnap.docs.map(d=>d.data()) : null;
-    const settings = settingsDoc && settingsDoc.exists ? settingsDoc.data() : null;
+    // Load hero settings
+    const heroDoc = await db.collection('site_settings').doc('hero').get().catch(()=>null);
+    if(heroDoc&&heroDoc.exists) applyHero(heroDoc.data());
 
-    renderArtists(artists);
-    renderReleases(releases);
-    renderServices(services);
-    renderReviews(reviews);
-    if(settings) applySettings(settings);
-
-  } catch(err) {
-    // On any error, render fallbacks silently
-    renderArtists(null);
-    renderReleases(null);
-    renderServices(null);
-    renderReviews(null);
+    renderRoster();
+    renderCatalogue();
+    renderServices();
+    renderReviews();
+    populateArtistFilter();
+  }catch(e){
+    console.log('Firebase err:',e);
+    siteArtists=FB_ARTISTS; siteReleases=FB_RELEASES; siteServices=FB_SERVICES; siteReviews=FB_REVIEWS;
+    renderRoster(); renderCatalogue(); renderServices(); renderReviews(); populateArtistFilter();
   }
+  setTimeout(()=>{document.getElementById('loader').classList.add('hidden');},600);
 }
 
-// Run on page load
-loadSiteContent();
+function applySettings(s){
+  if(!s) return;
+  siteSettings=s;
+  if(s.email){const el=document.getElementById('footer-email');if(el){el.href='mailto:'+s.email;el.textContent=s.email;}}
+  if(s.instagramUrl||s.instagram){
+    const el=document.getElementById('footer-instagram');
+    if(el){if(s.instagramUrl)el.href=s.instagramUrl;if(s.instagram)el.textContent=s.instagram.startsWith('@')?s.instagram:'@'+s.instagram;}
+  }
+  if(s.footerTagline){const el=document.getElementById('footer-tagline');if(el)el.innerHTML=s.footerTagline;}
+  const demoPortal=s.demoPortal||'https://tir-demo-portal.vercel.app/';
+  ['nav-demo-btn','mob-demo-btn','hero-demo-btn','cta-demo-btn','footer-demo-link','anr-demo-btn','dist-demo-btn'].forEach(id=>{const el=document.getElementById(id);if(el)el.href=demoPortal;});
+  if(s.email){const el=document.getElementById('cta-email-btn');if(el)el.href='mailto:'+s.email;}
+}
+
+function applyHero(h){
+  if(!h) return;
+  if(h.eyebrow){const el=document.getElementById('hero-eyebrow');if(el)el.textContent=h.eyebrow;}
+  if(h.subtitle){const el=document.getElementById('hero-subtitle');if(el)el.textContent=h.subtitle;}
+  if(h.body){const el=document.getElementById('hero-body');if(el)el.textContent=h.body;}
+  if(h.aboutP1){const el=document.getElementById('about-p1');if(el)el.textContent=h.aboutP1;}
+  if(h.aboutP2){const el=document.getElementById('about-p2');if(el)el.textContent=h.aboutP2;}
+  if(h.aboutP3){const el=document.getElementById('about-p3');if(el)el.textContent=h.aboutP3;}
+  ['1','2','3','4'].forEach(n=>{
+    const en=document.getElementById('stat-'+n+'n'),el=document.getElementById('stat-'+n+'l');
+    if(en&&h['stat'+n+'n'])en.textContent=h['stat'+n+'n'];
+    if(el&&h['stat'+n+'l'])el.textContent=h['stat'+n+'l'];
+  });
+  if(h.planPrice){const el=document.getElementById('plan-price');if(el)el.textContent=h.planPrice;}
+  if(h.planSub){const el=document.getElementById('plan-sub');if(el)el.textContent=h.planSub;}
+  if(h.planFeatures&&h.planFeatures.length){
+    const el=document.getElementById('plan-features');
+    if(el)el.innerHTML=h.planFeatures.map(f=>{
+      const muted=f.startsWith('—');
+      const txt=f.replace(/^[✓—]\s*/,'');
+      return `<li class="${muted?'muted':''}">${txt}</li>`;
+    }).join('');
+  }
+  if(h.responseTime){const el=document.getElementById('anr-response');if(el)el.textContent='Response within '+h.responseTime;}
+}
+
+// ═══════════════════════════════════════════
+// RENDER ROSTER
+// ═══════════════════════════════════════════
+function renderRoster(){
+  const grid=document.getElementById('tir-roster-grid');
+  if(!grid) return;
+  if(!siteArtists.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">NO ARTISTS YET</div>';return;}
+  grid.innerHTML=siteArtists.map((a,i)=>{
+    const imgHtml=a.imageUrl
+      ?`<img src="${esc(a.imageUrl)}" alt="${esc(a.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy"/><div class="roster-placeholder" style="display:none;position:absolute;inset:0">🎤</div>`
+      :`<div class="roster-placeholder">🎤</div>`;
+    return `<div class="roster-card" onclick="openArtistPanel(${i})" style="position:relative">
+      ${a.imageUrl?`<img src="${esc(a.imageUrl)}" alt="${esc(a.name)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s" />`:`<div class="roster-placeholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem;background:var(--gray)">🎤</div>`}
+      <div class="roster-card-overlay">
+        <div class="roster-card-name">${esc(a.name)}</div>
+        <div class="roster-card-genre">${esc(a.genre)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openArtistPanel(idx){
+  const a=siteArtists[idx];
+  if(!a) return;
+  const s=siteSettings;
+  // Build platform links
+  const platforms=[
+    {key:'spotify',label:'Spotify',url:a.spotifyUrl,logo:s.logo_spotify||''},
+    {key:'apple',label:'Apple Music',url:a.appleMusicUrl,logo:s.logo_apple||''},
+    {key:'jiosaavn',label:'JioSaavn',url:a.jioSaavnUrl,logo:s.logo_jiosaavn||''},
+    {key:'youtube',label:'YouTube',url:a.youtubeUrl,logo:s.logo_youtube||''},
+    {key:'amazon',label:'Amazon Music',url:a.amazonUrl,logo:s.logo_amazon||''},
+    {key:'instagram',label:'Instagram',url:a.instagramUrl,logo:'📸'},
+  ].filter(p=>p.url);
+
+  const linksHtml=platforms.map(p=>{
+    const logoHtml=p.logo&&p.logo.startsWith('http')
+      ?`<img src="${p.logo}" alt="${p.label}" style="width:18px;height:18px;object-fit:contain;border-radius:3px" />`
+      :`<span style="font-size:14px">${p.logo||'🎵'}</span>`;
+    return `<a href="${esc(p.url)}" target="_blank" class="ap-link">${logoHtml}${p.label}</a>`;
+  }).join('');
+
+  const embedHtml=a.spotifyEmbedUrl
+    ?`<div style="padding:0 40px 0"><iframe src="${esc(a.spotifyEmbedUrl)}" width="100%" height="200" frameborder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture" loading="lazy" style="border-radius:8px;display:block"></iframe></div>`:'';
+
+  document.getElementById('ap-content').innerHTML=`
+    ${a.imageUrl?`<img src="${esc(a.imageUrl)}" class="ap-img" alt="${esc(a.name)}" />`:`<div class="ap-img-placeholder">🎤</div>`}
+    <div class="ap-body">
+      <div class="ap-name">${esc(a.name)}</div>
+      <div class="ap-role">${esc(a.genre)} ${a.status?'· '+a.status.toUpperCase():''}</div>
+      ${a.bio?`<div class="ap-bio">${esc(a.bio).replace(/\n/g,'<br/>')}</div>`:''}
+      ${embedHtml}
+      ${linksHtml?`<div class="ap-links" style="margin-top:${a.spotifyEmbedUrl?'1.5rem':'0'}">${linksHtml}</div>`:''}
+    </div>`;
+  document.getElementById('artist-panel').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeArtistPanel(){
+  document.getElementById('artist-panel').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ═══════════════════════════════════════════
+// RENDER CATALOGUE
+// ═══════════════════════════════════════════
+function populateArtistFilter(){
+  const sel=document.getElementById('cat-artist-filter');
+  if(!sel) return;
+  const artists=[...new Set(siteReleases.map(r=>r.artist).filter(Boolean))];
+  sel.innerHTML='<option value="all">ALL ARTISTS</option>'+artists.map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join('');
+}
+
+function filterCat(type,btn){
+  catFilter.type=type;
+  document.querySelectorAll('.cat-filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderCatalogue();
+}
+function filterCatType(val){catFilter.type=val;renderCatalogue();}
+function filterCatArtist(val){catFilter.artist=val;renderCatalogue();}
+
+function renderCatalogue(){
+  const grid=document.getElementById('tir-releases-grid');
+  if(!grid) return;
+  let list=siteReleases;
+  if(catFilter.type&&catFilter.type!=='all') list=list.filter(r=>r.type===catFilter.type);
+  if(catFilter.artist&&catFilter.artist!=='all') list=list.filter(r=>r.artist===catFilter.artist);
+  if(!list.length){grid.innerHTML='<div class="cat-empty" style="grid-column:1/-1">NO RELEASES FOUND</div>';return;}
+  grid.innerHTML=list.map((r,i)=>{
+    const artHtml=r.artworkUrl
+      ?`<img src="${esc(r.artworkUrl)}" alt="${esc(r.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .4s" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="cat-art-placeholder" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center">${esc(r.title)}</div>`
+      :`<div class="cat-art-placeholder">${esc(r.title)}</div>`;
+    const realIdx=siteReleases.indexOf(r);
+    return `<div class="cat-card fade-in" style="animation-delay:${i*.04}s" onclick="openRelease(${realIdx})">
+      <div class="cat-art" style="position:relative">${artHtml}</div>
+      <div class="cat-title">${esc(r.title)}</div>
+      <div class="cat-artist">${esc(r.artist)}</div>
+      <div><span class="cat-type">${r.type||'SINGLE'}</span> <span style="font-size:.65rem;color:var(--gray3);margin-left:6px;font-family:var(--font-mono)">${r.year||''}</span></div>
+    </div>`;
+  }).join('');
+  setTimeout(()=>document.querySelectorAll('.fade-in').forEach(el=>el.classList.add('visible')),50);
+}
+
+// ═══════════════════════════════════════════
+// RELEASE DETAIL
+// ═══════════════════════════════════════════
+function openRelease(idx){
+  const r=siteReleases[idx];
+  if(!r) return;
+  const s=siteSettings;
+
+  // Build platform streaming links
+  const streamPlatforms=[
+    {key:'spotify',label:'Spotify',sub:'Stream',url:r.spotifyUrl,logo:s.logo_spotify||''},
+    {key:'apple',label:'Apple Music',sub:'Stream',url:r.appleMusicUrl,logo:s.logo_apple||''},
+    {key:'jiosaavn',label:'JioSaavn',sub:'Stream',url:r.jioSaavnUrl,logo:s.logo_jiosaavn||''},
+    {key:'youtube',label:'YouTube Music',sub:'Stream',url:r.youtubeUrl,logo:s.logo_youtube||''},
+    {key:'amazon',label:'Amazon Music',sub:'Stream',url:r.amazonUrl,logo:s.logo_amazon||''},
+    {key:'tidal',label:'Tidal',sub:'Stream',url:r.tidalUrl,logo:s.logo_tidal||''},
+    {key:'smartlink',label:'Smart Link',sub:'All Platforms',url:r.smartlinkUrl,logo:'🔗'},
+  ].filter(p=>p.url);
+
+  const platformsHtml=streamPlatforms.map(p=>{
+    const logoHtml=p.logo&&p.logo.startsWith('http')
+      ?`<img src="${p.logo}" alt="${p.label}" style="width:24px;height:24px;object-fit:contain;border-radius:4px" />`
+      :`<span style="font-size:18px">${p.logo||'🎵'}</span>`;
+    return `<a href="${esc(p.url)}" target="_blank" class="rel-platform-link">
+      <div class="rel-platform-logo">${logoHtml}</div>
+      <span class="rel-platform-name">${p.label}</span>
+      <span class="rel-platform-sub">${p.sub} →</span>
+    </a>`;
+  }).join('');
+
+  // Related releases (same artist, not this one)
+  const related=siteReleases.filter((_r,i)=>i!==idx&&_r.artist===r.artist).slice(0,3);
+  const relatedHtml=related.length?`
+    <div class="rel-more">
+      <h3>MORE FROM ${esc(r.artist).toUpperCase()}</h3>
+      <div class="rel-more-grid">
+        ${related.map((rr,ri)=>{
+          const ri2=siteReleases.indexOf(rr);
+          return `<div class="cat-card" onclick="openRelease(${ri2})" style="cursor:pointer">
+            <div class="cat-art" style="position:relative">
+              ${rr.artworkUrl?`<img src="${esc(rr.artworkUrl)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .4s" />`:`<div class="cat-art-placeholder">${esc(rr.title)}</div>`}
+            </div>
+            <div class="cat-title">${esc(rr.title)}</div>
+            <div class="cat-artist">${esc(rr.artist)}</div>
+            <div><span class="cat-type">${rr.type||'SINGLE'}</span></div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`:'';
+
+  const firstStreamUrl=streamPlatforms[0]?.url||'#';
+  const heroStyle=r.artworkUrl?`background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%)`:'background:var(--gray)';
+
+  document.getElementById('release-detail-content').innerHTML=`
+    <div style="${heroStyle}">
+      <div class="rel-hero-inner">
+        <div class="rel-artwork">
+          ${r.artworkUrl?`<img src="${esc(r.artworkUrl)}" alt="${esc(r.title)}" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="rel-artwork-placeholder">🎵</div>`}
+        </div>
+        <div class="rel-info-top">
+          <div class="rel-title-big">${esc(r.title)}</div>
+          <div class="rel-meta-row">
+            <div class="rel-meta-item"><div class="rel-meta-label">YEAR</div><div class="rel-meta-value">${r.year||'—'}</div></div>
+            <div class="rel-meta-item"><div class="rel-meta-label">ARTIST</div><div class="rel-meta-value">${esc(r.artist)}</div></div>
+            <a href="${firstStreamUrl}" target="_blank" class="btn-stream">STREAM HERE</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rel-body">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gray4);margin-bottom:1rem;text-transform:uppercase">About This Release</div>
+        <div class="rel-desc">${r.description?(esc(r.description).replace(/\n/g,'<br/>')):'<span style="color:var(--gray3)">No description provided.</span>'}</div>
+        <div style="margin-top:2rem;display:flex;gap:12px;flex-wrap:wrap">
+          <span style="font-size:.65rem;border:1px solid var(--border);padding:4px 12px;font-family:var(--font-mono);letter-spacing:.1em;color:var(--gray4)">${r.type||'SINGLE'}</span>
+          ${r.year?`<span style="font-size:.65rem;border:1px solid var(--border);padding:4px 12px;font-family:var(--font-mono);letter-spacing:.1em;color:var(--gray4)">${r.year}</span>`:''}
+          ${r.genre?`<span style="font-size:.65rem;border:1px solid var(--border);padding:4px 12px;font-family:var(--font-mono);letter-spacing:.1em;color:var(--gray4)">${esc(r.genre)}</span>`:''}
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gold);margin-bottom:1.5rem;text-transform:uppercase">STREAM HERE</div>
+        ${platformsHtml||'<div style="color:var(--gray3);font-size:.8rem">No streaming links added yet.</div>'}
+      </div>
+    </div>
+    ${relatedHtml}`;
+
+  showView('release');
+}
+
+// ═══════════════════════════════════════════
+// RENDER SERVICES
+// ═══════════════════════════════════════════
+function renderServices(){
+  const grid=document.getElementById('tir-services-grid');
+  if(!grid) return;
+  if(!siteServices.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3)">No services yet.</div>';return;}
+  grid.innerHTML=siteServices.map(s=>`
+    <div class="service-block">
+      <div class="service-icon-wrap">${s.icon||'⚡'}</div>
+      <div class="service-block-name">${esc(s.name)}</div>
+      <div class="service-block-desc">${esc(s.description)}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+// RENDER REVIEWS
+// ═══════════════════════════════════════════
+function renderReviews(){
+  const grid=document.getElementById('tir-reviews-grid');
+  if(!grid) return;
+  if(!siteReviews.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3)">No reviews yet.</div>';return;}
+  grid.innerHTML=siteReviews.map(r=>`
+    <div class="review-tile">
+      <div class="r-stars">${'★'.repeat(r.stars||5)}</div>
+      <p class="r-quote">${esc(r.text)}</p>
+      <div class="r-author">${esc(r.author)}</div>
+      <div class="r-role">${esc(r.role)}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+// VIEW ROUTER
+// ═══════════════════════════════════════════
+const VIEW_HISTORY=[];
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const v=document.getElementById('view-'+name);
+  if(v){v.classList.add('active');window.scrollTo(0,0);}
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.dataset.view===name);
+  });
+  VIEW_HISTORY.push(name);
+  history.pushState({view:name},'',window.location.pathname);
+}
+
+window.addEventListener('popstate',e=>{
+  if(e.state?.view) showView(e.state.view);
+});
+
+// ═══════════════════════════════════════════
+// NAV & MOBILE
+// ═══════════════════════════════════════════
+function toggleMob(){
+  const m=document.getElementById('mob-menu');
+  const open=m.classList.toggle('open');
+  const sp=document.querySelectorAll('.ham span');
+  if(open){sp[0].style.transform='translateY(6px) rotate(45deg)';sp[1].style.opacity='0';sp[2].style.transform='translateY(-6px) rotate(-45deg)';document.body.style.overflow='hidden';}
+  else{sp.forEach(s=>{s.style.transform='';s.style.opacity=''});document.body.style.overflow='';}
+}
+function closeMob(){document.getElementById('mob-menu').classList.remove('open');document.querySelectorAll('.ham span').forEach(s=>{s.style.transform='';s.style.opacity=''});document.body.style.overflow='';}
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30);});
+
+// ═══════════════════════════════════════════
+// CURSOR
+// ═══════════════════════════════════════════
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';cur.style.background='var(--white)';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';cur.style.background='var(--gold)';});
+});
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function esc(v){return(v||'').toString().replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3000);}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+loadAllContent();
 </script>
 </body>
 </html>
