@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Imaginary Records</title>
+        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script>
+    firebase.initializeApp({
+      apiKey:"AIzaSyDq7PGSfxGfwAJhzpEVq0Bj2TBhCg09NTU",
+      authDomain:"tir-portal.firebaseapp.com",
+      projectId:"tir-portal",
+      storageBucket:"tir-portal.firebasestorage.app",
+      messagingSenderId:"941411383328",
+      appId:"1:941411383328:web:4b7b0aa63e2c7e44d82a445"
+    });
+    const db=firebase.firestore();
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -255,7 +268,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 <span class="nav-login-txt">ARTIST LOGIN</span>
             </a>
-            <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="nav-cta">SUBMIT DEMO</a>
+            <a id="nav-demo-link" href="https://tir-demo-portal.vercel.app/" target="_blank" class="nav-cta">SUBMIT DEMO</a>
             <button class="hamburger" id="hamburger" onclick="toggleMobile()">
                 <span></span><span></span><span></span>
             </button>
@@ -280,7 +293,7 @@
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
     <div style="position:relative;z-index:1;">
-        <p class="hero-year">EST. 2026 — KASHMIR, INDIA</p>
+        <p class="hero-year" id="tir-eyebrow">EST. 2026 — KASHMIR, INDIA</p>
         <h1 class="hero-title">
             THE<span class="line2">IMAGINARY</span><span class="line3">RECORDS</span>
         </h1>
@@ -332,9 +345,9 @@
         <div class="label">ABOUT THE LABEL</div>
         <div class="about-grid">
             <div class="about-text">
-                <p>The Imaginary Records is an independent record label born from the mountains of Kashmir — built by artists, for artists.</p>
-                <p>We sign, develop, and distribute artists globally across hip hop, dark trap, lo-fi, UK drill, and beyond. Our model puts creative control in the hands of the artist, not the label.</p>
-                <p>Whether you are a solo producer dropping instrumentals or a vocalist building your catalog, TIR provides the infrastructure, distribution, and industry network to take your music worldwide.</p>
+                <p id="about-p1">The Imaginary Records is an independent record label born from the mountains of Kashmir — built by artists, for artists.</p>
+                <p id="about-p2">We sign, develop, and distribute artists globally across hip hop, dark trap, lo-fi, UK drill, and beyond. Our model puts creative control in the hands of the artist, not the label.</p>
+                <p id="about-p3">Whether you are a solo producer dropping instrumentals or a vocalist building your catalog, TIR provides the infrastructure, distribution, and industry network to take your music worldwide.</p>
                 <div class="platforms">
                     <span class="platform-name">SPOTIFY</span>
                     <span class="platform-name">APPLE MUSIC</span>
@@ -346,10 +359,10 @@
                 </div>
             </div>
             <div class="about-stats">
-                <div class="stat"><div class="stat-num">160+</div><div class="stat-label">TRACKS RELEASED</div></div>
-                <div class="stat"><div class="stat-num">200+</div><div class="stat-label">STORE PARTNERS</div></div>
-                <div class="stat"><div class="stat-num">85%</div><div class="stat-label">ARTIST ROYALTIES</div></div>
-                <div class="stat"><div class="stat-num">48H</div><div class="stat-label">DELIVERY TIME</div></div>
+                <div class="stat"><div class="stat-num" id="stat-1n">160+</div><div class="stat-label" id="stat-1l">TRACKS RELEASED</div></div>
+                <div class="stat"><div class="stat-num" id="stat-2n">200+</div><div class="stat-label" id="stat-2l">STORE PARTNERS</div></div>
+                <div class="stat"><div class="stat-num" id="stat-3n">85%</div><div class="stat-label" id="stat-3l">ARTIST ROYALTIES</div></div>
+                <div class="stat"><div class="stat-num" id="stat-4n">48H</div><div class="stat-label" id="stat-4l">DELIVERY TIME</div></div>
             </div>
         </div>
     </div>
@@ -360,57 +373,7 @@
     <div class="roster-inner fade-up">
         <div class="label">OUR ARTISTS</div>
         <h2 class="section-heading">ROSTER</h2>
-        <div class="roster-grid">
-            <div class="artist-card">
-                <div class="artist-number">01 / 03</div>
-                <div class="artist-name">AABYD KHAN</div>
-                <div class="artist-genre">HIP HOP · DARK TRAP · LO-FI · UK DRILL</div>
-                <div class="spotify-embed">
-                    <iframe src="https://open.spotify.com/embed/artist/38T4P8hX75BCHncTf8TLKm?utm_source=generator" width="100%" height="280" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                </div>
-                <div class="artist-meta">
-                    <span class="artist-tag">SIGNED</span>
-                    <span class="artist-tag">FOUNDER</span>
-                    <span class="artist-tag">KASHMIR</span>
-                </div>
-                <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" class="artist-spotify-link">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    Open on Spotify
-                </a>
-            </div>
-            <div class="artist-card">
-                <div class="artist-number">02 / 03</div>
-                <div class="artist-name">THE IMAGINARY BIRD</div>
-                <div class="artist-genre">AMBIENT · INSTRUMENTAL · CINEMATIC</div>
-                <div class="spotify-embed">
-                    <iframe src="https://open.spotify.com/embed/artist/6RrE0UvJNBRf3eRH4gyFmG?utm_source=generator" width="100%" height="280" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                </div>
-                <div class="artist-meta">
-                    <span class="artist-tag">SIGNED</span>
-                    <span class="artist-tag">TIR ORIGINAL</span>
-                </div>
-                <a href="https://open.spotify.com/artist/6RrE0UvJNBRf3eRH4gyFmG" target="_blank" class="artist-spotify-link">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    Open on Spotify
-                </a>
-            </div>
-            <div class="artist-card" style="border-right:none;">
-                <div class="artist-number">03 / 03</div>
-                <div class="artist-name">THE IMAGINARY POET</div>
-                <div class="artist-genre">SPOKEN WORD · SPIRITUAL · AMBIENT</div>
-                <div class="spotify-embed">
-                    <iframe src="https://open.spotify.com/embed/artist/39GevCS8IvbhgaaCRfHbnF?utm_source=generator" width="100%" height="280" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                </div>
-                <div class="artist-meta">
-                    <span class="artist-tag">SIGNED</span>
-                    <span class="artist-tag">TIR ORIGINAL</span>
-                </div>
-                <a href="https://open.spotify.com/artist/39GevCS8IvbhgaaCRfHbnF" target="_blank" class="artist-spotify-link">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    Open on Spotify
-                </a>
-            </div>
-        </div>
+        <div class="roster-grid" id="tir-roster-grid"><div style="grid-column:1/-1;text-align:center;padding:3rem;color:#4b5563;font-family:Orbitron,sans-serif;font-size:0.7rem;letter-spacing:0.2em">LOADING ARTISTS...</div></div>
     </div>
 </div>
 
@@ -424,16 +387,7 @@
             </div>
             <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" class="btn-ghost">FULL CATALOG <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         </div>
-        <div class="releases-grid">
-            <a href="https://music.apple.com/us/album/ghazi-tapes-ep/1883743287" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">GHAZI TAPES</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">EP</span><span>2026</span></div></div></a>
-            <a href="https://music.apple.com/us/album/alive-single/1877977840" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">ALIVE</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div></div></a>
-            <a href="https://music.apple.com/us/album/dream-single/1873184408" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">DREAM</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div></div></a>
-            <a href="https://music.apple.com/us/album/trending-single/1873188727" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">TRENDING</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div></div></a>
-            <a href="https://music.apple.com/us/album/drift-single/1873184563" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">DRIFT</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div></div></a>
-            <a href="https://music.apple.com/us/album/my-story/1846604222" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">MY STORY</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">ALBUM</span><span>2025</span></div></div></a>
-            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">THEY CALL HIM OG</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2025</span></div></div></a>
-            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">LET'S DANCE</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2025</span></div></div></a>
-        </div>
+        <div class="releases-grid" id="tir-releases-grid"><div style="grid-column:1/-1;text-align:center;padding:3rem;color:#4b5563;font-family:Orbitron,sans-serif;font-size:0.7rem;letter-spacing:0.2em">LOADING RELEASES...</div></div>
     </div>
 </div>
 
@@ -442,17 +396,7 @@
     <div class="section fade-up">
         <div class="label">WHAT WE DO</div>
         <h2 class="section-heading">LABEL SERVICES</h2>
-        <div class="services-grid">
-            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><div class="service-name">A&R DEVELOPMENT</div><div class="service-desc">Artist discovery, signing, and creative development. We find raw talent and shape it into something undeniable.</div></div>
-            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div class="service-name">GLOBAL DISTRIBUTION</div><div class="service-desc">Your music on 200+ platforms worldwide including Spotify, Apple Music, Amazon, Tidal, and regional stores.</div></div>
-            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="service-name">RIGHTS MANAGEMENT</div><div class="service-desc">Full content ID, global copyright protection, and YouTube monetisation. Your work, protected everywhere.</div></div>
-            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></div><div class="service-name">VEVO & VIDEO</div><div class="service-desc">Official VEVO artist channel setup, music video distribution, and YouTube channel management.</div></div>
-            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="service-name">ARTIST VERIFICATION</div><div class="service-desc">Verified artist profiles across Spotify, Apple Music, and YouTube Music. Establish your official presence.</div></div>
-            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div><div class="service-name">AUDIO MASTERING</div><div class="service-desc">Professional mastering services that prep your tracks for radio, streaming, and live performance standards.</div></div>
-            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><div class="service-name">COVER ART & BRANDING</div><div class="service-desc">Visual identity for your releases. Cover art generation, artist branding, and promotional assets.</div></div>
-            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="service-name">PRE-SAVE CAMPAIGNS</div><div class="service-desc">Build anticipation with pre-save smartlinks before every release. Maximise day-one streams and playlist adds.</div></div>
-            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="service-name">ROYALTY ANALYTICS</div><div class="service-desc">Monthly detailed reports on streams, revenue, and platform performance. Transparent data, every month.</div></div>
-        </div>
+        <div class="services-grid" id="tir-services-grid"><div style="grid-column:1/-1;text-align:center;padding:3rem;color:#4b5563;font-family:Orbitron,sans-serif;font-size:0.7rem;letter-spacing:0.2em">LOADING SERVICES...</div></div>
     </div>
 </div>
 
@@ -527,14 +471,7 @@
     <div class="press-inner fade-up">
         <div class="label">TESTIMONIALS</div>
         <h2 class="section-heading">WHAT ARTISTS SAY</h2>
-        <div class="testimonials">
-            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">Best distributor I have ever used. Fast delivery and the team actually cares about your music.</p><div class="t-author">ALEX M.</div><div class="t-role">Independent Artist</div></div>
-            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">The VEVO distribution changed everything for me. Getting my official channel was a dream come true.</p><div class="t-author">SARAH K.</div><div class="t-role">Music Producer</div></div>
-            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">My music was live on all platforms within 48 hours. The mastering service made it sound incredible.</p><div class="t-author">CHRIS P.</div><div class="t-role">Indie Rock Artist</div></div>
-            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">Finally a label that lets me keep 100% of my rights. Transparent, fast, and genuinely supportive.</p><div class="t-author">MARIA L.</div><div class="t-role">Singer-Songwriter</div></div>
-            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">Professional team, quick responses. They treat every artist like a priority regardless of how big you are.</p><div class="t-author">THE BEATS</div><div class="t-role">Hip-Hop Group</div></div>
-            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">Submitted my demo on a Sunday, got a reply by Tuesday. From signing to release, the process was seamless.</p><div class="t-author">DJ RAVE</div><div class="t-role">Electronic Artist</div></div>
-        </div>
+        <div class="testimonials" id="tir-reviews-grid"><div style="grid-column:1/-1;text-align:center;padding:3rem;color:#4b5563;font-family:Orbitron,sans-serif;font-size:0.7rem;letter-spacing:0.2em">LOADING REVIEWS...</div></div>
     </div>
 </div>
 
@@ -544,7 +481,7 @@
     <p class="cta-sub">Sign with us or start distributing today — no fees, no catch.</p>
     <div class="cta-buttons">
         <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-        <a href="mailto:theimaginaryrecords@gmail.com" class="btn-ghost">EMAIL THE LABEL</a>
+        <a href="/cdn-cgi/l/email-protection#5a2e323f33373b3d33343b2823283f3935283e291a3d373b333674393537" class="btn-ghost">EMAIL THE LABEL</a>
     </div>
 </div>
 
@@ -553,7 +490,7 @@
     <div class="footer-grid">
         <div>
             <div class="footer-brand">THE IMAGINARY RECORDS</div>
-            <div class="footer-tagline">An independent record label from Kashmir, India.<br>Signing artists. Releasing music. Building legacies.</div>
+            <div class="footer-tagline" id="footer-tagline">An independent record label from Kashmir, India.<br>Signing artists. Releasing music. Building legacies.</div>
         </div>
         <div>
             <div class="footer-col-title">LABEL</div>
@@ -571,8 +508,8 @@
         </div>
         <div>
             <div class="footer-col-title">CONTACT</div>
-            <a href="mailto:theimaginaryrecords@gmail.com" class="footer-link">theimaginaryrecords@gmail.com</a>
-            <a href="https://www.instagram.com/theimaginaryrecords/" target="_blank" class="footer-link">@theimaginaryrecords</a>
+            <a href="/cdn-cgi/l/email-protection#0b7f636e62666a6c62656a7972796e6864796f784b6c666a626725686466" class="footer-link"><span class="__cf_email__" data-cfemail="7c08141915111d1b15121d0e050e191f130e180f3c1b111d1510521f1311">[email&#160;protected]</span></a>
+            <a id="footer-instagram" href="https://www.instagram.com/theimaginaryrecords/" target="_blank" class="footer-link">@theimaginaryrecords</a>
         </div>
     </div>
     <div class="footer-bottom">
@@ -581,7 +518,7 @@
     </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const cursor=document.getElementById('cursor');
     const ring=document.getElementById('cursorRing');
     let mx=0,my=0,rx=0,ry=0;
@@ -606,6 +543,191 @@
     }
     const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
     document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+</script>
+
+<script>
+// ═══════════════════════════════════════════════
+// TIR DYNAMIC CONTENT LOADER
+// Loads Artists, Releases, Services, Reviews,
+// and Site Settings from Firestore in real-time
+// ═══════════════════════════════════════════════
+
+// ── FALLBACK DATA (shown if Firestore is empty) ──
+const FALLBACK_ARTISTS = [
+  {name:'AABYD KHAN',genre:'HIP HOP · DARK TRAP · LO-FI · UK DRILL',status:'signed',tags:['SIGNED','FOUNDER','KASHMIR'],spotifyEmbedUrl:'https://open.spotify.com/embed/artist/38T4P8hX75BCHncTf8TLKm?utm_source=generator',spotifyUrl:'https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm'},
+  {name:'THE IMAGINARY BIRD',genre:'AMBIENT · INSTRUMENTAL · CINEMATIC',status:'signed',tags:['SIGNED','TIR ORIGINAL'],spotifyEmbedUrl:'https://open.spotify.com/embed/artist/6RrE0UvJNBRf3eRH4gyFmG?utm_source=generator',spotifyUrl:'https://open.spotify.com/artist/6RrE0UvJNBRf3eRH4gyFmG'},
+  {name:'THE IMAGINARY POET',genre:'SPOKEN WORD · SPIRITUAL · AMBIENT',status:'signed',tags:['SIGNED','TIR ORIGINAL'],spotifyEmbedUrl:'https://open.spotify.com/embed/artist/39GevCS8IvbhgaaCRfHbnF?utm_source=generator',spotifyUrl:'https://open.spotify.com/artist/39GevCS8IvbhgaaCRfHbnF'}
+];
+const FALLBACK_RELEASES = [
+  {title:'GHAZI TAPES',artist:'Aabyd Khan',type:'EP',year:'2026',appleMusicUrl:'https://music.apple.com/us/album/ghazi-tapes-ep/1883743287'},
+  {title:'ALIVE',artist:'Aabyd Khan',type:'SINGLE',year:'2026',appleMusicUrl:'https://music.apple.com/us/album/alive-single/1877977840'},
+  {title:'DREAM',artist:'Aabyd Khan',type:'SINGLE',year:'2026',appleMusicUrl:'https://music.apple.com/us/album/dream-single/1873184408'},
+  {title:'TRENDING',artist:'Aabyd Khan',type:'SINGLE',year:'2026',appleMusicUrl:'https://music.apple.com/us/album/trending-single/1873188727'},
+  {title:'DRIFT',artist:'Aabyd Khan',type:'SINGLE',year:'2026',appleMusicUrl:'https://music.apple.com/us/album/drift-single/1873184563'},
+  {title:'MY STORY',artist:'Aabyd Khan',type:'ALBUM',year:'2025',appleMusicUrl:'https://music.apple.com/us/album/my-story/1846604222'},
+  {title:"THEY CALL HIM OG",artist:'Aabyd Khan',type:'SINGLE',year:'2025',spotifyUrl:'https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm'},
+  {title:"LET'S DANCE",artist:'Aabyd Khan',type:'SINGLE',year:'2025',spotifyUrl:'https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm'}
+];
+const FALLBACK_SERVICES = [
+  {icon:'🎵',name:'A&R DEVELOPMENT',description:'Artist discovery, signing, and creative development. We find raw talent and shape it into something undeniable.'},
+  {icon:'🌍',name:'GLOBAL DISTRIBUTION',description:'Your music on 200+ platforms worldwide including Spotify, Apple Music, Amazon, Tidal, and regional stores.'},
+  {icon:'🛡️',name:'RIGHTS MANAGEMENT',description:'Full content ID, global copyright protection, and YouTube monetisation. Your work, protected everywhere.'},
+  {icon:'🎬',name:'VEVO & VIDEO',description:'Official VEVO artist channel setup, music video distribution, and YouTube channel management.'},
+  {icon:'⭐',name:'ARTIST VERIFICATION',description:'Verified artist profiles across Spotify, Apple Music, and YouTube Music. Establish your official presence.'},
+  {icon:'🎧',name:'AUDIO MASTERING',description:'Professional mastering services that prep your tracks for radio, streaming, and live performance standards.'},
+  {icon:'🎨',name:'COVER ART & BRANDING',description:'Visual identity for your releases. Cover art generation, artist branding, and promotional assets.'},
+  {icon:'⚡',name:'PRE-SAVE CAMPAIGNS',description:'Build anticipation with pre-save smartlinks before every release. Maximise day-one streams and playlist adds.'},
+  {icon:'📊',name:'ROYALTY ANALYTICS',description:'Monthly detailed reports on streams, revenue, and platform performance. Transparent data, every month.'}
+];
+const FALLBACK_REVIEWS = [
+  {text:'Best distributor I have ever used. Fast delivery and the team actually cares about your music.',author:'ALEX M.',role:'Independent Artist',stars:5},
+  {text:'The VEVO distribution changed everything for me. Getting my official channel was a dream come true.',author:'SARAH K.',role:'Music Producer',stars:5},
+  {text:'My music was live on all platforms within 48 hours. The mastering service made it sound incredible.',author:'CHRIS P.',role:'Indie Rock Artist',stars:5},
+  {text:'Finally a label that lets me keep 100% of my rights. Transparent, fast, and genuinely supportive.',author:'MARIA L.',role:'Singer-Songwriter',stars:5},
+  {text:'Professional team, quick responses. They treat every artist like a priority regardless of how big you are.',author:'THE BEATS',role:'Hip-Hop Group',stars:5},
+  {text:'Submitted my demo on a Sunday, got a reply by Tuesday. From signing to release, the process was seamless.',author:'DJ RAVE',role:'Electronic Artist',stars:5}
+];
+
+// ── RENDER ARTISTS ──
+function renderArtists(data){
+  const grid = document.getElementById('tir-roster-grid');
+  if(!grid) return;
+  const list = data && data.length ? data : FALLBACK_ARTISTS;
+  const total = list.length;
+  grid.innerHTML = list.map((a, i) => {
+    const num = String(i+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+    const tags = (a.tags||[]).map(t=>`<span class="artist-tag">${t.toUpperCase()}</span>`).join('');
+    const embed = a.spotifyEmbedUrl ? `<div class="spotify-embed"><iframe src="${a.spotifyEmbedUrl}" width="100%" height="280" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>` : (a.imageUrl ? `<div class="spotify-embed" style="height:200px;overflow:hidden;border-radius:8px;margin-bottom:1.25rem;"><img src="${a.imageUrl}" style="width:100%;height:100%;object-fit:cover" /></div>` : '');
+    const mainLink = a.spotifyUrl || a.appleMusicUrl || a.jioSaavnUrl || a.youtubeUrl || '#';
+    const platformLinks = [
+      a.spotifyUrl && `<a href="${a.spotifyUrl}" target="_blank" class="artist-spotify-link" style="margin-right:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Spotify</a>`,
+      a.appleMusicUrl && `<a href="${a.appleMusicUrl}" target="_blank" class="artist-spotify-link" style="margin-right:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Apple</a>`,
+      a.jioSaavnUrl && `<a href="${a.jioSaavnUrl}" target="_blank" class="artist-spotify-link" style="margin-right:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> JioSaavn</a>`,
+      a.youtubeUrl && `<a href="${a.youtubeUrl}" target="_blank" class="artist-spotify-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> YouTube</a>`
+    ].filter(Boolean).join('');
+    const borderStyle = i === list.length-1 ? 'style="border-right:none;"' : '';
+    return `<div class="artist-card" ${borderStyle}>
+      <div class="artist-number">${num}</div>
+      <div class="artist-name">${a.name||'—'}</div>
+      <div class="artist-genre">${a.genre||'—'}</div>
+      ${embed}
+      <div class="artist-meta">${tags}</div>
+      <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:4px">${platformLinks}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── RENDER RELEASES ──
+function renderReleases(data){
+  const grid = document.getElementById('tir-releases-grid');
+  if(!grid) return;
+  const list = data && data.length ? data : FALLBACK_RELEASES;
+  const svgArrow = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+  grid.innerHTML = list.map(r => {
+    const link = r.spotifyUrl || r.appleMusicUrl || r.jioSaavnUrl || r.youtubeUrl || '#';
+    const cover = r.artworkUrl
+      ? `<img src="${r.artworkUrl}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';this.parentElement.querySelector('.release-cover-inner').style.display='flex'" /><div class="release-cover-inner" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center">${r.artist||'TIR'}</div>`
+      : `<div class="release-cover-inner">${r.artist||'TIR'}</div>`;
+    const platformBtns = [
+      r.spotifyUrl && `<a href="${r.spotifyUrl}" target="_blank" style="font-size:10px;color:var(--gray-500);text-decoration:none;display:flex;align-items:center;gap:3px;margin-top:4px" onclick="event.stopPropagation()">🎧 Spotify</a>`,
+      r.appleMusicUrl && `<a href="${r.appleMusicUrl}" target="_blank" style="font-size:10px;color:var(--gray-500);text-decoration:none;display:flex;align-items:center;gap:3px;margin-top:4px" onclick="event.stopPropagation()">🍎 Apple</a>`,
+      r.jioSaavnUrl && `<a href="${r.jioSaavnUrl}" target="_blank" style="font-size:10px;color:var(--gray-500);text-decoration:none;display:flex;align-items:center;gap:3px;margin-top:4px" onclick="event.stopPropagation()">🎵 JioSaavn</a>`,
+      r.youtubeUrl && `<a href="${r.youtubeUrl}" target="_blank" style="font-size:10px;color:var(--gray-500);text-decoration:none;display:flex;align-items:center;gap:3px;margin-top:4px" onclick="event.stopPropagation()">▶️ YouTube</a>`
+    ].filter(Boolean).join('');
+    return `<a href="${link}" target="_blank" style="text-decoration:none;color:inherit;">
+      <div class="release-card">
+        <div class="release-cover" style="position:relative">${cover}
+          <div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div>
+        <div class="release-title">${r.title||'—'}</div>
+        <div class="release-artist">${r.artist||'—'}</div>
+        <div class="release-meta"><span class="release-type">${r.type||'SINGLE'}</span><span>${r.year||'—'}</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">${platformBtns}</div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+// ── RENDER SERVICES ──
+function renderServices(data){
+  const grid = document.getElementById('tir-services-grid');
+  if(!grid) return;
+  const list = data && data.length ? data : FALLBACK_SERVICES;
+  grid.innerHTML = list.map(s => `
+    <div class="service-item">
+      <div class="service-icon" style="font-size:18px;color:var(--gray-500);width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:1.75rem;">${s.icon||'⚡'}</div>
+      <div class="service-name">${s.name||'—'}</div>
+      <div class="service-desc">${s.description||'—'}</div>
+    </div>`).join('');
+}
+
+// ── RENDER REVIEWS ──
+function renderReviews(data){
+  const grid = document.getElementById('tir-reviews-grid');
+  if(!grid) return;
+  const list = data && data.length ? data : FALLBACK_REVIEWS;
+  const starSVG = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:white"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+  grid.innerHTML = list.map(r => `
+    <div class="testimonial">
+      <div class="stars">${starSVG.repeat(r.stars||5)}</div>
+      <p class="t-quote">${r.text||'—'}</p>
+      <div class="t-author">${r.author||'—'}</div>
+      <div class="t-role">${r.role||'—'}</div>
+    </div>`).join('');
+}
+
+// ── APPLY SITE SETTINGS ──
+function applySettings(s){
+  if(!s) return;
+  if(s.footerTagline){const el=document.getElementById('footer-tagline');if(el)el.innerHTML=s.footerTagline;}
+  if(s.email){const el=document.getElementById('footer-email');if(el){el.href='mailto:'+s.email;el.textContent=s.email;}}
+  if(s.instagramUrl||s.instagram){
+    const el=document.getElementById('footer-instagram');
+    if(el){if(s.instagramUrl)el.href=s.instagramUrl;if(s.instagram)el.textContent=s.instagram.startsWith('@')?s.instagram:'@'+s.instagram;}
+  }
+  if(s.demoPortal){
+    document.querySelectorAll('a[href="https://tir-demo-portal.vercel.app/"]').forEach(a=>a.href=s.demoPortal);
+  }
+  if(s.artistPortal){
+    document.querySelectorAll('a[href="https://tir-artist-portal.vercel.app/"]').forEach(a=>a.href=s.artistPortal);
+  }
+}
+
+// ── MAIN LOAD FUNCTION ──
+async function loadSiteContent(){
+  try {
+    // Load all in parallel
+    const [artistsSnap, releasesSnap, servicesSnap, reviewsSnap, settingsDoc] = await Promise.all([
+      db.collection('site_artists').orderBy('order').get().catch(()=>null),
+      db.collection('site_releases').orderBy('order').get().catch(()=>null),
+      db.collection('site_services').orderBy('order').get().catch(()=>null),
+      db.collection('site_reviews').orderBy('order').get().catch(()=>null),
+      db.collection('site_settings').doc('main').get().catch(()=>null)
+    ]);
+
+    const artists = artistsSnap && !artistsSnap.empty ? artistsSnap.docs.map(d=>d.data()) : null;
+    const releases = releasesSnap && !releasesSnap.empty ? releasesSnap.docs.map(d=>d.data()) : null;
+    const services = servicesSnap && !servicesSnap.empty ? servicesSnap.docs.map(d=>d.data()) : null;
+    const reviews = reviewsSnap && !reviewsSnap.empty ? reviewsSnap.docs.map(d=>d.data()) : null;
+    const settings = settingsDoc && settingsDoc.exists ? settingsDoc.data() : null;
+
+    renderArtists(artists);
+    renderReleases(releases);
+    renderServices(services);
+    renderReviews(reviews);
+    if(settings) applySettings(settings);
+
+  } catch(err) {
+    // On any error, render fallbacks silently
+    renderArtists(null);
+    renderReleases(null);
+    renderServices(null);
+    renderReviews(null);
+  }
+}
+
+// Run on page load
+loadSiteContent();
 </script>
 </body>
 </html>
