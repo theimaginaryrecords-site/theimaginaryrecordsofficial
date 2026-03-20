@@ -17,56 +17,66 @@
 
         .cursor { position: fixed; width: 8px; height: 8px; background: white; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
         .cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width 0.3s, height 0.3s; }
+        @media(max-width:768px){ .cursor,.cursor-ring{display:none;} }
 
         body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:9990; opacity:0.4; }
 
         /* NAV */
         nav { position:fixed; top:0; left:0; right:0; z-index:100; transition:background 0.4s; }
         nav.scrolled { background:rgba(0,0,0,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border-dim); }
-        .nav-inner { max-width:1400px; margin:0 auto; padding:0 2rem; display:flex; align-items:center; justify-content:space-between; height:72px; }
+        .nav-inner { max-width:1400px; margin:0 auto; padding:0 1.5rem; display:flex; align-items:center; justify-content:space-between; height:64px; }
         .nav-logo { font-family:'Orbitron',sans-serif; font-size:1.1rem; letter-spacing:0.15em; color:white; background:none; border:none; cursor:pointer; text-decoration:none; }
-        .nav-links { display:flex; gap:2.5rem; list-style:none; }
+        .nav-links { display:flex; gap:2rem; list-style:none; }
         .nav-links a { font-family:'Orbitron',sans-serif; font-size:0.62rem; letter-spacing:0.15em; color:var(--gray-500); text-decoration:none; transition:color 0.3s; cursor:pointer; }
         .nav-links a:hover { color:white; }
-        .nav-right { display:flex; align-items:center; gap:1rem; }
-        .nav-cta { font-family:'Orbitron',sans-serif; font-size:0.62rem; letter-spacing:0.15em; padding:0.6rem 1.4rem; border:1px solid rgba(255,255,255,0.4); color:white; text-decoration:none; transition:all 0.3s; }
+        .nav-right { display:flex; align-items:center; gap:0.75rem; }
+        .nav-cta { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.12em; padding:0.55rem 1.2rem; border:1px solid rgba(255,255,255,0.4); color:white; text-decoration:none; transition:all 0.3s; white-space:nowrap; }
         .nav-cta:hover { background:white; color:black; }
-        .nav-artist-login { font-family:'Orbitron',sans-serif; font-size:0.62rem; letter-spacing:0.15em; padding:0.6rem 1.4rem; background:white; color:black; text-decoration:none; transition:all 0.3s; border:1px solid white; display:flex; align-items:center; gap:0.5rem; }
+        .nav-artist-login { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.12em; padding:0.55rem 1.2rem; background:white; color:black; text-decoration:none; transition:all 0.3s; border:1px solid white; display:flex; align-items:center; gap:0.5rem; white-space:nowrap; }
         .nav-artist-login:hover { background:transparent; color:white; }
-        .nav-artist-login svg { width:12px; height:12px; }
-        .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; }
-        .hamburger span { display:block; width:24px; height:1px; background:white; transition:all 0.3s; }
-        @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} .nav-artist-login span{display:none;} }
+        .nav-artist-login svg { width:12px; height:12px; flex-shrink:0; }
+        .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px; z-index:101; }
+        .hamburger span { display:block; width:22px; height:1px; background:white; transition:all 0.3s; }
+        @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} .nav-inner{height:58px;} }
+        @media(max-width:480px){ .nav-cta{display:none;} .nav-artist-login .nav-login-txt{display:none;} }
 
         /* MOBILE MENU */
-        .mobile-menu { position:fixed; inset:0; z-index:90; background:black; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; opacity:0; pointer-events:none; transition:opacity 0.4s; }
+        .mobile-menu { position:fixed; inset:0; z-index:90; background:black; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.6rem; opacity:0; pointer-events:none; transition:opacity 0.4s; padding:2rem; overflow-y:auto; }
         .mobile-menu.open { opacity:1; pointer-events:all; }
-        .mobile-menu a { font-family:'Orbitron',sans-serif; font-size:2rem; letter-spacing:0.1em; color:white; text-decoration:none; opacity:0; transform:translateY(20px); transition:color 0.3s; cursor:pointer; }
+        .mobile-menu a { font-family:'Orbitron',sans-serif; font-size:clamp(1.2rem,5vw,2rem); letter-spacing:0.1em; color:white; text-decoration:none; opacity:0; transform:translateY(20px); transition:color 0.3s; cursor:pointer; text-align:center; }
         .mobile-menu.open a { animation:slideUp 0.4s forwards; }
         .mobile-menu a:hover { color:var(--gray-500); }
-        .mobile-menu .mobile-artist-login { font-size:1rem; padding:0.8rem 2rem; border:1px solid white; margin-top:1rem; }
+        .mob-login-btn { font-size:clamp(0.75rem,3vw,1rem) !important; padding:0.75rem 2rem; border:1px solid white; margin-top:0.5rem; }
+        .mob-demo-btn { font-size:clamp(0.75rem,3vw,1rem) !important; padding:0.75rem 2rem; background:white !important; color:black !important; }
         @keyframes slideUp { to { opacity:1; transform:translateY(0); } }
 
         /* HERO */
-        .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end; padding:0 2rem 5rem; position:relative; overflow:hidden; }
+        .hero { min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; justify-content:flex-end; padding:0 1.5rem 4rem; position:relative; overflow:hidden; }
         .hero-bg { position:absolute; inset:0; background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(255,255,255,0.03) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 70%, rgba(255,255,255,0.02) 0%, transparent 60%); }
         .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size:80px 80px; mask-image:linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%); }
-        .hero-year { font-family:'Orbitron',sans-serif; font-size:0.7rem; letter-spacing:0.3em; color:var(--gray-700); margin-bottom:2rem; }
-        .hero-title { font-family:'Orbitron',sans-serif; font-size:clamp(3.5rem,10vw,9rem); font-weight:900; letter-spacing:-0.02em; line-height:0.9; position:relative; z-index:1; }
-        .hero-title .line2 { display:block; padding-left:clamp(2rem,8vw,8rem); color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.5); }
-        .hero-title .line3 { display:block; padding-left:clamp(4rem,16vw,16rem); }
-        .hero-bottom { display:flex; justify-content:space-between; align-items:flex-end; margin-top:4rem; position:relative; z-index:1; flex-wrap:wrap; gap:2rem; }
+        .hero-year { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.3em; color:var(--gray-700); margin-bottom:1.5rem; }
+        .hero-title { font-family:'Orbitron',sans-serif; font-size:clamp(2.8rem,10vw,9rem); font-weight:900; letter-spacing:-0.02em; line-height:0.9; position:relative; z-index:1; }
+        .hero-title .line2 { display:block; padding-left:clamp(1.5rem,6vw,8rem); color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.5); }
+        .hero-title .line3 { display:block; padding-left:clamp(3rem,12vw,16rem); }
+        .hero-bottom { display:flex; justify-content:space-between; align-items:flex-end; margin-top:2.5rem; position:relative; z-index:1; flex-wrap:wrap; gap:1.5rem; }
         .hero-tagline { font-size:0.8rem; color:var(--gray-500); max-width:260px; line-height:1.7; letter-spacing:0.05em; }
         .hero-tagline strong { color:white; display:block; margin-bottom:0.5rem; font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.2em; }
         .hero-scroll { display:flex; flex-direction:column; align-items:center; gap:0.5rem; }
         .hero-scroll span { font-family:'Orbitron',sans-serif; font-size:0.55rem; letter-spacing:0.2em; color:var(--gray-700); writing-mode:vertical-rl; }
         .scroll-track { width:1px; height:60px; background:linear-gradient(to bottom, white, transparent); animation:scrollPulse 2s ease-in-out infinite; }
         @keyframes scrollPulse { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
-        .hero-cta-group { display:flex; gap:1rem; align-items:center; }
-        .btn-primary { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:0.9rem 2rem; background:white; color:black; border:none; text-decoration:none; cursor:pointer; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; }
+        .hero-cta-group { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+        .btn-primary { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:0.9rem 2rem; background:white; color:black; border:none; text-decoration:none; cursor:pointer; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; white-space:nowrap; }
         .btn-primary:hover { background:var(--gray-300); }
-        .btn-ghost { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:0.9rem 2rem; border:1px solid var(--border); color:white; text-decoration:none; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; cursor:pointer; }
+        .btn-ghost { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:0.9rem 2rem; border:1px solid var(--border); color:white; text-decoration:none; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; cursor:pointer; white-space:nowrap; }
         .btn-ghost:hover { border-color:white; }
+        @media(max-width:600px){
+            .hero{padding:0 1rem 3rem;}
+            .hero-scroll{display:none;}
+            .hero-tagline{max-width:100%;}
+            .hero-cta-group{width:100%;}
+            .btn-primary,.btn-ghost{flex:1;justify-content:center;font-size:0.6rem;padding:0.8rem 1rem;}
+        }
 
         /* TICKER */
         .ticker { overflow:hidden; border-top:1px solid var(--border-dim); border-bottom:1px solid var(--border-dim); padding:0.8rem 0; background:rgba(255,255,255,0.02); }
@@ -76,141 +86,147 @@
         @keyframes ticker { from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
         /* SECTIONS */
-        .section { padding:8rem 2rem; max-width:1400px; margin:0 auto; }
-        .label { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.3em; color:var(--gray-700); display:flex; align-items:center; gap:1rem; margin-bottom:3rem; }
+        .section { padding:6rem 1.5rem; max-width:1400px; margin:0 auto; }
+        @media(max-width:600px){ .section{padding:4rem 1rem;} }
+        .label { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.3em; color:var(--gray-700); display:flex; align-items:center; gap:1rem; margin-bottom:2.5rem; }
         .label::before { content:''; display:block; width:30px; height:1px; background:var(--gray-700); }
         .section-heading { font-family:'Orbitron',sans-serif; font-size:clamp(2rem,5vw,4.5rem); font-weight:800; letter-spacing:-0.01em; line-height:1; }
 
         /* ABOUT */
-        .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; margin-top:5rem; }
-        @media(max-width:768px){ .about-grid{grid-template-columns:1fr; gap:3rem;} }
-        .about-text p { font-size:1.05rem; line-height:1.8; color:var(--gray-300); margin-bottom:1.5rem; }
-        .about-text p:first-child { color:white; font-size:1.2rem; }
+        .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; margin-top:4rem; }
+        .about-text p { font-size:1rem; line-height:1.8; color:var(--gray-300); margin-bottom:1.5rem; }
+        .about-text p:first-child { color:white; font-size:1.1rem; }
         .about-stats { display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--border); }
-        .stat { padding:2.5rem 2rem; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+        .stat { padding:2rem 1.5rem; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
         .stat:nth-child(2n){ border-right:none; }
         .stat:nth-child(3),.stat:nth-child(4){ border-bottom:none; }
-        .stat-num { font-family:'Orbitron',sans-serif; font-size:2.5rem; font-weight:900; line-height:1; margin-bottom:0.5rem; }
-        .stat-label { font-size:0.75rem; color:var(--gray-500); letter-spacing:0.1em; }
-        .platforms { display:flex; align-items:center; gap:2rem; flex-wrap:wrap; margin-top:3rem; }
+        .stat-num { font-family:'Orbitron',sans-serif; font-size:2.2rem; font-weight:900; line-height:1; margin-bottom:0.5rem; }
+        .stat-label { font-size:0.7rem; color:var(--gray-500); letter-spacing:0.1em; }
+        .platforms { display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; margin-top:2rem; }
         .platform-name { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.15em; color:var(--gray-700); }
+        @media(max-width:768px){ .about-grid{grid-template-columns:1fr; gap:2.5rem;} }
 
         /* ROSTER */
         .roster-section { background:rgba(255,255,255,0.02); border-top:1px solid var(--border-dim); border-bottom:1px solid var(--border-dim); }
-        .roster-inner { max-width:1400px; margin:0 auto; padding:8rem 2rem; }
-        .roster-grid { display:grid; grid-template-columns:repeat(3,1fr); margin-top:4rem; border:1px solid var(--border); }
-        @media(max-width:900px){ .roster-grid{grid-template-columns:1fr;} }
-        .artist-card { padding:2.5rem 2rem; border-right:1px solid var(--border); position:relative; overflow:hidden; transition:background 0.4s; }
+        .roster-inner { max-width:1400px; margin:0 auto; padding:6rem 1.5rem; }
+        @media(max-width:600px){ .roster-inner{padding:4rem 1rem;} }
+        .roster-grid { display:grid; grid-template-columns:repeat(3,1fr); margin-top:3.5rem; border:1px solid var(--border); }
+        .artist-card { padding:2rem 1.5rem; border-right:1px solid var(--border); position:relative; overflow:hidden; transition:background 0.4s; }
         .artist-card:last-child{ border-right:none; }
         .artist-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:white; transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
         .artist-card:hover{ background:rgba(255,255,255,0.03); }
         .artist-card:hover::after{ transform:scaleX(1); }
-        .artist-number { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--gray-700); margin-bottom:2rem; }
-        .artist-name { font-family:'Orbitron',sans-serif; font-size:1.3rem; font-weight:700; letter-spacing:0.05em; margin-bottom:0.75rem; }
-        .artist-genre { font-size:0.75rem; color:var(--gray-500); letter-spacing:0.1em; margin-bottom:1.5rem; }
-        .spotify-embed { border-radius:8px; overflow:hidden; margin-bottom:1.5rem; }
+        .artist-number { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--gray-700); margin-bottom:1.5rem; }
+        .artist-name { font-family:'Orbitron',sans-serif; font-size:1.15rem; font-weight:700; letter-spacing:0.05em; margin-bottom:0.6rem; }
+        .artist-genre { font-size:0.7rem; color:var(--gray-500); letter-spacing:0.1em; margin-bottom:1.25rem; line-height:1.5; }
+        .spotify-embed { border-radius:8px; overflow:hidden; margin-bottom:1.25rem; }
         .spotify-embed iframe { width:100%; border:none; display:block; }
-        .artist-meta { display:flex; gap:1rem; flex-wrap:wrap; }
-        .artist-tag { font-size:0.6rem; letter-spacing:0.15em; color:var(--gray-700); padding:0.3rem 0.75rem; border:1px solid rgba(255,255,255,0.1); }
+        .artist-meta { display:flex; gap:0.6rem; flex-wrap:wrap; }
+        .artist-tag { font-size:0.6rem; letter-spacing:0.15em; color:var(--gray-700); padding:0.3rem 0.65rem; border:1px solid rgba(255,255,255,0.1); }
         .artist-spotify-link { display:inline-flex; align-items:center; gap:0.5rem; font-size:0.65rem; letter-spacing:0.1em; color:var(--gray-500); text-decoration:none; transition:color 0.3s; margin-top:1rem; }
         .artist-spotify-link:hover{ color:white; }
+        @media(max-width:900px){ .roster-grid{grid-template-columns:1fr;} .artist-card{border-right:none; border-bottom:1px solid var(--border);} .artist-card:last-child{border-bottom:none;} }
 
         /* RELEASES */
-        .releases-header { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:4rem; }
+        .releases-header { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:3rem; }
         .releases-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border-dim); border:1px solid var(--border-dim); }
-        @media(max-width:900px){ .releases-grid{grid-template-columns:repeat(2,1fr);} }
-        @media(max-width:500px){ .releases-grid{grid-template-columns:1fr;} }
-        .release-card { background:black; padding:1.5rem; transition:background 0.3s; cursor:pointer; }
+        .release-card { background:black; padding:1.25rem; transition:background 0.3s; cursor:pointer; }
         .release-card:hover{ background:rgba(255,255,255,0.04); }
-        .release-cover { width:100%; aspect-ratio:1; background:rgba(255,255,255,0.04); border:1px solid var(--border-dim); margin-bottom:1.25rem; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
-        .release-cover-inner { font-family:'Orbitron',sans-serif; font-size:0.55rem; letter-spacing:0.2em; color:var(--gray-700); text-align:center; padding:1rem; }
+        .release-cover { width:100%; aspect-ratio:1; background:rgba(255,255,255,0.04); border:1px solid var(--border-dim); margin-bottom:1rem; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+        .release-cover-inner { font-family:'Orbitron',sans-serif; font-size:0.5rem; letter-spacing:0.2em; color:var(--gray-700); text-align:center; padding:0.75rem; }
         .release-cover .play-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; background:rgba(0,0,0,0.6); transition:opacity 0.3s; }
         .release-card:hover .play-overlay{ opacity:1; }
-        .release-title { font-family:'Orbitron',sans-serif; font-size:0.78rem; font-weight:700; letter-spacing:0.05em; margin-bottom:0.4rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .release-artist { font-size:0.7rem; color:var(--gray-500); margin-bottom:0.75rem; }
-        .release-meta { display:flex; justify-content:space-between; font-size:0.6rem; color:var(--gray-700); letter-spacing:0.1em; align-items:center; }
-        .release-type { padding:0.15rem 0.5rem; border:1px solid rgba(255,255,255,0.1); font-family:'Orbitron',sans-serif; font-size:0.5rem; letter-spacing:0.1em; }
+        .release-title { font-family:'Orbitron',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:0.05em; margin-bottom:0.3rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .release-artist { font-size:0.68rem; color:var(--gray-500); margin-bottom:0.6rem; }
+        .release-meta { display:flex; justify-content:space-between; font-size:0.58rem; color:var(--gray-700); letter-spacing:0.1em; align-items:center; }
+        .release-type { padding:0.15rem 0.5rem; border:1px solid rgba(255,255,255,0.1); font-family:'Orbitron',sans-serif; font-size:0.48rem; letter-spacing:0.1em; }
+        @media(max-width:900px){ .releases-grid{grid-template-columns:repeat(2,1fr);} }
 
         /* A&R */
         .anr-section { background:white; color:black; }
-        .anr-inner { max-width:1400px; margin:0 auto; padding:8rem 2rem; display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; }
-        @media(max-width:768px){ .anr-inner{grid-template-columns:1fr; gap:3rem;} }
-        .anr-label { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.3em; color:#666; display:flex; align-items:center; gap:1rem; margin-bottom:3rem; }
+        .anr-inner { max-width:1400px; margin:0 auto; padding:6rem 1.5rem; display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
+        .anr-label { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.3em; color:#666; display:flex; align-items:center; gap:1rem; margin-bottom:2.5rem; }
         .anr-label::before { content:''; display:block; width:30px; height:1px; background:#999; }
-        .anr-heading { font-family:'Orbitron',sans-serif; font-size:clamp(2rem,4vw,3.5rem); font-weight:900; line-height:1; color:black; margin-bottom:2rem; }
-        .anr-body { font-size:0.95rem; color:#555; line-height:1.8; margin-bottom:2rem; }
-        .anr-criteria { list-style:none; margin-bottom:3rem; }
-        .anr-criteria li { display:flex; align-items:flex-start; gap:1rem; font-size:0.85rem; color:#444; padding:0.75rem 0; border-bottom:1px solid rgba(0,0,0,0.08); }
+        .anr-heading { font-family:'Orbitron',sans-serif; font-size:clamp(1.8rem,4vw,3.5rem); font-weight:900; line-height:1; color:black; margin-bottom:1.5rem; }
+        .anr-body { font-size:0.9rem; color:#555; line-height:1.8; margin-bottom:1.5rem; }
+        .anr-criteria { list-style:none; margin-bottom:2.5rem; }
+        .anr-criteria li { display:flex; align-items:flex-start; gap:1rem; font-size:0.82rem; color:#444; padding:0.6rem 0; border-bottom:1px solid rgba(0,0,0,0.08); }
         .anr-criteria li::before { content:'—'; color:#999; flex-shrink:0; }
         .btn-dark { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.15em; padding:1rem 2.5rem; background:black; color:white; border:none; text-decoration:none; cursor:pointer; transition:all 0.3s; display:inline-flex; align-items:center; gap:0.75rem; }
         .btn-dark:hover{ background:#222; }
-        .anr-box { padding:2rem; border:1px solid rgba(0,0,0,0.1); background:rgba(0,0,0,0.02); margin-bottom:1rem; }
-        .anr-box-title { font-family:'Orbitron',sans-serif; font-size:0.7rem; letter-spacing:0.15em; color:#333; margin-bottom:0.75rem; }
+        .anr-box { padding:1.75rem; border:1px solid rgba(0,0,0,0.1); background:rgba(0,0,0,0.02); margin-bottom:1rem; }
+        .anr-box-title { font-family:'Orbitron',sans-serif; font-size:0.7rem; letter-spacing:0.15em; color:#333; margin-bottom:0.6rem; }
         .anr-box-text { font-size:0.8rem; color:#666; line-height:1.7; }
-        .anr-box-number { font-family:'Orbitron',sans-serif; font-size:3rem; font-weight:900; color:rgba(0,0,0,0.06); line-height:1; margin-bottom:0.25rem; }
+        .anr-box-number { font-family:'Orbitron',sans-serif; font-size:2.5rem; font-weight:900; color:rgba(0,0,0,0.06); line-height:1; margin-bottom:0.25rem; }
+        @media(max-width:768px){ .anr-inner{grid-template-columns:1fr; gap:2.5rem; padding:4rem 1rem;} }
 
         /* SERVICES */
-        .services-grid { display:grid; grid-template-columns:repeat(3,1fr); margin-top:4rem; border:1px solid var(--border); }
-        @media(max-width:900px){ .services-grid{grid-template-columns:1fr;} }
-        .service-item { padding:3rem 2.5rem; border-right:1px solid var(--border); border-bottom:1px solid var(--border); transition:background 0.3s; }
+        .services-grid { display:grid; grid-template-columns:repeat(3,1fr); margin-top:3.5rem; border:1px solid var(--border); }
+        .service-item { padding:2.5rem 2rem; border-right:1px solid var(--border); border-bottom:1px solid var(--border); transition:background 0.3s; }
         .service-item:hover{ background:rgba(255,255,255,0.03); }
         .service-item:nth-child(3n){ border-right:none; }
         .service-item:nth-last-child(-n+3){ border-bottom:none; }
-        @media(max-width:900px){ .service-item{border-right:none;} .service-item:last-child{border-bottom:none;} }
-        .service-icon { width:40px; height:40px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin-bottom:2rem; color:var(--gray-500); transition:color 0.3s,border-color 0.3s; }
+        .service-icon { width:40px; height:40px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem; color:var(--gray-500); transition:color 0.3s,border-color 0.3s; }
         .service-item:hover .service-icon{ color:white; border-color:white; }
         .service-icon svg{ width:18px; height:18px; }
-        .service-name { font-family:'Orbitron',sans-serif; font-size:0.78rem; letter-spacing:0.1em; margin-bottom:1rem; }
-        .service-desc { font-size:0.82rem; color:var(--gray-500); line-height:1.7; }
+        .service-name { font-family:'Orbitron',sans-serif; font-size:0.75rem; letter-spacing:0.1em; margin-bottom:0.85rem; }
+        .service-desc { font-size:0.8rem; color:var(--gray-500); line-height:1.7; }
+        @media(max-width:900px){ .services-grid{grid-template-columns:1fr 1fr;} .service-item:nth-child(3n){border-right:1px solid var(--border);} .service-item:nth-child(2n){border-right:none;} .service-item:nth-last-child(-n+3){border-bottom:1px solid var(--border);} .service-item:last-child{border-bottom:none;} }
+        @media(max-width:540px){ .services-grid{grid-template-columns:1fr;} .service-item{border-right:none!important;} .service-item:last-child{border-bottom:none;} }
 
         /* DISTRIBUTION */
         .dist-section { border-top:1px solid var(--border-dim); }
-        .dist-inner { max-width:1400px; margin:0 auto; padding:8rem 2rem; }
-        .dist-grid { display:grid; grid-template-columns:1fr 2fr; gap:6rem; margin-top:4rem; align-items:start; }
-        @media(max-width:768px){ .dist-grid{grid-template-columns:1fr; gap:3rem;} }
-        .dist-sidebar p { font-size:0.85rem; color:var(--gray-500); line-height:1.8; margin-bottom:2rem; }
-        .dist-plan { border:1px solid var(--border); padding:2.5rem; position:relative; overflow:hidden; }
+        .dist-inner { max-width:1400px; margin:0 auto; padding:6rem 1.5rem; }
+        @media(max-width:600px){ .dist-inner{padding:4rem 1rem;} }
+        .dist-grid { display:grid; grid-template-columns:1fr 2fr; gap:4rem; margin-top:3.5rem; align-items:start; }
+        .dist-sidebar p { font-size:0.85rem; color:var(--gray-500); line-height:1.8; margin-bottom:1.5rem; }
+        .dist-plan { border:1px solid var(--border); padding:2rem; position:relative; overflow:hidden; }
         .dist-plan::before { content:'FREE PLAN'; position:absolute; top:-1px; left:2rem; font-family:'Orbitron',sans-serif; font-size:0.55rem; letter-spacing:0.2em; background:white; color:black; padding:0.3rem 0.75rem; }
-        .plan-price { font-family:'Orbitron',sans-serif; font-size:4rem; font-weight:900; line-height:1; margin-bottom:0.5rem; margin-top:1rem; }
-        .plan-sub { font-size:0.75rem; color:var(--gray-500); margin-bottom:2rem; }
+        .plan-price { font-family:'Orbitron',sans-serif; font-size:3.5rem; font-weight:900; line-height:1; margin-bottom:0.5rem; margin-top:1rem; }
+        .plan-sub { font-size:0.7rem; color:var(--gray-500); margin-bottom:1.5rem; }
         .plan-list { list-style:none; }
-        .plan-list li { display:flex; align-items:center; gap:1rem; font-size:0.8rem; color:var(--gray-300); padding:0.75rem 0; border-bottom:1px solid var(--border-dim); }
+        .plan-list li { display:flex; align-items:center; gap:1rem; font-size:0.78rem; color:var(--gray-300); padding:0.65rem 0; border-bottom:1px solid var(--border-dim); }
         .plan-list li::before{ content:'✓'; color:white; font-size:0.7rem; }
         .plan-list li.muted{ color:var(--gray-700); }
         .plan-list li.muted::before{ content:'—'; color:var(--gray-700); }
+        @media(max-width:768px){ .dist-grid{grid-template-columns:1fr; gap:2.5rem;} }
 
         /* PRESS */
         .press-section { border-top:1px solid var(--border-dim); }
-        .press-inner { max-width:1400px; margin:0 auto; padding:8rem 2rem; }
-        .testimonials { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border-dim); border:1px solid var(--border-dim); margin-top:4rem; }
-        @media(max-width:900px){ .testimonials{grid-template-columns:1fr;} }
-        .testimonial { background:black; padding:2.5rem; }
-        .t-quote { font-size:0.95rem; color:var(--gray-300); line-height:1.8; margin-bottom:2rem; font-style:italic; }
-        .t-quote::before { content:'"'; font-size:3rem; line-height:0; vertical-align:-1rem; color:var(--gray-700); margin-right:0.25rem; }
+        .press-inner { max-width:1400px; margin:0 auto; padding:6rem 1.5rem; }
+        @media(max-width:600px){ .press-inner{padding:4rem 1rem;} }
+        .testimonials { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border-dim); border:1px solid var(--border-dim); margin-top:3.5rem; }
+        .testimonial { background:black; padding:2rem; }
+        .t-quote { font-size:0.9rem; color:var(--gray-300); line-height:1.8; margin-bottom:1.5rem; font-style:italic; }
+        .t-quote::before { content:'"'; font-size:2.5rem; line-height:0; vertical-align:-0.8rem; color:var(--gray-700); margin-right:0.2rem; }
         .t-author { font-family:'Orbitron',sans-serif; font-size:0.7rem; letter-spacing:0.1em; margin-bottom:0.25rem; }
         .t-role { font-size:0.7rem; color:var(--gray-700); }
-        .stars { display:flex; gap:3px; margin-bottom:1.5rem; }
+        .stars { display:flex; gap:3px; margin-bottom:1.25rem; }
         .stars svg { width:12px; height:12px; fill:white; }
+        @media(max-width:900px){ .testimonials{grid-template-columns:1fr 1fr;} }
+        @media(max-width:540px){ .testimonials{grid-template-columns:1fr;} }
 
         /* CTA */
-        .cta-section { border-top:1px solid var(--border-dim); padding:10rem 2rem; text-align:center; }
-        .cta-title { font-family:'Orbitron',sans-serif; font-size:clamp(3rem,8vw,8rem); font-weight:900; line-height:0.9; letter-spacing:-0.02em; margin-bottom:3rem; }
+        .cta-section { border-top:1px solid var(--border-dim); padding:8rem 1.5rem; text-align:center; }
+        @media(max-width:600px){ .cta-section{padding:5rem 1rem;} }
+        .cta-title { font-family:'Orbitron',sans-serif; font-size:clamp(2.5rem,8vw,8rem); font-weight:900; line-height:0.9; letter-spacing:-0.02em; margin-bottom:2.5rem; }
         .cta-title span{ display:block; }
         .cta-title .outline { color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.4); }
-        .cta-sub { font-size:0.9rem; color:var(--gray-500); margin-bottom:3rem; }
+        .cta-sub { font-size:0.88rem; color:var(--gray-500); margin-bottom:2.5rem; }
         .cta-buttons { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
+        @media(max-width:480px){ .cta-buttons{flex-direction:column;align-items:center;} .cta-buttons a{width:100%;max-width:280px;justify-content:center;} }
 
         /* FOOTER */
-        .footer-wrap { border-top:1px solid var(--border-dim); padding:4rem 2rem 2rem; max-width:1400px; margin:0 auto; }
-        .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:4rem; margin-bottom:4rem; }
-        @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr; gap:2rem;} }
-        @media(max-width:500px){ .footer-grid{grid-template-columns:1fr;} }
-        .footer-brand { font-family:'Orbitron',sans-serif; font-size:1.5rem; letter-spacing:0.1em; margin-bottom:1rem; }
-        .footer-tagline { font-size:0.8rem; color:var(--gray-700); line-height:1.6; }
-        .footer-col-title { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--gray-700); margin-bottom:1.25rem; }
-        .footer-link { display:block; font-size:0.8rem; color:var(--gray-500); text-decoration:none; margin-bottom:0.75rem; transition:color 0.3s; cursor:pointer; }
+        .footer-wrap { border-top:1px solid var(--border-dim); padding:4rem 1.5rem 2rem; max-width:1400px; margin:0 auto; }
+        .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
+        .footer-brand { font-family:'Orbitron',sans-serif; font-size:1.2rem; letter-spacing:0.1em; margin-bottom:0.85rem; }
+        .footer-tagline { font-size:0.78rem; color:var(--gray-700); line-height:1.6; }
+        .footer-col-title { font-family:'Orbitron',sans-serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--gray-700); margin-bottom:1.1rem; }
+        .footer-link { display:block; font-size:0.78rem; color:var(--gray-500); text-decoration:none; margin-bottom:0.65rem; transition:color 0.3s; cursor:pointer; }
         .footer-link:hover{ color:white; }
-        .footer-bottom { border-top:1px solid var(--border-dim); padding-top:2rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:0.7rem; color:var(--gray-700); letter-spacing:0.05em; }
+        .footer-bottom { border-top:1px solid var(--border-dim); padding-top:1.75rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:0.68rem; color:var(--gray-700); letter-spacing:0.05em; }
+        @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr; gap:2rem;} }
+        @media(max-width:480px){ .footer-grid{grid-template-columns:1fr; gap:1.5rem;} }
 
         /* FADE UP */
         .fade-up { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
@@ -237,9 +253,9 @@
         <div class="nav-right">
             <a href="https://tir-artist-portal.vercel.app/" target="_blank" class="nav-artist-login">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span>ARTIST LOGIN</span>
+                <span class="nav-login-txt">ARTIST LOGIN</span>
             </a>
-            <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="nav-cta">SUBMIT DEMO</a>
+            <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="nav-cta">SUBMIT DEMO</a>
             <button class="hamburger" id="hamburger" onclick="toggleMobile()">
                 <span></span><span></span><span></span>
             </button>
@@ -249,14 +265,14 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-    <a onclick="closeMobile();go('about')">ABOUT</a>
-    <a onclick="closeMobile();go('roster')">ROSTER</a>
-    <a onclick="closeMobile();go('releases')">RELEASES</a>
-    <a onclick="closeMobile();go('services')">SERVICES</a>
-    <a onclick="closeMobile();go('distribution')">DISTRIBUTION</a>
-    <a onclick="closeMobile();go('press')">PRESS</a>
-    <a href="https://tir-artist-portal.vercel.app/" target="_blank" onclick="closeMobile()" class="mobile-artist-login">ARTIST LOGIN</a>
-    <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" onclick="closeMobile()">SUBMIT DEMO</a>
+    <a onclick="closeMobile();go('about')" style="animation-delay:.1s">ABOUT</a>
+    <a onclick="closeMobile();go('roster')" style="animation-delay:.17s">ROSTER</a>
+    <a onclick="closeMobile();go('releases')" style="animation-delay:.24s">RELEASES</a>
+    <a onclick="closeMobile();go('services')" style="animation-delay:.31s">SERVICES</a>
+    <a onclick="closeMobile();go('distribution')" style="animation-delay:.38s">DISTRIBUTION</a>
+    <a onclick="closeMobile();go('press')" style="animation-delay:.45s">PRESS</a>
+    <a href="https://tir-artist-portal.vercel.app/" target="_blank" onclick="closeMobile()" class="mob-login-btn" style="animation-delay:.52s">ARTIST LOGIN</a>
+    <a href="https://tir-demo-portal.vercel.app/" target="_blank" onclick="closeMobile()" class="mob-demo-btn" style="animation-delay:.59s">SUBMIT DEMO</a>
 </div>
 
 <!-- HERO -->
@@ -274,7 +290,7 @@
                 Signing, developing and distributing artists who redefine the boundaries of sound. Global reach. Artist first.
             </div>
             <div class="hero-cta-group">
-                <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="btn-primary">
+                <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">
                     SUBMIT DEMO
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
@@ -398,7 +414,7 @@
     </div>
 </div>
 
-<!-- RELEASES / DISCOGRAPHY -->
+<!-- RELEASES -->
 <div id="releases">
     <div class="section fade-up">
         <div class="releases-header">
@@ -406,131 +422,36 @@
                 <div class="label">CATALOG</div>
                 <h2 class="section-heading">LATEST RELEASES</h2>
             </div>
-            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" class="btn-ghost">
-                FULL CATALOG
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
+            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" class="btn-ghost">FULL CATALOG <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         </div>
         <div class="releases-grid">
-            <a href="https://music.apple.com/us/album/ghazi-tapes-ep/1883743287" target="_blank" style="text-decoration:none;color:inherit;">
-            <div class="release-card">
-                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
-                <div class="release-title">GHAZI TAPES</div>
-                <div class="release-artist">Aabyd Khan</div>
-                <div class="release-meta"><span class="release-type">EP</span><span>2026</span></div>
-            </div>
-            </a>
-            <a href="https://music.apple.com/us/album/alive-single/1877977840" target="_blank" style="text-decoration:none;color:inherit;">
-            <div class="release-card">
-                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
-                <div class="release-title">ALIVE</div>
-                <div class="release-artist">Aabyd Khan</div>
-                <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
-            </div>
-            </a>
-            <a href="https://music.apple.com/us/album/dream-single/1873184408" target="_blank" style="text-decoration:none;color:inherit;">
-            <div class="release-card">
-                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
-                <div class="release-title">DREAM</div>
-                <div class="release-artist">Aabyd Khan</div>
-                <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
-            </div>
-            </a>
-            <a href="https://music.apple.com/us/album/trending-single/1873188727" target="_blank" style="text-decoration:none;color:inherit;">
-            <div class="release-card">
-                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
-                <div class="release-title">TRENDING</div>
-                <div class="release-artist">Aabyd Khan</div>
-                <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
-            </div>
-            </a>
-            <a href="https://music.apple.com/us/album/drift-single/1873184563" target="_blank" style="text-decoration:none;color:inherit;">
-            <div class="release-card">
-                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
-                <div class="release-title">DRIFT</div>
-                <div class="release-artist">Aabyd Khan</div>
-                <div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div>
-            </div>
-            </a>
-            <a href="https://music.apple.com/us/album/my-story/1846604222" target="_blank" style="text-decoration:none;color:inherit;">
-            <div class="release-card">
-                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
-                <div class="release-title">MY STORY</div>
-                <div class="release-artist">Aabyd Khan</div>
-                <div class="release-meta"><span class="release-type">ALBUM</span><span>2025</span></div>
-            </div>
-            </a>
-            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" style="text-decoration:none;color:inherit;">
-            <div class="release-card">
-                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
-                <div class="release-title">THEY CALL HIM OG</div>
-                <div class="release-artist">Aabyd Khan</div>
-                <div class="release-meta"><span class="release-type">SINGLE</span><span>2025</span></div>
-            </div>
-            </a>
-            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" style="text-decoration:none;color:inherit;">
-            <div class="release-card">
-                <div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
-                <div class="release-title">LET'S DANCE</div>
-                <div class="release-artist">Aabyd Khan</div>
-                <div class="release-meta"><span class="release-type">SINGLE</span><span>2025</span></div>
-            </div>
-            </a>
+            <a href="https://music.apple.com/us/album/ghazi-tapes-ep/1883743287" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">GHAZI TAPES</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">EP</span><span>2026</span></div></div></a>
+            <a href="https://music.apple.com/us/album/alive-single/1877977840" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">ALIVE</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div></div></a>
+            <a href="https://music.apple.com/us/album/dream-single/1873184408" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">DREAM</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div></div></a>
+            <a href="https://music.apple.com/us/album/trending-single/1873188727" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">TRENDING</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div></div></a>
+            <a href="https://music.apple.com/us/album/drift-single/1873184563" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">DRIFT</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2026</span></div></div></a>
+            <a href="https://music.apple.com/us/album/my-story/1846604222" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">MY STORY</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">ALBUM</span><span>2025</span></div></div></a>
+            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">THEY CALL HIM OG</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2025</span></div></div></a>
+            <a href="https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm" target="_blank" style="text-decoration:none;color:inherit;"><div class="release-card"><div class="release-cover"><div class="release-cover-inner">AABYD KHAN</div><div class="play-overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div><div class="release-title">LET'S DANCE</div><div class="release-artist">Aabyd Khan</div><div class="release-meta"><span class="release-type">SINGLE</span><span>2025</span></div></div></a>
         </div>
     </div>
 </div>
 
-<!-- LABEL SERVICES -->
+<!-- SERVICES -->
 <div id="services">
     <div class="section fade-up">
         <div class="label">WHAT WE DO</div>
         <h2 class="section-heading">LABEL SERVICES</h2>
         <div class="services-grid">
-            <div class="service-item">
-                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
-                <div class="service-name">A&R DEVELOPMENT</div>
-                <div class="service-desc">Artist discovery, signing, and creative development. We find raw talent and shape it into something undeniable.</div>
-            </div>
-            <div class="service-item">
-                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-                <div class="service-name">GLOBAL DISTRIBUTION</div>
-                <div class="service-desc">Your music on 200+ platforms worldwide including Spotify, Apple Music, Amazon, Tidal, and regional stores.</div>
-            </div>
-            <div class="service-item">
-                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                <div class="service-name">RIGHTS MANAGEMENT</div>
-                <div class="service-desc">Full content ID, global copyright protection, and YouTube monetisation. Your work, protected everywhere.</div>
-            </div>
-            <div class="service-item">
-                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></div>
-                <div class="service-name">VEVO & VIDEO</div>
-                <div class="service-desc">Official VEVO artist channel setup, music video distribution, and YouTube channel management.</div>
-            </div>
-            <div class="service-item">
-                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                <div class="service-name">ARTIST VERIFICATION</div>
-                <div class="service-desc">Verified artist profiles across Spotify, Apple Music, and YouTube Music. Establish your official presence.</div>
-            </div>
-            <div class="service-item">
-                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
-                <div class="service-name">AUDIO MASTERING</div>
-                <div class="service-desc">Professional mastering services that prep your tracks for radio, streaming, and live performance standards.</div>
-            </div>
-            <div class="service-item">
-                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-                <div class="service-name">COVER ART & BRANDING</div>
-                <div class="service-desc">Visual identity for your releases. Cover art generation, artist branding, and promotional assets.</div>
-            </div>
-            <div class="service-item">
-                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-                <div class="service-name">PRE-SAVE CAMPAIGNS</div>
-                <div class="service-desc">Build anticipation with pre-save smartlinks before every release. Maximise day-one streams and playlist adds.</div>
-            </div>
-            <div class="service-item">
-                <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-                <div class="service-name">ROYALTY ANALYTICS</div>
-                <div class="service-desc">Monthly detailed reports on streams, revenue, and platform performance. Transparent data, every month.</div>
-            </div>
+            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><div class="service-name">A&R DEVELOPMENT</div><div class="service-desc">Artist discovery, signing, and creative development. We find raw talent and shape it into something undeniable.</div></div>
+            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div class="service-name">GLOBAL DISTRIBUTION</div><div class="service-desc">Your music on 200+ platforms worldwide including Spotify, Apple Music, Amazon, Tidal, and regional stores.</div></div>
+            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="service-name">RIGHTS MANAGEMENT</div><div class="service-desc">Full content ID, global copyright protection, and YouTube monetisation. Your work, protected everywhere.</div></div>
+            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></div><div class="service-name">VEVO & VIDEO</div><div class="service-desc">Official VEVO artist channel setup, music video distribution, and YouTube channel management.</div></div>
+            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="service-name">ARTIST VERIFICATION</div><div class="service-desc">Verified artist profiles across Spotify, Apple Music, and YouTube Music. Establish your official presence.</div></div>
+            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div><div class="service-name">AUDIO MASTERING</div><div class="service-desc">Professional mastering services that prep your tracks for radio, streaming, and live performance standards.</div></div>
+            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><div class="service-name">COVER ART & BRANDING</div><div class="service-desc">Visual identity for your releases. Cover art generation, artist branding, and promotional assets.</div></div>
+            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="service-name">PRE-SAVE CAMPAIGNS</div><div class="service-desc">Build anticipation with pre-save smartlinks before every release. Maximise day-one streams and playlist adds.</div></div>
+            <div class="service-item"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="service-name">ROYALTY ANALYTICS</div><div class="service-desc">Monthly detailed reports on streams, revenue, and platform performance. Transparent data, every month.</div></div>
         </div>
     </div>
 </div>
@@ -547,29 +468,17 @@
                 <li>High quality audio (WAV or MP3 320kbps+)</li>
                 <li>Any genre — we value authenticity over trend-chasing</li>
                 <li>Include artist name, genre, and a brief bio</li>
-                <li>Response within 7–14 business days</li>
+                <li>Response within 24–48 hours</li>
             </ul>
-            <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="btn-dark">
+            <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-dark">
                 SUBMIT YOUR DEMO
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
         </div>
         <div>
-            <div class="anr-box">
-                <div class="anr-box-number">01</div>
-                <div class="anr-box-title">SUBMIT</div>
-                <div class="anr-box-text">Fill out our demo submission form with your music and a brief intro about yourself and your artistic vision.</div>
-            </div>
-            <div class="anr-box">
-                <div class="anr-box-number">02</div>
-                <div class="anr-box-title">REVIEW</div>
-                <div class="anr-box-text">Our A&R team listens to every submission. We evaluate sound, artistry, and commercial potential.</div>
-            </div>
-            <div class="anr-box">
-                <div class="anr-box-number">03</div>
-                <div class="anr-box-title">SIGN & RELEASE</div>
-                <div class="anr-box-text">Selected artists receive a label offer. Once signed, we handle everything from mastering to worldwide distribution.</div>
-            </div>
+            <div class="anr-box"><div class="anr-box-number">01</div><div class="anr-box-title">SUBMIT</div><div class="anr-box-text">Fill out our demo submission form with your music and a brief intro about yourself and your artistic vision.</div></div>
+            <div class="anr-box"><div class="anr-box-number">02</div><div class="anr-box-title">REVIEW</div><div class="anr-box-text">Our A&R team listens to every submission. We evaluate sound, artistry, and commercial potential.</div></div>
+            <div class="anr-box"><div class="anr-box-number">03</div><div class="anr-box-title">SIGN & RELEASE</div><div class="anr-box-text">Selected artists receive a label offer. Once signed, we handle everything from mastering to worldwide distribution.</div></div>
         </div>
     </div>
 </div>
@@ -583,7 +492,7 @@
             <div class="dist-sidebar">
                 <p>Not ready to sign? No problem. TIR also offers free distribution to independent artists who want global reach without a full signing deal.</p>
                 <p>No upfront fees. Release unlimited music. Keep your rights. We take 15% — that's it.</p>
-                <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="btn-primary" style="margin-top:1rem">
+                <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary" style="margin-top:1rem">
                     JOIN FOR FREE
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
@@ -619,53 +528,22 @@
         <div class="label">TESTIMONIALS</div>
         <h2 class="section-heading">WHAT ARTISTS SAY</h2>
         <div class="testimonials">
-            <div class="testimonial">
-                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                <p class="t-quote">Best distributor I have ever used. Fast delivery and the team actually cares about your music.</p>
-                <div class="t-author">ALEX M.</div><div class="t-role">Independent Artist</div>
-            </div>
-            <div class="testimonial">
-                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                <p class="t-quote">The VEVO distribution changed everything for me. Getting my official channel was a dream come true.</p>
-                <div class="t-author">SARAH K.</div><div class="t-role">Music Producer</div>
-            </div>
-            <div class="testimonial">
-                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                <p class="t-quote">My music was live on all platforms within 48 hours. The mastering service made it sound incredible.</p>
-                <div class="t-author">CHRIS P.</div><div class="t-role">Indie Rock Artist</div>
-            </div>
-            <div class="testimonial">
-                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                <p class="t-quote">Finally a label that lets me keep 100% of my rights. Transparent, fast, and genuinely supportive.</p>
-                <div class="t-author">MARIA L.</div><div class="t-role">Singer-Songwriter</div>
-            </div>
-            <div class="testimonial">
-                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                <p class="t-quote">Professional team, quick responses. They treat every artist like a priority regardless of how big you are.</p>
-                <div class="t-author">THE BEATS</div><div class="t-role">Hip-Hop Group</div>
-            </div>
-            <div class="testimonial">
-                <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                <p class="t-quote">Submitted my demo on a Sunday, got a reply by Tuesday. From signing to release, the process was seamless.</p>
-                <div class="t-author">DJ RAVE</div><div class="t-role">Electronic Artist</div>
-            </div>
+            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">Best distributor I have ever used. Fast delivery and the team actually cares about your music.</p><div class="t-author">ALEX M.</div><div class="t-role">Independent Artist</div></div>
+            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">The VEVO distribution changed everything for me. Getting my official channel was a dream come true.</p><div class="t-author">SARAH K.</div><div class="t-role">Music Producer</div></div>
+            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">My music was live on all platforms within 48 hours. The mastering service made it sound incredible.</p><div class="t-author">CHRIS P.</div><div class="t-role">Indie Rock Artist</div></div>
+            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">Finally a label that lets me keep 100% of my rights. Transparent, fast, and genuinely supportive.</p><div class="t-author">MARIA L.</div><div class="t-role">Singer-Songwriter</div></div>
+            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">Professional team, quick responses. They treat every artist like a priority regardless of how big you are.</p><div class="t-author">THE BEATS</div><div class="t-role">Hip-Hop Group</div></div>
+            <div class="testimonial"><div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><p class="t-quote">Submitted my demo on a Sunday, got a reply by Tuesday. From signing to release, the process was seamless.</p><div class="t-author">DJ RAVE</div><div class="t-role">Electronic Artist</div></div>
         </div>
     </div>
 </div>
 
 <!-- CTA -->
 <div class="cta-section fade-up">
-    <h2 class="cta-title">
-        <span>READY TO</span>
-        <span class="outline">MAKE YOUR</span>
-        <span>MARK?</span>
-    </h2>
+    <h2 class="cta-title"><span>READY TO</span><span class="outline">MAKE YOUR</span><span>MARK?</span></h2>
     <p class="cta-sub">Sign with us or start distributing today — no fees, no catch.</p>
     <div class="cta-buttons">
-        <a href="https://forms.gle/p9g1vRK9DRWwTotj9" target="_blank" class="btn-primary">
-            SUBMIT YOUR DEMO
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
+        <a href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         <a href="mailto:theimaginaryrecords@gmail.com" class="btn-ghost">EMAIL THE LABEL</a>
     </div>
 </div>
@@ -687,7 +565,7 @@
         <div>
             <div class="footer-col-title">ARTISTS</div>
             <a class="footer-link" onclick="go('distribution')">Distribution</a>
-            <a class="footer-link" onclick="go('anr')">Submit Demo</a>
+            <a class="footer-link" href="https://tir-demo-portal.vercel.app/" target="_blank">Submit Demo</a>
             <a class="footer-link" onclick="go('press')">Press</a>
             <a class="footer-link" href="https://tir-artist-portal.vercel.app/" target="_blank">Artist Login</a>
         </div>
@@ -704,8 +582,8 @@
 </div>
 
 <script>
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
+    const cursor=document.getElementById('cursor');
+    const ring=document.getElementById('cursorRing');
     let mx=0,my=0,rx=0,ry=0;
     document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
     (function anim(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
@@ -720,14 +598,13 @@
         const open=m.classList.toggle('open');
         const sp=document.querySelectorAll('.hamburger span');
         if(open){sp[0].style.transform='translateY(6px) rotate(45deg)';sp[1].style.opacity='0';sp[2].style.transform='translateY(-6px) rotate(-45deg)';}
-        else{sp.forEach(s=>{s.style.transform='';s.style.opacity='';})}
-        document.querySelectorAll('.mobile-menu a').forEach((a,i)=>{a.style.animationDelay=(0.1+i*0.07)+'s';});
+        else{sp.forEach(s=>{s.style.transform='';s.style.opacity='';});}
     }
     function closeMobile(){
         document.getElementById('mobileMenu').classList.remove('open');
         document.querySelectorAll('.hamburger span').forEach(s=>{s.style.transform='';s.style.opacity='';});
     }
-    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
+    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
     document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 </script>
 </body>
