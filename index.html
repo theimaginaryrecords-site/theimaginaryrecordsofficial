@@ -4,6 +4,72 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>The Imaginary Records</title>
+<script>
+// ── Canvas Favicon Generator — no file upload needed ────────
+(function(){
+  var c = document.createElement('canvas');
+  c.width = 64; c.height = 64;
+  var ctx = c.getContext('2d');
+
+  // Background — deep black
+  ctx.fillStyle = '#080808';
+  ctx.beginPath();
+  ctx.roundRect(0, 0, 64, 64, 10);
+  ctx.fill();
+
+  // Gold border (subtle)
+  ctx.strokeStyle = '#c9a84c';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.roundRect(1, 1, 62, 62, 9);
+  ctx.stroke();
+
+  // Draw "T·I·R" text in gold
+  ctx.fillStyle = '#c9a84c';
+  ctx.font = 'bold 15px "Arial Narrow", Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.letterSpacing = '2px';
+  ctx.fillText('T·I·R', 32, 32);
+
+  // Set favicon
+  var link = document.createElement('link');
+  link.rel = 'icon';
+  link.type = 'image/png';
+  link.href = c.toDataURL('image/png');
+  document.head.appendChild(link);
+
+  // Also set apple-touch-icon (larger, for mobile bookmarks)
+  var c2 = document.createElement('canvas');
+  c2.width = 180; c2.height = 180;
+  var ctx2 = c2.getContext('2d');
+
+  // Background
+  ctx2.fillStyle = '#080808';
+  ctx2.beginPath();
+  ctx2.roundRect(0, 0, 180, 180, 24);
+  ctx2.fill();
+
+  // Gold border
+  ctx2.strokeStyle = '#c9a84c';
+  ctx2.lineWidth = 4;
+  ctx2.beginPath();
+  ctx2.roundRect(2, 2, 176, 176, 22);
+  ctx2.stroke();
+
+  // "T·I·R" big
+  ctx2.fillStyle = '#c9a84c';
+  ctx2.font = 'bold 42px "Arial Narrow", Arial, sans-serif';
+  ctx2.textAlign = 'center';
+  ctx2.textBaseline = 'middle';
+  ctx2.fillText('T·I·R', 90, 90);
+
+  var link2 = document.createElement('link');
+  link2.rel = 'apple-touch-icon';
+  link2.href = c2.toDataURL('image/png');
+  document.head.appendChild(link2);
+})();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
