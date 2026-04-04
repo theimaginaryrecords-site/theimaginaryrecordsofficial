@@ -5,72 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>The Imaginary Records</title>
 <script>
-// ── Canvas Favicon Generator — no file upload needed ────────
 (function(){
-  var c = document.createElement('canvas');
-  c.width = 64; c.height = 64;
-  var ctx = c.getContext('2d');
-
-  // Background — deep black
-  ctx.fillStyle = '#080808';
-  ctx.beginPath();
-  ctx.roundRect(0, 0, 64, 64, 10);
-  ctx.fill();
-
-  // Gold border (subtle)
-  ctx.strokeStyle = '#c9a84c';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.roundRect(1, 1, 62, 62, 9);
-  ctx.stroke();
-
-  // Draw "T·I·R" text in gold
-  ctx.fillStyle = '#c9a84c';
-  ctx.font = 'bold 15px "Arial Narrow", Arial, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.letterSpacing = '2px';
-  ctx.fillText('T·I·R', 32, 32);
-
-  // Set favicon
-  var link = document.createElement('link');
-  link.rel = 'icon';
-  link.type = 'image/png';
-  link.href = c.toDataURL('image/png');
+  var c=document.createElement('canvas');c.width=64;c.height=64;
+  var ctx=c.getContext('2d');
+  ctx.fillStyle='#CC0000';ctx.beginPath();ctx.roundRect(0,0,64,64,10);ctx.fill();
+  ctx.fillStyle='#FFFFFF';ctx.font='bold 15px "Arial Narrow",Arial,sans-serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('T·I·R',32,32);
+  var link=document.createElement('link');link.rel='icon';link.type='image/png';link.href=c.toDataURL('image/png');
   document.head.appendChild(link);
-
-  // Also set apple-touch-icon (larger, for mobile bookmarks)
-  var c2 = document.createElement('canvas');
-  c2.width = 180; c2.height = 180;
-  var ctx2 = c2.getContext('2d');
-
-  // Background
-  ctx2.fillStyle = '#080808';
-  ctx2.beginPath();
-  ctx2.roundRect(0, 0, 180, 180, 24);
-  ctx2.fill();
-
-  // Gold border
-  ctx2.strokeStyle = '#c9a84c';
-  ctx2.lineWidth = 4;
-  ctx2.beginPath();
-  ctx2.roundRect(2, 2, 176, 176, 22);
-  ctx2.stroke();
-
-  // "T·I·R" big
-  ctx2.fillStyle = '#c9a84c';
-  ctx2.font = 'bold 42px "Arial Narrow", Arial, sans-serif';
-  ctx2.textAlign = 'center';
-  ctx2.textBaseline = 'middle';
-  ctx2.fillText('T·I·R', 90, 90);
-
-  var link2 = document.createElement('link');
-  link2.rel = 'apple-touch-icon';
-  link2.href = c2.toDataURL('image/png');
-  document.head.appendChild(link2);
 })();
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
@@ -87,189 +32,166 @@ const db=firebase.firestore();
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --black:#050505;--white:#f5f5f0;--gold:#c9a84c;--gold2:#e8c97a;
-  --gray:#1a1a1a;--gray2:#2a2a2a;--gray3:#555;--gray4:#888;
-  --border:rgba(255,255,255,0.1);
-  --font-display:'Bebas Neue',sans-serif;
-  --font-body:'Space Grotesk',sans-serif;
+  --red:#CC0000;--red2:#E60000;--red3:#FF1A1A;--dark-red:#990000;
+  --black:#0A0A0A;--white:#FFFFFF;--off-white:#F5F5F5;
+  --gray:#1A1A1A;--gray2:#2A2A2A;--gray3:#555;--gray4:#999;
+  --border:rgba(255,255,255,0.08);--border-red:rgba(204,0,0,0.3);
+  --font-display:'Barlow Condensed',sans-serif;
+  --font-body:'Barlow',sans-serif;
   --font-mono:'DM Mono',monospace;
 }
 html{scroll-behavior:smooth}
-body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden;cursor:none}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden}
 
-/* CURSOR */
-.cur{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s}
-.cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
-body:hover .cur{opacity:1}
-@media(max-width:768px){.cur,.cur-ring{display:none}body{cursor:auto}}
-
-/* VIEWS — single page app */
 .view{display:none;min-height:100vh}
 .view.active{display:block}
 
-/* ════════════════════════════
-   NAV
-   ════════════════════════════ */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;transition:background .4s,border .4s}
-nav.scrolled{background:rgba(5,5,5,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:var(--font-display);font-size:1.4rem;letter-spacing:6px;color:var(--white);cursor:pointer;text-decoration:none;transition:color .2s}
-.nav-logo:hover{color:var(--gold)}
+/* ══ NAV ══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;transition:background .3s,border .3s}
+nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--font-display);font-size:1.5rem;font-weight:900;letter-spacing:4px;color:var(--white);cursor:pointer;text-decoration:none;transition:color .2s}
+.nav-logo:hover{color:var(--red)}
+.nav-logo span{color:var(--red)}
 .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
-.nav-links a{font-size:.7rem;letter-spacing:.2em;color:var(--gray4);text-decoration:none;transition:color .2s;cursor:pointer;font-weight:500;text-transform:uppercase}
+.nav-links a{font-size:.72rem;letter-spacing:.2em;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s;cursor:pointer;font-weight:600;text-transform:uppercase;font-family:var(--font-display)}
 .nav-links a:hover,.nav-links a.active{color:var(--white)}
-.nav-right{display:flex;align-items:center;gap:12px}
-.nav-btn{font-size:.65rem;letter-spacing:.15em;padding:8px 18px;border:1px solid rgba(255,255,255,.25);color:var(--white);text-decoration:none;transition:all .2s;text-transform:uppercase;cursor:pointer;background:none}
-.nav-btn:hover{background:var(--white);color:var(--black)}
-.nav-btn.gold{background:var(--gold);border-color:var(--gold);color:#000}
-.nav-btn.gold:hover{background:var(--gold2)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-btn{font-size:.68rem;letter-spacing:.15em;padding:8px 18px;border:1px solid rgba(255,255,255,.2);color:var(--white);text-decoration:none;transition:all .2s;text-transform:uppercase;cursor:pointer;background:none;font-family:var(--font-display);font-weight:700}
+.nav-btn:hover{background:var(--white);color:var(--black);border-color:var(--white)}
+.nav-btn.red{background:var(--red);border-color:var(--red);color:var(--white)}
+.nav-btn.red:hover{background:var(--red2);border-color:var(--red2)}
 .ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
-.ham span{display:block;width:22px;height:1px;background:var(--white);transition:all .3s}
+.ham span{display:block;width:22px;height:2px;background:var(--white);transition:all .3s}
 @media(max-width:900px){.nav-links{display:none}.ham{display:flex}nav{padding:0 20px}}
 
 /* MOBILE MENU */
 .mob-menu{position:fixed;inset:0;z-index:900;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;opacity:0;pointer-events:none;transition:opacity .4s}
 .mob-menu.open{opacity:1;pointer-events:all}
-.mob-menu a{font-family:var(--font-display);font-size:3rem;letter-spacing:.1em;color:var(--white);text-decoration:none;cursor:pointer;transition:color .2s}
-.mob-menu a:hover{color:var(--gold)}
+.mob-menu a{font-family:var(--font-display);font-size:3rem;font-weight:800;letter-spacing:.05em;color:var(--white);text-decoration:none;cursor:pointer;transition:color .2s}
+.mob-menu a:hover{color:var(--red)}
 
-/* ════════════════════════════
-   HOME / HERO
-   ════════════════════════════ */
+/* ══ HERO ══ */
 #view-home{position:relative;overflow:hidden}
-.hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 40px 60px;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 30%,rgba(201,168,76,.04) 0%,transparent 70%)}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom,transparent,black 25%,black 75%,transparent)}
-.hero-year{font-size:.65rem;letter-spacing:.35em;color:var(--gray3);margin-bottom:1.5rem;font-family:var(--font-mono);text-transform:uppercase}
-.hero-title{font-family:var(--font-display);font-size:clamp(4rem,13vw,14rem);font-weight:400;letter-spacing:-.01em;line-height:.88;position:relative;z-index:1}
-.hero-title .line2{display:block;padding-left:clamp(2rem,8vw,10rem);color:transparent;-webkit-text-stroke:1px rgba(245,245,240,.4)}
-.hero-title .line3{display:block;padding-left:clamp(4rem,16vw,20rem)}
+.hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 40px 70px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:#0A0A0A}
+.hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(204,0,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(204,0,0,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom,transparent,black 20%,black 80%,transparent)}
+.hero-accent{position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent 0%,rgba(204,0,0,.06) 100%)}
+.hero-tag-top{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.35em;color:rgba(255,255,255,.3);margin-bottom:1.5rem;text-transform:uppercase;position:relative;z-index:1}
+.hero-title{font-family:var(--font-display);font-size:clamp(5rem,14vw,15rem);font-weight:900;letter-spacing:-.02em;line-height:.88;position:relative;z-index:1;text-transform:uppercase}
+.hero-title .line-red{color:var(--red)}
+.hero-title .line-outline{color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.2)}
 .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:3rem;position:relative;z-index:1;flex-wrap:wrap;gap:2rem}
-.hero-tag{font-size:.75rem;color:var(--gray4);max-width:280px;line-height:1.8;letter-spacing:.05em}
-.hero-tag strong{color:var(--white);display:block;margin-bottom:.5rem;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em}
-.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{font-size:.65rem;letter-spacing:.15em;padding:12px 28px;background:var(--white);color:var(--black);border:none;text-decoration:none;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;font-weight:600;font-family:var(--font-body)}
-.btn-primary:hover{background:var(--gold);color:#000}
-.btn-outline{font-size:.65rem;letter-spacing:.15em;padding:12px 28px;border:1px solid rgba(255,255,255,.3);color:var(--white);text-decoration:none;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;font-weight:600;background:none;font-family:var(--font-body)}
+.hero-desc{font-size:.85rem;color:rgba(255,255,255,.5);max-width:320px;line-height:1.8;letter-spacing:.03em}
+.hero-desc strong{color:var(--white);display:block;margin-bottom:.5rem;font-family:var(--font-display);font-size:.7rem;letter-spacing:.2em;font-weight:700}
+.hero-ctas{display:flex;gap:10px;flex-wrap:wrap}
+.btn-primary{font-size:.72rem;letter-spacing:.15em;padding:14px 32px;background:var(--red);color:var(--white);border:none;text-decoration:none;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;font-weight:700;font-family:var(--font-display)}
+.btn-primary:hover{background:var(--red2)}
+.btn-outline{font-size:.72rem;letter-spacing:.15em;padding:14px 32px;border:2px solid rgba(255,255,255,.3);color:var(--white);text-decoration:none;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;font-weight:700;background:none;font-family:var(--font-display)}
 .btn-outline:hover{border-color:var(--white)}
-.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.3}
-.scroll-hint span{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;writing-mode:vertical-rl;font-family:var(--font-mono)}
-.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--white),transparent);animation:scrollpulse 2s ease-in-out infinite}
-@keyframes scrollpulse{0%,100%{opacity:.2}50%{opacity:1}}
 
 /* TICKER */
-.ticker{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.7rem 0;background:rgba(255,255,255,.02)}
+.ticker{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.7rem 0;background:rgba(204,0,0,.04)}
 .ticker-track{display:flex;animation:ticker 35s linear infinite;width:max-content}
-.ticker-item{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.3em;color:var(--gray3);white-space:nowrap;padding:0 3rem}
-.ticker-item .dot{color:var(--gold);margin-right:3rem}
+.ticker-item{font-family:var(--font-display);font-size:.75rem;font-weight:700;letter-spacing:.25em;color:rgba(255,255,255,.3);white-space:nowrap;padding:0 2.5rem;text-transform:uppercase}
+.ticker-item .dot{color:var(--red);margin-right:2.5rem}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ════════════════════════════
-   SECTION PAGE VIEWS
-   ════════════════════════════ */
-.page-hero{padding:120px 40px 60px;border-bottom:1px solid var(--border)}
-.page-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,8rem);letter-spacing:-.01em;line-height:.9;margin-bottom:1rem}
-.page-sub{font-size:.75rem;color:var(--gray4);letter-spacing:.15em;text-transform:uppercase;font-family:var(--font-mono)}
-@media(max-width:600px){.page-hero{padding:90px 20px 40px}.page-title{font-size:clamp(2.5rem,10vw,5rem)}}
+/* ══ SECTION PAGE VIEWS ══ */
+.page-hero{padding:110px 40px 60px;border-bottom:2px solid var(--border)}
+.page-title{font-family:var(--font-display);font-size:clamp(3.5rem,9vw,9rem);font-weight:900;letter-spacing:-.01em;line-height:.9;margin-bottom:1rem;text-transform:uppercase}
+.page-title span{color:var(--red)}
+.page-sub{font-size:.72rem;color:rgba(255,255,255,.3);letter-spacing:.2em;text-transform:uppercase;font-family:var(--font-mono)}
+@media(max-width:600px){.page-hero{padding:90px 20px 40px}}
 
-/* ════════════════════════════
-   ABOUT
-   ════════════════════════════ */
+/* ══ ABOUT ══ */
 #view-about .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:80px 40px;max-width:1400px;margin:0 auto;align-items:start}
-.about-text p{font-size:1rem;line-height:1.9;color:rgba(245,245,240,.75);margin-bottom:1.5rem}
+.about-text p{font-size:1rem;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:1.5rem}
 .about-text p:first-child{color:var(--white);font-size:1.1rem}
-.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
-.stat-box{background:var(--black);padding:2rem 1.5rem}
-.stat-n{font-family:var(--font-display);font-size:3rem;color:var(--gold);line-height:1;margin-bottom:.4rem}
-.stat-l{font-size:.65rem;color:var(--gray4);letter-spacing:.15em;text-transform:uppercase;font-family:var(--font-mono)}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--border)}
+.stat-box{background:var(--black);padding:2.5rem 1.5rem;border:1px solid var(--border)}
+.stat-n{font-family:var(--font-display);font-size:3.5rem;font-weight:900;color:var(--red);line-height:1;margin-bottom:.4rem}
+.stat-l{font-size:.65rem;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;font-family:var(--font-mono)}
 .platforms-row{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:2.5rem}
-.plat-name{font-size:.6rem;letter-spacing:.2em;color:var(--gray3);text-transform:uppercase;font-family:var(--font-mono)}
+.plat-name{font-size:.6rem;letter-spacing:.2em;color:rgba(255,255,255,.3);text-transform:uppercase;font-family:var(--font-mono)}
 @media(max-width:768px){#view-about .about-grid{grid-template-columns:1fr;gap:40px;padding:40px 20px}}
 
-/* ════════════════════════════
-   ROSTER
-   ════════════════════════════ */
-#view-roster .roster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+/* ══ ROSTER ══ */
+#view-roster .roster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--border)}
 .roster-card{position:relative;aspect-ratio:3/4;overflow:hidden;cursor:pointer;background:var(--gray)}
 .roster-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s}
-.roster-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.2) 50%,transparent 100%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem}
+.roster-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.1) 60%,transparent 100%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem}
 .roster-card:hover .roster-card-overlay{opacity:1}
-.roster-card:hover img{transform:scale(1.05);filter:brightness(.8)}
-.roster-card-name{font-family:var(--font-display);font-size:1.6rem;letter-spacing:.05em;margin-bottom:.3rem}
-.roster-card-genre{font-size:.65rem;color:rgba(245,245,240,.6);letter-spacing:.15em;text-transform:uppercase;font-family:var(--font-mono)}
-.roster-placeholder{background:linear-gradient(135deg,var(--gray) 0%,var(--gray2) 100%);display:flex;align-items:center;justify-content:center;font-size:3rem}
+.roster-card:hover img{transform:scale(1.05);filter:brightness(.7)}
+.roster-card-name{font-family:var(--font-display);font-size:1.8rem;font-weight:800;letter-spacing:.03em;margin-bottom:.3rem;text-transform:uppercase}
+.roster-card-genre{font-size:.65rem;color:rgba(255,255,255,.5);letter-spacing:.15em;text-transform:uppercase;font-family:var(--font-mono)}
+.roster-placeholder{background:linear-gradient(135deg,var(--gray) 0%,var(--gray2) 100%);display:flex;align-items:center;justify-content:center;font-size:3rem;width:100%;height:100%;position:absolute;inset:0}
 @media(max-width:900px){#view-roster .roster-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:500px){#view-roster .roster-grid{grid-template-columns:1fr}}
 
-/* ARTIST PANEL (slide in) */
+/* ARTIST PANEL */
 .artist-panel{position:fixed;inset:0;z-index:2000;pointer-events:none}
-.artist-panel-bg{position:absolute;inset:0;background:rgba(0,0,0,.8);opacity:0;transition:opacity .4s;backdrop-filter:blur(4px)}
-.artist-panel-box{position:absolute;top:0;right:0;bottom:0;width:min(700px,100vw);background:var(--black);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .45s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column}
+.artist-panel-bg{position:absolute;inset:0;background:rgba(0,0,0,.85);opacity:0;transition:opacity .4s;backdrop-filter:blur(4px)}
+.artist-panel-box{position:absolute;top:0;right:0;bottom:0;width:min(700px,100vw);background:var(--black);border-left:2px solid var(--border-red);transform:translateX(100%);transition:transform .45s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column}
 .artist-panel.open .artist-panel-bg{opacity:1;pointer-events:all}
 .artist-panel.open .artist-panel-box{transform:translateX(0);pointer-events:all}
 .ap-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
 .ap-img-placeholder{width:100%;aspect-ratio:4/3;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:4rem}
 .ap-body{padding:40px}
-.ap-name{font-family:var(--font-display);font-size:clamp(2rem,5vw,4rem);letter-spacing:.03em;margin-bottom:.5rem}
-.ap-role{font-size:.7rem;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;font-family:var(--font-mono);margin-bottom:2rem}
-.ap-bio{font-size:.9rem;color:rgba(245,245,240,.75);line-height:1.9;margin-bottom:2rem}
-.ap-links{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:2rem}
-.ap-link{display:flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid var(--border);font-size:.65rem;letter-spacing:.1em;color:var(--white);text-decoration:none;transition:all .2s;text-transform:uppercase}
-.ap-link:hover{border-color:var(--gold);color:var(--gold)}
+.ap-name{font-family:var(--font-display);font-size:clamp(2rem,5vw,4rem);font-weight:900;letter-spacing:.02em;margin-bottom:.5rem;text-transform:uppercase}
+.ap-role{font-size:.7rem;color:var(--red);letter-spacing:.2em;text-transform:uppercase;font-family:var(--font-mono);margin-bottom:2rem}
+.ap-bio{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.9;margin-bottom:2rem}
+.ap-links{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:2rem}
+.ap-link{display:flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid var(--border);font-size:.65rem;letter-spacing:.1em;color:var(--white);text-decoration:none;transition:all .2s;text-transform:uppercase;font-family:var(--font-display);font-weight:700}
+.ap-link:hover{border-color:var(--red);background:rgba(204,0,0,.08)}
 .ap-link img{width:18px;height:18px;object-fit:contain;border-radius:3px}
-.ap-close{position:absolute;top:20px;right:20px;width:44px;height:44px;background:rgba(0,0,0,.7);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--white);transition:all .2s;z-index:10}
-.ap-close:hover{background:var(--white);color:var(--black)}
+.ap-close{position:absolute;top:20px;right:20px;width:44px;height:44px;background:rgba(10,10,10,.8);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--white);transition:all .2s;z-index:10}
+.ap-close:hover{background:var(--red);border-color:var(--red)}
 
-/* ════════════════════════════
-   CATALOGUE / RELEASES
-   ════════════════════════════ */
+/* ══ CATALOGUE ══ */
 .cat-filters{padding:20px 40px;border-bottom:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.cat-filter-btn{font-size:.65rem;letter-spacing:.12em;padding:7px 18px;border:1px solid var(--border);color:var(--gray4);background:none;cursor:pointer;transition:all .2s;text-transform:uppercase;font-family:var(--font-body)}
-.cat-filter-btn:hover,.cat-filter-btn.active{background:var(--white);color:var(--black);border-color:var(--white)}
-.cat-filter-select{font-size:.65rem;letter-spacing:.1em;padding:7px 14px;border:1px solid var(--border);color:var(--gray4);background:var(--black);cursor:pointer;transition:all .2s;text-transform:uppercase;font-family:var(--font-body);outline:none;appearance:none;padding-right:28px}
+.cat-filter-btn{font-size:.65rem;letter-spacing:.12em;padding:7px 18px;border:1px solid var(--border);color:rgba(255,255,255,.5);background:none;cursor:pointer;transition:all .2s;text-transform:uppercase;font-family:var(--font-display);font-weight:700}
+.cat-filter-btn:hover,.cat-filter-btn.active{background:var(--red);color:var(--white);border-color:var(--red)}
+.cat-filter-select{font-size:.65rem;letter-spacing:.1em;padding:7px 14px;border:1px solid var(--border);color:rgba(255,255,255,.5);background:var(--black);cursor:pointer;transition:all .2s;text-transform:uppercase;font-family:var(--font-display);font-weight:700;outline:none;appearance:none;padding-right:28px}
 .cat-filter-wrap{position:relative;display:inline-block}
-.cat-filter-wrap::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--gray4);pointer-events:none;font-size:10px}
-.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:40px;max-width:1600px;margin:0 auto}
-.cat-card{cursor:pointer;transition:transform .2s}
-.cat-card:hover{transform:translateY(-4px)}
+.cat-filter-wrap::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);pointer-events:none;font-size:10px}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:2px;background:var(--border);max-width:100%}
+.cat-card{cursor:pointer;transition:transform .2s;background:var(--black);padding:20px}
+.cat-card:hover{transform:translateY(-4px);background:rgba(204,0,0,.04)}
 .cat-art{width:100%;aspect-ratio:1;background:var(--gray);overflow:hidden;margin-bottom:14px;position:relative}
 .cat-art img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
 .cat-card:hover .cat-art img{transform:scale(1.05)}
-.cat-art-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.7rem;letter-spacing:.2em;color:var(--gray3)}
-.cat-title{font-size:.85rem;font-weight:700;margin-bottom:.2rem;letter-spacing:.03em}
-.cat-artist{font-size:.75rem;color:var(--gray4)}
-.cat-type{display:inline-block;font-size:.55rem;letter-spacing:.15em;color:var(--gray3);border:1px solid var(--gray2);padding:2px 8px;margin-top:6px;font-family:var(--font-mono);text-transform:uppercase}
-.cat-empty{grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3)}
+.cat-art-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.7rem;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.2)}
+.cat-title{font-size:.9rem;font-weight:700;margin-bottom:.2rem;letter-spacing:.03em;font-family:var(--font-display);text-transform:uppercase}
+.cat-artist{font-size:.75rem;color:rgba(255,255,255,.5)}
+.cat-type{display:inline-block;font-size:.55rem;letter-spacing:.15em;color:var(--red);border:1px solid var(--border-red);padding:2px 8px;margin-top:6px;font-family:var(--font-mono);text-transform:uppercase}
+.cat-empty{grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2)}
 @media(max-width:1100px){.cat-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:768px){.cat-grid{grid-template-columns:repeat(2,1fr);padding:20px;gap:16px}.cat-filters{padding:14px 20px}}
+@media(max-width:768px){.cat-grid{grid-template-columns:repeat(2,1fr);padding:0;gap:1px}.cat-filters{padding:14px 20px}}
 @media(max-width:400px){.cat-grid{grid-template-columns:1fr}}
 
-/* ════════════════════════════
-   RELEASE DETAIL PAGE
-   ════════════════════════════ */
+/* ══ RELEASE DETAIL ══ */
 #view-release .rel-hero{position:relative;background:var(--gray)}
-.rel-hero-inner{max-width:1400px;margin:0 auto;padding:120px 40px 60px;display:grid;grid-template-columns:auto 1fr;gap:80px;align-items:end}
-.rel-artwork{width:280px;height:280px;flex-shrink:0;background:var(--gray2);overflow:hidden}
+.rel-hero-inner{max-width:1400px;margin:0 auto;padding:120px 40px 60px;display:grid;grid-template-columns:auto 1fr;gap:60px;align-items:end}
+.rel-artwork{width:260px;height:260px;flex-shrink:0;background:var(--gray2);overflow:hidden}
 .rel-artwork img{width:100%;height:100%;object-fit:cover}
 .rel-artwork-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem}
-.rel-info-top{display:flex;flex-direction:column;gap:2rem}
-.rel-title-big{font-family:var(--font-display);font-size:clamp(3rem,7vw,8rem);letter-spacing:-.01em;line-height:.9}
-.rel-meta-row{display:grid;grid-template-columns:1fr 1fr auto;gap:3rem;align-items:end;padding-top:2rem;border-top:1px solid var(--border)}
-.rel-meta-item{}
-.rel-meta-label{font-size:.6rem;letter-spacing:.2em;color:var(--gray4);text-transform:uppercase;font-family:var(--font-mono);margin-bottom:.4rem}
-.rel-meta-value{font-size:.95rem;font-weight:600}
-.btn-stream{font-family:var(--font-display);font-size:1.1rem;letter-spacing:.1em;padding:14px 40px;background:var(--white);color:var(--black);border:none;cursor:pointer;transition:all .25s;text-transform:uppercase;white-space:nowrap}
-.btn-stream:hover{background:var(--gold);color:#000}
+.rel-title-big{font-family:var(--font-display);font-size:clamp(3rem,7vw,8rem);font-weight:900;letter-spacing:-.01em;line-height:.9;text-transform:uppercase}
+.rel-meta-row{display:grid;grid-template-columns:1fr 1fr auto;gap:2.5rem;align-items:end;padding-top:2rem;border-top:1px solid var(--border);margin-top:1.5rem}
+.rel-meta-label{font-size:.6rem;letter-spacing:.2em;color:rgba(255,255,255,.3);text-transform:uppercase;font-family:var(--font-mono);margin-bottom:.4rem}
+.rel-meta-value{font-size:.95rem;font-weight:700;font-family:var(--font-display)}
+.btn-stream{font-family:var(--font-display);font-size:1rem;font-weight:800;letter-spacing:.1em;padding:14px 40px;background:var(--red);color:var(--white);border:none;cursor:pointer;transition:all .25s;text-transform:uppercase;white-space:nowrap}
+.btn-stream:hover{background:var(--red2)}
 .rel-body{max-width:1400px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1.5fr;gap:80px;align-items:start}
-.rel-desc{font-size:.95rem;line-height:1.9;color:rgba(245,245,240,.75)}
-.rel-platforms{display:flex;flex-direction:column;gap:10px}
+.rel-desc{font-size:.95rem;line-height:1.9;color:rgba(255,255,255,.6)}
+.rel-platforms{display:flex;flex-direction:column;gap:8px}
 .rel-platform-link{display:flex;align-items:center;gap:14px;padding:14px 20px;border:1px solid var(--border);text-decoration:none;color:var(--white);transition:all .25s;cursor:pointer;background:none;width:100%;text-align:left}
-.rel-platform-link:hover{border-color:var(--gold);background:rgba(201,168,76,.05)}
+.rel-platform-link:hover{border-color:var(--red);background:rgba(204,0,0,.05)}
 .rel-platform-logo{width:28px;height:28px;object-fit:contain;border-radius:4px;background:var(--gray2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px}
 .rel-platform-logo img{width:100%;height:100%;object-fit:contain;border-radius:4px}
-.rel-platform-name{font-size:.8rem;font-weight:600;letter-spacing:.05em}
-.rel-platform-sub{font-size:.65rem;color:var(--gray4);margin-left:auto;letter-spacing:.1em;text-transform:uppercase;font-family:var(--font-mono)}
+.rel-platform-name{font-size:.8rem;font-weight:700;letter-spacing:.05em;font-family:var(--font-display)}
+.rel-platform-sub{font-size:.65rem;color:rgba(255,255,255,.3);margin-left:auto;letter-spacing:.1em;text-transform:uppercase;font-family:var(--font-mono)}
 .rel-more{max-width:1400px;margin:0 auto;padding:0 40px 80px}
-.rel-more h3{font-family:var(--font-display);font-size:2rem;letter-spacing:.05em;margin-bottom:2rem;padding-top:2rem;border-top:1px solid var(--border)}
+.rel-more h3{font-family:var(--font-display);font-size:2rem;font-weight:900;letter-spacing:.05em;margin-bottom:2rem;padding-top:2rem;border-top:1px solid var(--border);text-transform:uppercase}
 .rel-more-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 @media(max-width:900px){
   .rel-hero-inner{grid-template-columns:1fr;gap:30px;padding:90px 20px 40px}
@@ -281,121 +203,130 @@ nav.scrolled{background:rgba(5,5,5,.95);backdrop-filter:blur(12px);border-bottom
   .rel-more-grid{grid-template-columns:1fr 1fr}
 }
 
-/* ════════════════════════════
-   SERVICES
-   ════════════════════════════ */
-#view-services .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:0}
-.service-block{background:var(--black);padding:3rem 2.5rem;transition:background .3s;border-bottom:1px solid var(--border)}
-.service-block:hover{background:rgba(255,255,255,.03)}
+/* ══ SERVICES ══ */
+#view-services .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--border)}
+.service-block{background:var(--black);padding:3rem 2.5rem;transition:background .3s;border:1px solid var(--border)}
+.service-block:hover{background:rgba(204,0,0,.04)}
 .service-icon-wrap{width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:2rem;font-size:20px;transition:border-color .3s}
-.service-block:hover .service-icon-wrap{border-color:var(--gold)}
-.service-block-name{font-family:var(--font-display);font-size:1.2rem;letter-spacing:.06em;margin-bottom:1rem}
-.service-block-desc{font-size:.82rem;color:var(--gray4);line-height:1.8}
+.service-block:hover .service-icon-wrap{border-color:var(--red)}
+.service-block-name{font-family:var(--font-display);font-size:1.2rem;font-weight:800;letter-spacing:.06em;margin-bottom:1rem;text-transform:uppercase}
+.service-block-desc{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.8}
 @media(max-width:900px){#view-services .services-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:500px){#view-services .services-grid{grid-template-columns:1fr}}
 
-/* ════════════════════════════
-   DISTRIBUTION
-   ════════════════════════════ */
+/* ══ DISTRIBUTION ══ */
 #view-distribution .dist-body{max-width:1400px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
-.dist-left p{font-size:.9rem;color:rgba(245,245,240,.7);line-height:1.9;margin-bottom:1.5rem}
-.plan-card{border:1px solid var(--border);padding:2.5rem;position:relative}
-.plan-card::before{content:'FREE PLAN';position:absolute;top:-1px;left:2rem;font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;background:var(--white);color:var(--black);padding:.3rem .75rem}
-.plan-price{font-family:var(--font-display);font-size:5rem;line-height:1;margin-bottom:.3rem;margin-top:.5rem}
-.plan-sub-txt{font-size:.7rem;color:var(--gray4);margin-bottom:2rem;font-family:var(--font-mono);letter-spacing:.1em}
+.dist-left p{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.9;margin-bottom:1.5rem}
+.plan-card{border:2px solid var(--red);padding:2.5rem;position:relative;background:rgba(204,0,0,.03)}
+.plan-card::before{content:'FREE PLAN';position:absolute;top:-14px;left:2rem;font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;background:var(--red);color:var(--white);padding:.3rem .75rem}
+.plan-price{font-family:var(--font-display);font-size:5rem;font-weight:900;line-height:1;margin-bottom:.3rem;margin-top:.5rem;color:var(--white)}
+.plan-sub-txt{font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:2rem;font-family:var(--font-mono);letter-spacing:.1em}
 .plan-features{list-style:none;display:flex;flex-direction:column;gap:0}
-.plan-features li{display:flex;align-items:center;gap:12px;font-size:.8rem;color:rgba(245,245,240,.85);padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.plan-features li.muted{color:var(--gray3)}
-.plan-features li::before{content:'✓';color:var(--white);flex-shrink:0;font-size:.7rem}
-.plan-features li.muted::before{content:'—';color:var(--gray3)}
+.plan-features li{display:flex;align-items:center;gap:12px;font-size:.82rem;color:rgba(255,255,255,.8);padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.plan-features li.muted{color:rgba(255,255,255,.3)}
+.plan-features li::before{content:'✓';color:var(--red);flex-shrink:0;font-size:.75rem;font-weight:700}
+.plan-features li.muted::before{content:'—';color:rgba(255,255,255,.2)}
 @media(max-width:768px){#view-distribution .dist-body{grid-template-columns:1fr;gap:40px;padding:40px 20px}}
 
-/* ════════════════════════════
-   A&R / DEMO SUBMIT
-   ════════════════════════════ */
+/* ══ A&R / DEMO ══ */
 #view-anr .anr-body{max-width:1400px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px}
-.anr-left p{font-size:.9rem;color:rgba(245,245,240,.7);line-height:1.9;margin-bottom:1.5rem}
+.anr-left p{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.9;margin-bottom:1.5rem}
 .anr-criteria{list-style:none;margin-bottom:2.5rem}
-.anr-criteria li{display:flex;align-items:flex-start;gap:12px;font-size:.82rem;color:rgba(245,245,240,.7);padding:.6rem 0;border-bottom:1px solid var(--border)}
-.anr-criteria li::before{content:'—';color:var(--gray3);flex-shrink:0}
+.anr-criteria li{display:flex;align-items:flex-start;gap:12px;font-size:.82rem;color:rgba(255,255,255,.6);padding:.65rem 0;border-bottom:1px solid var(--border)}
+.anr-criteria li::before{content:'—';color:rgba(255,255,255,.2);flex-shrink:0}
 .step-box{padding:1.75rem;border:1px solid var(--border);margin-bottom:1rem;transition:border-color .2s}
-.step-box:hover{border-color:rgba(201,168,76,.4)}
-.step-num{font-family:var(--font-display);font-size:3rem;color:rgba(245,245,240,.07);line-height:1;margin-bottom:.3rem}
-.step-title{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;color:var(--gray4);text-transform:uppercase;margin-bottom:.5rem}
-.step-txt{font-size:.8rem;color:var(--gray4);line-height:1.7}
+.step-box:hover{border-color:var(--red)}
+.step-num{font-family:var(--font-display);font-size:3rem;font-weight:900;color:rgba(255,255,255,.06);line-height:1;margin-bottom:.3rem}
+.step-title{font-family:var(--font-display);font-size:.9rem;font-weight:800;letter-spacing:.15em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:.5rem}
+.step-txt{font-size:.8rem;color:rgba(255,255,255,.4);line-height:1.7}
 @media(max-width:768px){#view-anr .anr-body{grid-template-columns:1fr;gap:40px;padding:40px 20px}}
 
-/* ════════════════════════════
-   REVIEWS / PRESS
-   ════════════════════════════ */
-#view-press .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);padding:0 0 80px}
-.review-tile{background:var(--black);padding:2.5rem;border-bottom:1px solid var(--border)}
+/* ══ PRESS/TESTIMONIALS ══ */
+#view-press .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--border);padding:0 0 80px}
+.review-tile{background:var(--black);padding:2.5rem;border:1px solid var(--border)}
 .r-stars{display:flex;gap:3px;margin-bottom:1.25rem}
-.r-star{color:var(--gold);font-size:12px}
-.r-quote{font-size:.9rem;color:rgba(245,245,240,.7);line-height:1.9;margin-bottom:1.5rem;font-style:italic}
-.r-quote::before{content:'"';font-size:2.5rem;line-height:0;vertical-align:-.8rem;color:var(--gray3);margin-right:.2rem}
-.r-author{font-family:var(--font-display);font-size:1rem;letter-spacing:.08em;margin-bottom:.2rem}
-.r-role{font-size:.7rem;color:var(--gray3);font-family:var(--font-mono)}
+.r-star{color:var(--red);font-size:12px}
+.r-quote{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.9;margin-bottom:1.5rem;font-style:italic}
+.r-quote::before{content:'"';font-size:2.5rem;line-height:0;vertical-align:-.8rem;color:rgba(204,0,0,.3);margin-right:.2rem}
+.r-author{font-family:var(--font-display);font-size:1rem;font-weight:800;letter-spacing:.08em;margin-bottom:.2rem;text-transform:uppercase}
+.r-role{font-size:.7rem;color:rgba(255,255,255,.3);font-family:var(--font-mono)}
 @media(max-width:900px){#view-press .reviews-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:500px){#view-press .reviews-grid{grid-template-columns:1fr}}
 
-/* ════════════════════════════
-   FOOTER
-   ════════════════════════════ */
-footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
+/* ══ LEGAL PAGES ══ */
+.legal-body{max-width:900px;margin:0 auto;padding:60px 40px 100px}
+.legal-body h2{font-family:var(--font-display);font-size:1.8rem;font-weight:800;letter-spacing:.05em;margin:2.5rem 0 1rem;color:var(--white);text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:.5rem}
+.legal-body h2:first-child{margin-top:0}
+.legal-body p{font-size:.88rem;color:rgba(255,255,255,.6);line-height:1.9;margin-bottom:1rem}
+.legal-body ul{margin:.5rem 0 1rem 1.5rem}
+.legal-body ul li{font-size:.88rem;color:rgba(255,255,255,.6);line-height:1.9;margin-bottom:.5rem}
+.legal-body strong{color:var(--white)}
+.legal-body .highlight{background:rgba(204,0,0,.1);border:1px solid var(--border-red);border-radius:4px;padding:1rem 1.5rem;margin:1.5rem 0}
+.legal-body .highlight p{margin:0;color:rgba(255,255,255,.7)}
+.legal-meta{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.15em;color:rgba(255,255,255,.25);margin-bottom:2.5rem;text-transform:uppercase}
+@media(max-width:600px){.legal-body{padding:40px 20px 80px}}
+
+/* ══ HOME QUICK NAV ══ */
+.home-nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--border);max-width:100%}
+.home-nav-block{background:var(--black);padding:3.5rem 3rem;cursor:pointer;transition:background .3s;border:1px solid var(--border)}
+.home-nav-block:hover{background:rgba(204,0,0,.04)}
+.home-nav-label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:rgba(255,255,255,.25);margin-bottom:1rem;text-transform:uppercase}
+.home-nav-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);font-weight:900;margin-bottom:1rem;text-transform:uppercase}
+.home-nav-desc{font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.8}
+.home-nav-arrow{margin-top:1.5rem;font-size:.65rem;letter-spacing:.15em;color:var(--red);text-transform:uppercase;font-family:var(--font-display);font-weight:800}
+
+/* ══ CTA ══ */
+.cta-block{text-align:center;padding:8rem 40px;border-top:1px solid var(--border);background:linear-gradient(to bottom,var(--black),rgba(204,0,0,.04),var(--black))}
+.cta-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,9rem);font-weight:900;line-height:.9;letter-spacing:-.01em;margin-bottom:2.5rem;text-transform:uppercase}
+.cta-title .red{color:var(--red)}
+.cta-sub{font-size:.88rem;color:rgba(255,255,255,.4);margin-bottom:2.5rem}
+.cta-btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+
+/* ══ FOOTER ══ */
+footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
-.footer-brand{font-family:var(--font-display);font-size:1.6rem;letter-spacing:.08em;margin-bottom:.85rem}
-.footer-tagline{font-size:.78rem;color:var(--gray4);line-height:1.7}
-.footer-col-title{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gray3);margin-bottom:1.1rem;text-transform:uppercase}
-.footer-link{display:block;font-size:.78rem;color:var(--gray4);text-decoration:none;margin-bottom:.65rem;transition:color .2s;cursor:pointer}
+.footer-brand{font-family:var(--font-display);font-size:1.6rem;font-weight:900;letter-spacing:.08em;margin-bottom:.85rem;text-transform:uppercase}
+.footer-brand span{color:var(--red)}
+.footer-tagline{font-size:.78rem;color:rgba(255,255,255,.3);line-height:1.7}
+.footer-col-title{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:rgba(255,255,255,.25);margin-bottom:1.1rem;text-transform:uppercase}
+.footer-link{display:block;font-size:.78rem;color:rgba(255,255,255,.4);text-decoration:none;margin-bottom:.65rem;transition:color .2s;cursor:pointer}
 .footer-link:hover{color:var(--white)}
-.footer-bottom{border-top:1px solid var(--border);padding-top:1.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.68rem;color:var(--gray3);letter-spacing:.05em;font-family:var(--font-mono)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.65rem;color:rgba(255,255,255,.2);letter-spacing:.08em;font-family:var(--font-mono)}
 @media(max-width:900px){footer{padding:3rem 20px 2rem}.footer-grid{grid-template-columns:1fr 1fr;gap:2rem}}
 @media(max-width:480px){.footer-grid{grid-template-columns:1fr;gap:1.5rem}}
 
-/* ════════════════════════════
-   CTA SECTION
-   ════════════════════════════ */
-.cta-block{text-align:center;padding:8rem 40px;border-top:1px solid var(--border)}
-.cta-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,9rem);font-weight:400;line-height:.9;letter-spacing:-.01em;margin-bottom:2.5rem}
-.cta-title .outline{color:transparent;-webkit-text-stroke:1px rgba(245,245,240,.35)}
-.cta-sub{font-size:.88rem;color:var(--gray4);margin-bottom:2.5rem}
-.cta-btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-@media(max-width:480px){.cta-block{padding:5rem 20px}.cta-btns a{width:100%;justify-content:center}}
+/* ══ BIG FULL-WIDTH CTA RED BAND ══ */
+.red-band{background:var(--red);padding:6rem 40px;text-align:left;overflow:hidden;position:relative}
+.red-band .big-text{font-family:var(--font-display);font-size:clamp(5rem,12vw,12rem);font-weight:900;color:var(--white);line-height:.85;text-transform:uppercase;opacity:.08;position:absolute;bottom:-1rem;right:2rem;pointer-events:none;letter-spacing:-.02em}
+.red-band-inner{position:relative;z-index:1}
+.red-band h2{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,6rem);font-weight:900;color:var(--white);margin-bottom:1.5rem;text-transform:uppercase;line-height:.9}
+.red-band p{font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.9;max-width:600px;margin-bottom:2rem}
+
+/* ══ DIVIDER TEXT ══ */
+.divider-text{font-family:var(--font-display);font-size:clamp(1rem,2vw,1.5rem);font-weight:800;letter-spacing:.3em;color:rgba(255,255,255,.08);text-transform:uppercase;text-align:center;padding:2rem 40px;border-top:1px solid var(--border)}
 
 /* FADE IN */
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
 .fade-in.visible{opacity:1;transform:translateY(0)}
 
-/* LOADING overlay */
-.loading-overlay{position:fixed;inset:0;background:var(--black);z-index:8000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .5s;opacity:1}
-.loading-overlay.hidden{opacity:0;pointer-events:none}
-.loading-logo{font-family:var(--font-display);font-size:2rem;letter-spacing:.4em;color:var(--gold);animation:pulse 1.5s ease infinite}
-.loading-bar{width:120px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
-.loading-fill{height:100%;background:linear-gradient(90deg,transparent,var(--gold),transparent);background-size:200% 100%;animation:shimmer 1.2s ease infinite}
-@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-
 /* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;background:var(--gray);border:1px solid var(--border);border-radius:8px;color:var(--white);font-size:.8rem;padding:12px 18px;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;transform:translateY(8px)}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--gray);border:1px solid var(--border-red);border-radius:4px;color:var(--white);font-size:.8rem;padding:12px 18px;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;transform:translateY(8px)}
 .toast.on{opacity:1;transform:translateY(0)}
+
+/* 24-48H BANNER */
+.delivery-banner{background:rgba(204,0,0,.06);border-top:1px solid var(--border-red);border-bottom:1px solid var(--border-red);padding:1rem 40px;display:flex;align-items:center;gap:1rem}
+.delivery-banner .badge{background:var(--red);color:var(--white);font-family:var(--font-display);font-size:.75rem;font-weight:800;letter-spacing:.15em;padding:4px 14px;text-transform:uppercase;flex-shrink:0}
+.delivery-banner p{font-size:.82rem;color:rgba(255,255,255,.5);font-family:var(--font-mono);letter-spacing:.05em}
+.delivery-banner p strong{color:var(--white)}
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
-<div class="loading-overlay" id="loader">
-  <div class="loading-logo">T·I·R</div>
-  <div class="loading-bar"><div class="loading-fill"></div></div>
-</div>
-
-<!-- CURSOR -->
-<div class="cur" id="cur"></div>
-<div class="cur-ring" id="cur-ring"></div>
+<!-- CURSOR removed per request (no loading feature) -->
 
 <!-- NAV -->
 <nav id="nav">
-  <a class="nav-logo" onclick="showView('home')">T·I·R</a>
+  <a class="nav-logo" onclick="showView('home')">T<span>·</span>I<span>·</span>R</a>
   <ul class="nav-links">
     <li><a onclick="showView('about')" data-view="about">ABOUT</a></li>
     <li><a onclick="showView('roster')" data-view="roster">ROSTER</a></li>
@@ -406,7 +337,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
   </ul>
   <div class="nav-right">
     <a href="https://tir-artist-portal.vercel.app/" target="_blank" class="nav-btn">ARTIST LOGIN</a>
-    <a id="nav-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="nav-btn gold">SUBMIT DEMO</a>
+    <a id="nav-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="nav-btn red">SUBMIT DEMO</a>
     <button class="ham" id="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -420,7 +351,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
   <a onclick="closeMob();showView('distribution')">DISTRIBUTION</a>
   <a onclick="closeMob();showView('press')">PRESS</a>
   <a href="https://tir-artist-portal.vercel.app/" target="_blank">ARTIST LOGIN</a>
-  <a id="mob-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" style="color:var(--gold)">SUBMIT DEMO</a>
+  <a id="mob-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" style="color:var(--red)">SUBMIT DEMO</a>
 </div>
 
 <!-- ARTIST PANEL -->
@@ -432,24 +363,24 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
   </div>
 </div>
 
-<!-- ═══════ VIEW: HOME ═══════ -->
+<!-- ═══ VIEW: HOME ═══ -->
 <div class="view active" id="view-home">
   <section class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
+    <div class="hero-lines"></div>
+    <div class="hero-accent"></div>
     <div style="position:relative;z-index:1">
-      <p class="hero-year" id="hero-eyebrow">EST. 2026 — KASHMIR, INDIA</p>
-      <h1 class="hero-title">THE<span class="line2">IMAGINARY</span><span class="line3">RECORDS</span></h1>
+      <p class="hero-tag-top" id="hero-eyebrow">EST. 2026 — KASHMIR, INDIA</p>
+      <h1 class="hero-title">THE<span class="line-red"> IMAGINARY</span><span class="line-outline" style="display:block;padding-left:clamp(3rem,10vw,12rem)"> RECORDS</span></h1>
       <div class="hero-bottom">
-        <div class="hero-tag">
+        <div class="hero-desc">
           <strong id="hero-subtitle">AN INDEPENDENT RECORD LABEL</strong>
           <span id="hero-body">Signing, developing and distributing artists who redefine the boundaries of sound. Global reach. Artist first.</span>
         </div>
         <div class="hero-ctas">
-          <a id="hero-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT DEMO <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          <a id="hero-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT DEMO <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           <button class="btn-outline" onclick="showView('roster')">OUR ROSTER</button>
         </div>
-        <div class="scroll-hint"><div class="scroll-line"></div><span>SCROLL</span></div>
       </div>
     </div>
   </section>
@@ -460,52 +391,70 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
       <span class="ticker-item"><span class="dot">◆</span>INDEPENDENT LABEL</span>
       <span class="ticker-item"><span class="dot">◆</span>160+ RELEASES</span>
       <span class="ticker-item"><span class="dot">◆</span>200+ PLATFORMS</span>
-      <span class="ticker-item"><span class="dot">◆</span>GLOBAL DISTRIBUTION</span>
-      <span class="ticker-item"><span class="dot">◆</span>ARTIST OWNED</span>
+      <span class="ticker-item"><span class="dot">◆</span>DISTRIBUTE IN 24–48 HRS</span>
+      <span class="ticker-item"><span class="dot">◆</span>ARTIST OWNED · 95% ROYALTIES</span>
       <span class="ticker-item"><span class="dot">◆</span>HIP HOP · TRAP · LO-FI · UK DRILL</span>
       <span class="ticker-item"><span class="dot">◆</span>EST. 2026 — KASHMIR</span>
       <span class="ticker-item"><span class="dot">◆</span>THE IMAGINARY RECORDS</span>
       <span class="ticker-item"><span class="dot">◆</span>INDEPENDENT LABEL</span>
       <span class="ticker-item"><span class="dot">◆</span>160+ RELEASES</span>
       <span class="ticker-item"><span class="dot">◆</span>200+ PLATFORMS</span>
-      <span class="ticker-item"><span class="dot">◆</span>GLOBAL DISTRIBUTION</span>
-      <span class="ticker-item"><span class="dot">◆</span>ARTIST OWNED</span>
+      <span class="ticker-item"><span class="dot">◆</span>DISTRIBUTE IN 24–48 HRS</span>
+      <span class="ticker-item"><span class="dot">◆</span>ARTIST OWNED · 95% ROYALTIES</span>
       <span class="ticker-item"><span class="dot">◆</span>HIP HOP · TRAP · LO-FI · UK DRILL</span>
       <span class="ticker-item"><span class="dot">◆</span>EST. 2026 — KASHMIR</span>
     </div>
   </div>
 
-  <!-- Home preview sections -->
-  <div style="max-width:1400px;margin:0 auto;padding:80px 40px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
-    <div style="background:var(--black);padding:3rem;cursor:pointer;transition:background .3s" onclick="showView('roster')" onmouseenter="this.style.background='rgba(255,255,255,.03)'" onmouseleave="this.style.background='var(--black)'">
-      <div style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gray3);margin-bottom:1rem;text-transform:uppercase">Our Artists</div>
-      <div style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);margin-bottom:1rem">ROSTER</div>
-      <div style="font-size:.8rem;color:var(--gray4);line-height:1.7">Meet the artists of The Imaginary Records. Signed, distributed and developed under the TIR umbrella.</div>
-      <div style="margin-top:1.5rem;font-size:.65rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;font-family:var(--font-mono)">VIEW ROSTER →</div>
+  <!-- 24-48H Banner -->
+  <div class="delivery-banner">
+    <div class="badge">24–48H DELIVERY</div>
+    <p>Your music live on <strong>200+ streaming platforms worldwide</strong> within 24 to 48 hours. Guaranteed. No delays.</p>
+  </div>
+
+  <!-- Home quick nav -->
+  <div class="home-nav-grid">
+    <div class="home-nav-block" onclick="showView('roster')">
+      <div class="home-nav-label">Our Artists</div>
+      <div class="home-nav-title">ROSTER</div>
+      <div class="home-nav-desc">Meet the artists of The Imaginary Records. Signed, distributed and developed under the TIR umbrella.</div>
+      <div class="home-nav-arrow">VIEW ROSTER →</div>
     </div>
-    <div style="background:var(--black);padding:3rem;cursor:pointer;transition:background .3s" onclick="showView('catalogue')" onmouseenter="this.style.background='rgba(255,255,255,.03)'" onmouseleave="this.style.background='var(--black)'">
-      <div style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gray3);margin-bottom:1rem;text-transform:uppercase">Latest Music</div>
-      <div style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);margin-bottom:1rem">CATALOGUE</div>
-      <div style="font-size:.8rem;color:var(--gray4);line-height:1.7">Browse our full catalog of releases — singles, EPs and albums available on all major streaming platforms worldwide.</div>
-      <div style="margin-top:1.5rem;font-size:.65rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;font-family:var(--font-mono)">VIEW CATALOGUE →</div>
+    <div class="home-nav-block" onclick="showView('catalogue')">
+      <div class="home-nav-label">Latest Music</div>
+      <div class="home-nav-title">CATALOGUE</div>
+      <div class="home-nav-desc">Browse our full catalog of releases — singles, EPs and albums available on all major streaming platforms worldwide.</div>
+      <div class="home-nav-arrow">VIEW CATALOGUE →</div>
+    </div>
+    <div class="home-nav-block" onclick="showView('distribution')">
+      <div class="home-nav-label">For Artists</div>
+      <div class="home-nav-title">DISTRIBUTE</div>
+      <div class="home-nav-desc">Free distribution. Keep 95% of your royalties. Release unlimited music to 200+ platforms in 24–48 hours.</div>
+      <div class="home-nav-arrow">START DISTRIBUTING →</div>
+    </div>
+    <div class="home-nav-block" onclick="showView('services')">
+      <div class="home-nav-label">What We Do</div>
+      <div class="home-nav-title">SERVICES</div>
+      <div class="home-nav-desc">A&R development, mastering, VEVO, publishing, rights management and more — all under one roof.</div>
+      <div class="home-nav-arrow">VIEW SERVICES →</div>
     </div>
   </div>
 
   <!-- CTA -->
   <div class="cta-block">
-    <h2 class="cta-title"><span>READY TO</span><span class="outline" style="display:block">MAKE YOUR</span><span>MARK?</span></h2>
-    <p class="cta-sub">Sign with us or start distributing today — no fees, no catch.</p>
+    <h2 class="cta-title">READY TO<br/><span class="red">RELEASE?</span></h2>
+    <p class="cta-sub">Distribute globally in 24–48 hours. No fees, no catch. Keep 95% of your royalties.</p>
     <div class="cta-btns">
-      <a id="cta-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      <a id="cta-email-btn" href="/cdn-cgi/l/email-protection#790d111c1014181e1017180b000b1c1a160b1d0a391e14181015571a1614" class="btn-outline">EMAIL THE LABEL</a>
+      <a id="cta-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a id="cta-email-btn" href="mailto:support@theimaginaryrecords.in" class="btn-outline">EMAIL THE LABEL</a>
     </div>
   </div>
 
   <footer>
     <div class="footer-grid">
       <div>
-        <div class="footer-brand">THE IMAGINARY RECORDS</div>
-        <div class="footer-tagline" id="footer-tagline">An independent record label from Kashmir, India.<br>Signing artists. Releasing music. Building legacies.</div>
+        <div class="footer-brand">THE <span>IMAGINARY</span> RECORDS</div>
+        <div class="footer-tagline" id="footer-tagline">An independent record label from Kashmir, India.<br/>Signing artists. Releasing music. Building legacies.</div>
       </div>
       <div>
         <div class="footer-col-title">LABEL</div>
@@ -522,22 +471,30 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
         <a class="footer-link" href="https://tir-artist-portal.vercel.app/" target="_blank">Artist Login</a>
       </div>
       <div>
-        <div class="footer-col-title">CONTACT</div>
-        <a id="footer-email" href="/cdn-cgi/l/email-protection#72061a171b1f13151b1c13000b0017111d00160132151f131b1e5c111d1f" class="footer-link"><span class="__cf_email__" data-cfemail="15617d707c7874727c7b74676c6770767a677166557278747c793b767a78">[email&#160;protected]</span></a>
+        <div class="footer-col-title">LEGAL</div>
+        <a class="footer-link" onclick="showView('privacy')">Privacy Policy</a>
+        <a class="footer-link" onclick="showView('terms')">Terms & Conditions</a>
+        <a class="footer-link" onclick="showView('agreement')">Distribution Agreement</a>
+        <a id="footer-email" href="mailto:support@theimaginaryrecords.in" class="footer-link">support@theimaginaryrecords.in</a>
         <a id="footer-instagram" href="https://www.instagram.com/theimaginaryrecords/" target="_blank" class="footer-link">@theimaginaryrecords</a>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 THE IMAGINARY RECORDS. ALL RIGHTS RESERVED.</span>
+      <span style="display:flex;gap:2rem">
+        <a onclick="showView('privacy')" style="color:inherit;text-decoration:none;cursor:pointer">PRIVACY</a>
+        <a onclick="showView('terms')" style="color:inherit;text-decoration:none;cursor:pointer">TERMS</a>
+        <a onclick="showView('agreement')" style="color:inherit;text-decoration:none;cursor:pointer">AGREEMENT</a>
+      </span>
       <span>KASHMIR, INDIA</span>
     </div>
   </footer>
 </div>
 
-<!-- ═══════ VIEW: ABOUT ═══════ -->
+<!-- ═══ VIEW: ABOUT ═══ -->
 <div class="view" id="view-about">
   <div class="page-hero">
-    <div class="page-title" style="max-width:1400px;margin:0 auto">ABOUT</div>
+    <div class="page-title" style="max-width:1400px;margin:0 auto">ABOUT<span>.</span></div>
     <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">THE IMAGINARY RECORDS</div>
   </div>
   <div class="about-grid">
@@ -558,27 +515,27 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
     <div class="about-stats">
       <div class="stat-box"><div class="stat-n" id="stat-1n">160+</div><div class="stat-l" id="stat-1l">TRACKS RELEASED</div></div>
       <div class="stat-box"><div class="stat-n" id="stat-2n">200+</div><div class="stat-l" id="stat-2l">STORE PARTNERS</div></div>
-      <div class="stat-box"><div class="stat-n" id="stat-3n">85%</div><div class="stat-l" id="stat-3l">ARTIST ROYALTIES</div></div>
+      <div class="stat-box"><div class="stat-n" id="stat-3n">95%</div><div class="stat-l" id="stat-3l">ARTIST ROYALTIES</div></div>
       <div class="stat-box"><div class="stat-n" id="stat-4n">48H</div><div class="stat-l" id="stat-4l">DELIVERY TIME</div></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════ VIEW: ROSTER ═══════ -->
+<!-- ═══ VIEW: ROSTER ═══ -->
 <div class="view" id="view-roster">
   <div class="page-hero">
-    <div class="page-title" style="max-width:1400px;margin:0 auto">ROSTER</div>
+    <div class="page-title" style="max-width:1400px;margin:0 auto">ROSTER<span>.</span></div>
     <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">OUR ARTISTS</div>
   </div>
   <div class="roster-grid" id="tir-roster-grid">
-    <div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
+    <div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
   </div>
 </div>
 
-<!-- ═══════ VIEW: CATALOGUE ═══════ -->
+<!-- ═══ VIEW: CATALOGUE ═══ -->
 <div class="view" id="view-catalogue">
   <div class="page-hero">
-    <div class="page-title" style="max-width:1400px;margin:0 auto">CATALOGUE</div>
+    <div class="page-title" style="max-width:1400px;margin:0 auto">CATALOGUE<span>.</span></div>
     <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">LATEST RELEASES</div>
   </div>
   <div class="cat-filters" id="cat-filters">
@@ -603,33 +560,37 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
   </div>
 </div>
 
-<!-- ═══════ VIEW: RELEASE DETAIL ═══════ -->
+<!-- ═══ VIEW: RELEASE DETAIL ═══ -->
 <div class="view" id="view-release">
   <div id="release-detail-content"></div>
 </div>
 
-<!-- ═══════ VIEW: SERVICES ═══════ -->
+<!-- ═══ VIEW: SERVICES ═══ -->
 <div class="view" id="view-services">
   <div class="page-hero">
-    <div class="page-title" style="max-width:1400px;margin:0 auto">SERVICES</div>
+    <div class="page-title" style="max-width:1400px;margin:0 auto">SERVICES<span>.</span></div>
     <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">WHAT WE OFFER</div>
   </div>
   <div class="services-grid" id="tir-services-grid">
-    <div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
+    <div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
   </div>
 </div>
 
-<!-- ═══════ VIEW: DISTRIBUTION ═══════ -->
+<!-- ═══ VIEW: DISTRIBUTION ═══ -->
 <div class="view" id="view-distribution">
   <div class="page-hero">
-    <div class="page-title" style="max-width:1400px;margin:0 auto">DISTRIBUTION</div>
+    <div class="page-title" style="max-width:1400px;margin:0 auto">DISTRIBUTION<span>.</span></div>
     <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">FOR INDEPENDENT ARTISTS</div>
+  </div>
+  <div class="delivery-banner">
+    <div class="badge">24–48H</div>
+    <p>Your music distributed to <strong>200+ platforms worldwide</strong> in 24 to 48 hours. Every single time.</p>
   </div>
   <div class="dist-body">
     <div class="dist-left">
       <p>Not ready to sign? No problem. TIR also offers free distribution to independent artists who want global reach without a full signing deal.</p>
-      <p>No upfront fees. Release unlimited music. Keep your rights. We take 15% — that's it.</p>
-      <a id="dist-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary" style="margin-top:1rem">JOIN FOR FREE <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <p>No upfront fees. Release unlimited music. Keep your rights. We take only 5% — that's it.</p>
+      <a id="dist-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary" style="margin-top:1rem">JOIN FOR FREE <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     </div>
     <div>
       <div class="plan-card">
@@ -638,8 +599,8 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
         <ul class="plan-features" id="plan-features">
           <li>Unlimited releases</li>
           <li>200+ streaming platforms</li>
-          <li>48-hour delivery</li>
-          <li>Keep 85% of royalties</li>
+          <li>24–48 hour delivery</li>
+          <li>Keep 95% of royalties</li>
           <li>100% rights ownership</li>
           <li class="muted">Dedicated A&R (signed artists only)</li>
         </ul>
@@ -648,10 +609,10 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
   </div>
 </div>
 
-<!-- ═══════ VIEW: A&R ═══════ -->
+<!-- ═══ VIEW: A&R ═══ -->
 <div class="view" id="view-anr">
   <div class="page-hero">
-    <div class="page-title" style="max-width:1400px;margin:0 auto">SUBMIT DEMO</div>
+    <div class="page-title" style="max-width:1400px;margin:0 auto">SUBMIT DEMO<span>.</span></div>
     <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">A&R SUBMISSIONS</div>
   </div>
   <div class="anr-body">
@@ -664,7 +625,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
         <li>Include artist name, genre, and a brief bio</li>
         <li id="anr-response">Response within 24–48 hours</li>
       </ul>
-      <a id="anr-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a id="anr-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     </div>
     <div>
       <div class="step-box"><div class="step-num">01</div><div class="step-title">SUBMIT</div><div class="step-txt">Fill out our demo submission form with your music and a brief intro about yourself and your artistic vision.</div></div>
@@ -674,37 +635,272 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem;max-width:100%}
   </div>
 </div>
 
-<!-- ═══════ VIEW: PRESS ═══════ -->
+<!-- ═══ VIEW: PRESS ═══ -->
 <div class="view" id="view-press">
   <div class="page-hero">
-    <div class="page-title" style="max-width:1400px;margin:0 auto">TESTIMONIALS</div>
+    <div class="page-title" style="max-width:1400px;margin:0 auto">TESTIMONIALS<span>.</span></div>
     <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">WHAT ARTISTS SAY</div>
   </div>
   <div class="reviews-grid" id="tir-reviews-grid">
-    <div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
+    <div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
+  </div>
+</div>
+
+<!-- ═══ VIEW: PRIVACY POLICY ═══ -->
+<div class="view" id="view-privacy">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">PRIVACY<span>.</span></div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">PRIVACY POLICY</div>
+  </div>
+  <div class="legal-body">
+    <div class="legal-meta">Last Updated: January 2026 · The Imaginary Records · Kashmir, India</div>
+    <h2>1. Introduction</h2>
+    <p>The Imaginary Records ("TIR", "we", "our", "us") is committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website at <strong>theimaginaryrecords.in</strong> and use our services.</p>
+    <p>Please read this policy carefully. If you disagree with its terms, please discontinue use of our site.</p>
+    <h2>2. Information We Collect</h2>
+    <p>We collect information you provide directly to us when you:</p>
+    <ul>
+      <li>Submit a demo or contact form</li>
+      <li>Register as an artist on our platform</li>
+      <li>Submit music releases via our artist portal</li>
+      <li>Contact us via email or social media</li>
+    </ul>
+    <p>This may include your name, email address, phone number, music files, artist information, payment details, and any other information you choose to provide.</p>
+    <h2>3. How We Use Your Information</h2>
+    <p>We use the information we collect to:</p>
+    <ul>
+      <li>Process and distribute your music to streaming platforms</li>
+      <li>Communicate with you about your releases, royalties, and label activities</li>
+      <li>Process royalty payments to you</li>
+      <li>Comply with legal obligations and enforce our agreements</li>
+      <li>Improve our services and website</li>
+      <li>Send you updates and marketing communications (with your consent)</li>
+    </ul>
+    <h2>4. Sharing of Information</h2>
+    <p>We may share your information with third parties only in the following situations:</p>
+    <ul>
+      <li><strong>Distribution Partners:</strong> PDL India (Phonographic Digital Limited) and Conyfer, our distribution partners, receive necessary metadata and files to distribute your music.</li>
+      <li><strong>Streaming Platforms:</strong> Spotify, Apple Music, Amazon Music, and other DSPs receive artist and release metadata as part of distribution.</li>
+      <li><strong>Payment Processors:</strong> PayPal and other payment processors for royalty disbursements.</li>
+      <li><strong>Legal Compliance:</strong> When required by law, court order, or governmental authority.</li>
+    </ul>
+    <p>We do not sell, rent, or trade your personal information to third parties for their marketing purposes.</p>
+    <h2>5. Data Security</h2>
+    <p>We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. Our platform uses Firebase/Google Cloud infrastructure with industry-standard security.</p>
+    <h2>6. Data Retention</h2>
+    <p>We retain your personal data for as long as your artist account remains active or as needed to provide services. Upon account termination, we retain data as required by law or for legitimate business purposes for up to 7 years.</p>
+    <h2>7. Your Rights</h2>
+    <p>You have the right to: access your personal data; correct inaccurate data; request deletion of your data (subject to legal obligations); object to processing; and withdraw consent. To exercise these rights, contact us at <strong>support@theimaginaryrecords.in</strong>.</p>
+    <h2>8. Cookies</h2>
+    <p>Our website may use cookies and similar tracking technologies to enhance your experience. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.</p>
+    <h2>9. Children's Privacy</h2>
+    <p>Our services are not directed to children under 13. We do not knowingly collect personal information from children under 13. If we learn we have collected such information, we will delete it promptly.</p>
+    <h2>10. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last Updated" date.</p>
+    <h2>11. Contact</h2>
+    <p>For any privacy-related questions or concerns, contact us at:<br/><strong>support@theimaginaryrecords.in</strong><br/>Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K, 193504, India.</p>
+  </div>
+</div>
+
+<!-- ═══ VIEW: TERMS & CONDITIONS ═══ -->
+<div class="view" id="view-terms">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">TERMS<span>.</span></div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">TERMS & CONDITIONS</div>
+  </div>
+  <div class="legal-body">
+    <div class="legal-meta">Last Updated: January 2026 · The Imaginary Records · Kashmir, India</div>
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing or using the website at <strong>theimaginaryrecords.in</strong> ("Website") or any services provided by The Imaginary Records ("TIR", "we", "us", "our"), you agree to be bound by these Terms and Conditions. If you do not agree to these terms, you must not use our services.</p>
+    <h2>2. Services Provided</h2>
+    <p>TIR provides music distribution, A&R development, rights management, and related services to independent artists and labels. Our services include but are not limited to: global DSP distribution, artist portal access, royalty processing, cover art assistance, and marketing support.</p>
+    <h2>3. Artist Eligibility</h2>
+    <p>To use our services, you must:</p>
+    <ul>
+      <li>Be at least 18 years of age, or have parental/guardian consent</li>
+      <li>Own or control the rights to all music submitted</li>
+      <li>Not submit content that infringes on third-party intellectual property rights</li>
+      <li>Provide accurate and complete information during registration</li>
+    </ul>
+    <h2>4. Content Ownership & Rights</h2>
+    <p>You retain 100% ownership of your music and master recordings. By submitting music to TIR, you grant us a non-exclusive license to distribute, promote, and monetize your content across agreed platforms for the duration of our agreement.</p>
+    <h2>5. Royalties & Payment</h2>
+    <p>TIR pays artists <strong>95% of net royalties</strong> received from distribution partners PDL India and Conyfer. Payments are processed monthly. TIR retains 5% as a service fee. Royalty statements will be provided upon request within 30 days.</p>
+    <h2>6. Prohibited Conduct</h2>
+    <p>You agree not to:</p>
+    <ul>
+      <li>Submit music that infringes copyrights, trademarks, or other intellectual property rights</li>
+      <li>Use bots, automation, or fraudulent methods to artificially inflate streaming numbers</li>
+      <li>Engage in stream farming, clickfarms, or any deceptive streaming practices</li>
+      <li>Submit content that promotes violence, terrorism, child exploitation, or illegal activity</li>
+      <li>Provide false or misleading information about ownership or rights</li>
+      <li>Use AI-generated music without proper disclosure (where platforms require it)</li>
+    </ul>
+    <div class="highlight">
+      <p><strong>⚠ IMPORTANT:</strong> Violations of these prohibitions may result in immediate termination of your account, removal of all releases, withholding of royalties, and potential legal action. TIR reserves the right to report fraudulent activity to relevant authorities and distribution partners.</p>
+    </div>
+    <h2>7. Termination</h2>
+    <p>TIR may terminate your account and distribution agreement immediately if you breach these Terms. Upon termination, any outstanding royalties (minus fees and penalties) will be processed within 60 days. Releases may be removed from platforms within 30–90 days of termination.</p>
+    <h2>8. Limitation of Liability</h2>
+    <p>TIR shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services. Our total liability to you for any claim shall not exceed the total royalties paid to you in the 3 months preceding the claim.</p>
+    <h2>9. Indemnification</h2>
+    <p>You agree to indemnify and hold harmless TIR, its founder, employees, and partners from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from your use of the services, your content, or your violation of these Terms.</p>
+    <h2>10. Governing Law</h2>
+    <p>These Terms are governed by the laws of India. Any disputes shall be resolved in the courts of Jammu & Kashmir, India. By using our services, you consent to this jurisdiction.</p>
+    <h2>11. Changes to Terms</h2>
+    <p>We reserve the right to modify these Terms at any time. Continued use of our services after modifications constitutes acceptance of the updated Terms.</p>
+    <h2>12. Contact</h2>
+    <p>For questions about these Terms, contact us at <strong>support@theimaginaryrecords.in</strong>.</p>
+  </div>
+</div>
+
+<!-- ═══ VIEW: DISTRIBUTION AGREEMENT ═══ -->
+<div class="view" id="view-agreement">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">AGREEMENT<span>.</span></div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">ARTIST DISTRIBUTION AGREEMENT — v5</div>
+  </div>
+  <div class="legal-body">
+    <div class="legal-meta">Version 5.0 · Effective January 2026 · The Imaginary Records · Kashmir, India</div>
+
+    <div class="highlight">
+      <p><strong>This is a legally binding agreement between The Imaginary Records ("Label") and the Artist ("You"). By submitting music through TIR or signing with TIR, you agree to all terms contained herein. Read carefully before proceeding.</strong></p>
+    </div>
+
+    <h2>Section 1 — Parties</h2>
+    <p><strong>Label:</strong> The Imaginary Records, a sole proprietorship owned and operated by Aabyd Khan, located at Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K, 193504, India. Contact: theimaginaryrecords@gmail.com / +91 9541543424.</p>
+    <p><strong>Artist:</strong> The individual, group, or entity that has agreed to distribute or sign music through TIR, as identified during registration or onboarding.</p>
+
+    <h2>Section 2 — Grant of Rights</h2>
+    <p>The Artist grants The Imaginary Records a <strong>non-exclusive, worldwide license</strong> to distribute, stream, download, and monetize the Artist's music through our distribution partners PDL India (Phonographic Digital Limited) and Conyfer, and their downstream platforms (including Spotify, Apple Music, Amazon Music, YouTube Music, Tidal, JioSaavn, Deezer, and 200+ more).</p>
+    <p>The Artist <strong>retains 100% ownership</strong> of their master recordings and publishing rights at all times. TIR does not claim ownership of any content.</p>
+
+    <h2>Section 3 — Royalty Split</h2>
+    <p>Net royalties received by TIR from distribution partners shall be split as follows:</p>
+    <ul>
+      <li><strong>Artist receives: 95% of net royalties</strong></li>
+      <li>Label retains: 5% as a distribution and services fee</li>
+    </ul>
+    <p>"Net royalties" means gross income received by TIR from distribution partners, minus any platform fees, currency conversion charges, or withholding taxes imposed by third parties beyond TIR's control.</p>
+
+    <h2>Section 4 — Distribution Timeline</h2>
+    <p>TIR commits to submitting approved releases to distribution platforms <strong>within 24 to 48 hours</strong> of receiving complete, compliant release materials. Platform processing times may vary; typical live date is 1–5 business days from submission. TIR is not liable for delays caused by platform processing queues.</p>
+
+    <h2>Section 5 — Lock-In Period</h2>
+    <p>Artists agree to a <strong>6-month minimum commitment</strong> from the date of first release under TIR. During this period, the Artist may not distribute the same content through competing services without prior written consent from TIR. After 6 months, either party may terminate with 30 days' written notice.</p>
+
+    <h2>Section 6 — Royalty Payments</h2>
+    <p>Royalties are processed and paid monthly, typically within 45–60 days of the close of each reporting period (as determined by our distribution partners). Payments are made via PayPal or other agreed methods. Artists must maintain valid payment information. Unclaimed royalties will be held for up to 12 months before being forfeited.</p>
+
+    <h2>Section 7 — Royalty Disputes</h2>
+    <p>The Artist has a <strong>30-day window from the date of each royalty statement</strong> to raise disputes. Disputes must be submitted in writing to support@theimaginaryrecords.in with specific details. TIR will investigate and respond within 15 business days. After the 30-day window, statements are deemed accepted.</p>
+
+    <h2>Section 8 — Copyright Claims</h2>
+    <p>If a copyright claim, Content ID dispute, or takedown notice is received by TIR related to the Artist's content, TIR will notify the Artist via email <strong>within 48 hours</strong> of receiving the notice. The Artist must respond with counter-claim documentation within 7 business days. Failure to respond may result in acceptance of the claim and removal of the affected content.</p>
+
+    <h2>Section 9 — Artist Warranties</h2>
+    <p>The Artist warrants and represents that:</p>
+    <ul>
+      <li>They own or control all rights to the submitted music, including master recording rights, composition rights, and sample clearances</li>
+      <li>The music does not infringe on any third-party intellectual property rights</li>
+      <li>All featured artists, producers, and contributors have provided written consent for the release</li>
+      <li>The music does not violate any laws or regulations</li>
+      <li>All metadata provided (artist name, album name, ISRC, etc.) is accurate and truthful</li>
+    </ul>
+
+    <h2>Section 10 — Prohibited Activities & Fraudulent Conduct</h2>
+    <div class="highlight">
+      <p><strong>The following activities are strictly prohibited and constitute material breach of this Agreement, subject to immediate penalties:</strong></p>
+    </div>
+    <ul>
+      <li><strong>Stream Fraud:</strong> Using bots, clickfarms, automated tools, or any artificial means to inflate streaming counts, listener numbers, or playlist placements</li>
+      <li><strong>Copyright Infringement:</strong> Submitting music that samples, interpolates, or copies third-party copyrighted material without proper clearance</li>
+      <li><strong>Identity Fraud:</strong> Submitting music under a false artist name or impersonating another artist</li>
+      <li><strong>AI-Generated Content Fraud:</strong> Submitting AI-generated music while falsely representing it as human-created where platforms prohibit AI content, or without required AI disclosure</li>
+      <li><strong>Metadata Fraud:</strong> Providing false ISRC codes, UPC codes, or metadata to manipulate chart positions or royalty calculations</li>
+      <li><strong>Platform Manipulation:</strong> Any activity designed to manipulate DSP algorithms, editorial playlists, or recommendation systems through fraudulent means</li>
+      <li><strong>Label Impersonation:</strong> Using TIR's name, logo, or brand without authorization</li>
+      <li><strong>Duplicate Releases:</strong> Submitting the same content through multiple distributors simultaneously without TIR's written consent</li>
+    </ul>
+
+    <h2>Section 11 — Penalties for Violations</h2>
+    <p>Violations of this Agreement, particularly those outlined in Section 10, shall result in the following consequences:</p>
+    <ul>
+      <li><strong>Immediate account termination</strong> without notice</li>
+      <li><strong>Immediate takedown</strong> of all content distributed through TIR</li>
+      <li><strong>Forfeiture of all outstanding royalties</strong> owed to the Artist</li>
+      <li><strong>Financial penalty of ₹50,000 (INR)</strong> [approx. $600 USD] per instance of stream fraud or copyright infringement proven by platform data or third-party investigation</li>
+      <li><strong>Financial penalty of ₹1,00,000 (INR)</strong> [approx. $1,200 USD] for identity fraud or deliberate copyright infringement causing legal action against TIR</li>
+      <li><strong>Full indemnification</strong>: The Artist shall be liable for 100% of all costs, legal fees, fines, damages, and losses incurred by TIR as a direct result of the Artist's violation, including but not limited to: distribution partner penalties, DSP bans, legal representation fees, court costs, and reputational damages</li>
+      <li><strong>Reporting to authorities</strong>: TIR reserves the right to report fraudulent activity to Indian law enforcement, distribution partners (PDL India, Conyfer), and relevant DSPs</li>
+      <li><strong>Blacklisting</strong>: The Artist may be permanently blacklisted from all TIR services and from distribution through TIR's partner networks</li>
+    </ul>
+    <div class="highlight">
+      <p><strong>⚠ LEGAL NOTICE:</strong> Stream fraud, copyright infringement, and distribution fraud are violations of Indian law (Copyright Act, 1957; Information Technology Act, 2000) and international treaties. Artists found engaging in such activities may face civil suits, criminal complaints, and DSP-level bans affecting all their existing and future music, including music distributed through other platforms and distributors outside of TIR.</p>
+    </div>
+
+    <h2>Section 12 — Label-Level Consequences</h2>
+    <p>The Artist acknowledges and agrees that fraudulent or illegal activity by the Artist can cause direct harm to TIR at the label level, including: platform bans for all TIR artists, loss of distribution partner agreements, reputational damage, legal liability, and financial penalties imposed on TIR by partners.</p>
+    <p>In such cases, <strong>the Artist who caused the violation shall bear sole financial and legal responsibility for all label-level consequences</strong>, including compensating TIR for all losses suffered by the label, its other artists, and its business operations as a result of the Artist's actions.</p>
+    <p>TIR shall have the right to pursue civil remedies against the offending Artist to recover all such damages in full.</p>
+
+    <h2>Section 13 — Takedowns & DMCA</h2>
+    <p>If TIR receives a valid DMCA takedown or copyright claim against the Artist's content, TIR will process the takedown as required by law and notify the Artist within 48 hours. TIR is not liable for any losses resulting from legitimate takedowns of infringing content. The Artist indemnifies TIR against all claims arising from copyright infringement by the Artist.</p>
+
+    <h2>Section 14 — Termination</h2>
+    <p>Either party may terminate this Agreement with <strong>30 days' written notice</strong> after the initial 6-month lock-in period. TIR may terminate immediately for material breach (including but not limited to violations under Section 10). Upon termination:</p>
+    <ul>
+      <li>Releases will be removed from platforms within 30–90 days</li>
+      <li>Outstanding royalties (minus any penalties or deductions) will be processed within 60 days</li>
+      <li>The Artist's obligation to indemnify TIR for pre-termination activities survives termination</li>
+    </ul>
+
+    <h2>Section 15 — ISRC & Metadata</h2>
+    <p>TIR may register ISRC codes on behalf of the Artist through IMI India (PDL India). These codes remain associated with the specific recordings. The Artist is responsible for providing accurate metadata. TIR is not liable for delays, chart ineligibility, or other issues arising from inaccurate metadata provided by the Artist.</p>
+
+    <h2>Section 16 — Confidentiality</h2>
+    <p>Both parties agree to keep the financial terms of this Agreement confidential. Neither party shall disclose the specific royalty rates, fees, or business terms to third parties without written consent, except as required by law.</p>
+
+    <h2>Section 17 — Dispute Resolution</h2>
+    <p>In the event of a dispute, the parties agree to first attempt resolution through good-faith negotiation. If unresolved after 30 days, disputes shall be submitted to mediation in Jammu & Kashmir, India. If mediation fails, disputes shall be resolved by binding arbitration under Indian Arbitration and Conciliation Act, 1996. The prevailing party shall be entitled to recover reasonable legal fees.</p>
+
+    <h2>Section 18 — Artist Liability for Label Consequences</h2>
+    <p>This section explicitly establishes that the Artist is solely liable for any consequences suffered by The Imaginary Records as a result of the Artist's actions, including but not limited to:</p>
+    <ul>
+      <li>Distribution partner account suspensions caused by the Artist's fraudulent activity</li>
+      <li>Platform bans affecting TIR's entire catalog due to the Artist's violations</li>
+      <li>Legal fees, settlements, or judgments TIR faces due to the Artist's copyright infringement</li>
+      <li>Revenue loss to TIR from platform penalties imposed because of the Artist's conduct</li>
+      <li>Reputational damage to TIR's brand caused by the Artist's public misconduct</li>
+    </ul>
+    <p>The Artist agrees to fully indemnify, defend, and hold harmless The Imaginary Records from all such consequences without limitation.</p>
+
+    <h2>Section 19 — Governing Law & Entire Agreement</h2>
+    <p>This Agreement is governed by the laws of India, specifically applicable in Jammu & Kashmir. This Agreement constitutes the entire understanding between the parties and supersedes all prior discussions. Any amendments must be in writing and signed by both parties. If any provision of this Agreement is found unenforceable, the remaining provisions remain in full force.</p>
+
+    <div class="highlight">
+      <p><strong>By submitting music to TIR or registering as a TIR artist, you acknowledge that you have read, understood, and agreed to all terms in this Distribution Agreement. This Agreement is legally binding under Indian law.</strong></p>
+    </div>
+
+    <p style="margin-top:2rem">Contact: <strong>support@theimaginaryrecords.in</strong> | +91 9541543424<br/>The Imaginary Records, Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K 193504, India.</p>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ═══════════════════════════════════════════
-// SITE DATA STORE
-// ═══════════════════════════════════════════
-let siteArtists=[], siteReleases=[], siteServices=[], siteReviews=[], siteSettings={};
+<script>
+let siteArtists=[],siteReleases=[],siteServices=[],siteReviews=[],siteSettings={};
 let catFilter={type:'all',artist:'all'};
 
-// PLATFORM DEFAULT LOGOS (used if admin hasn't set custom ones)
-const DEFAULT_LOGOS = {
-  spotify: 'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Green.png',
-  apple: 'https://music.apple.com/assets/product/MusicNote_9th_gen_iPad.png',
-  jiosaavn: 'https://upload.wikimedia.org/wikipedia/commons/4/44/JioSaavn_Logo.png',
-  youtube: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg',
-  amazon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Amazon_Music_logo.svg/200px-Amazon_Music_logo.svg.png',
-  tidal: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Tidal_%28service%29_logo.svg/200px-Tidal_%28service%29_logo.svg.png'
+const DEFAULT_LOGOS={
+  spotify:'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Green.png',
+  apple:'https://music.apple.com/assets/product/MusicNote_9th_gen_iPad.png',
+  jiosaavn:'https://upload.wikimedia.org/wikipedia/commons/4/44/JioSaavn_Logo.png',
+  youtube:'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg',
+  amazon:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Amazon_Music_logo.svg/200px-Amazon_Music_logo.svg.png',
+  tidal:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Tidal_%28service%29_logo.svg/200px-Tidal_%28service%29_logo.svg.png'
 };
 
-// FALLBACK DATA
 const FB_ARTISTS=[
   {name:'AABYD KHAN',genre:'HIP HOP · DARK TRAP · LO-FI · UK DRILL',status:'signed',tags:['SIGNED','FOUNDER','KASHMIR'],spotifyEmbedUrl:'https://open.spotify.com/embed/artist/38T4P8hX75BCHncTf8TLKm?utm_source=generator',spotifyUrl:'https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm'},
   {name:'THE IMAGINARY BIRD',genre:'AMBIENT · INSTRUMENTAL · CINEMATIC',status:'signed',tags:['SIGNED','TIR ORIGINAL'],spotifyEmbedUrl:'https://open.spotify.com/embed/artist/6RrE0UvJNBRf3eRH4gyFmG?utm_source=generator',spotifyUrl:'https://open.spotify.com/artist/6RrE0UvJNBRf3eRH4gyFmG'},
@@ -735,78 +931,42 @@ const FB_REVIEWS=[
   {text:'Best distributor I have ever used. Fast delivery and the team actually cares about your music.',author:'ALEX M.',role:'Independent Artist',stars:5},
   {text:'The VEVO distribution changed everything for me. Getting my official channel was a dream come true.',author:'SARAH K.',role:'Music Producer',stars:5},
   {text:'My music was live on all platforms within 48 hours. The mastering service made it sound incredible.',author:'CHRIS P.',role:'Indie Rock Artist',stars:5},
-  {text:'Finally a label that lets me keep 100% of my rights. Transparent, fast, and genuinely supportive.',author:'MARIA L.',role:'Singer-Songwriter',stars:5},
+  {text:'Finally a label that lets me keep 95% of my royalties. Transparent, fast, and genuinely supportive.',author:'MARIA L.',role:'Singer-Songwriter',stars:5},
   {text:'Professional team, quick responses. They treat every artist like a priority regardless of how big you are.',author:'THE BEATS',role:'Hip-Hop Group',stars:5},
   {text:'Submitted my demo on a Sunday, got a reply by Tuesday. From signing to release, the process was seamless.',author:'DJ RAVE',role:'Electronic Artist',stars:5}
 ];
 
-// ═══════════════════════════════════════════
-// ═══════════════════════════════════════════
-// LOADER HIDE — always runs no matter what
-// ═══════════════════════════════════════════
-function hideLoader(){
-  const el=document.getElementById('loader');
-  if(el){el.style.opacity='0';setTimeout(()=>el.style.display='none',500);}
-}
-// Hard safety timeout — if Firebase hangs for 5s, show site anyway with fallback data
-const LOAD_TIMEOUT=setTimeout(()=>{
-  console.warn('Firebase timeout — loading fallback data');
-  if(!siteArtists.length) siteArtists=FB_ARTISTS;
-  if(!siteReleases.length) siteReleases=FB_RELEASES;
-  if(!siteServices.length) siteServices=FB_SERVICES;
-  if(!siteReviews.length) siteReviews=FB_REVIEWS;
-  renderRoster(); renderCatalogue(); renderServices(); renderReviews(); populateArtistFilter();
-  hideLoader();
-},5000);
-
-// ═══════════════════════════════════════════
-// FIREBASE LOAD
-// ═══════════════════════════════════════════
 async function loadAllContent(){
   try{
-    // Race each query against a 4s timeout so one slow query can't hang everything
     const withTimeout=(promise,ms=4000)=>Promise.race([promise,new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),ms))]);
-
-    const [aSnap,rSnap,sSnap,rvSnap,stDoc] = await Promise.all([
-      withTimeout(db.collection('site_artists').get()).catch(e=>{console.warn('artists failed:',e.message);return null;}),
-      withTimeout(db.collection('site_releases').get()).catch(e=>{console.warn('releases failed:',e.message);return null;}),
-      withTimeout(db.collection('site_services').get()).catch(e=>{console.warn('services failed:',e.message);return null;}),
-      withTimeout(db.collection('site_reviews').get()).catch(e=>{console.warn('reviews failed:',e.message);return null;}),
-      withTimeout(db.collection('site_settings').doc('main').get()).catch(e=>{console.warn('settings failed:',e.message);return null;})
+    const [aSnap,rSnap,sSnap,rvSnap,stDoc]=await Promise.all([
+      withTimeout(db.collection('site_artists').get()).catch(()=>null),
+      withTimeout(db.collection('site_releases').get()).catch(()=>null),
+      withTimeout(db.collection('site_services').get()).catch(()=>null),
+      withTimeout(db.collection('site_reviews').get()).catch(()=>null),
+      withTimeout(db.collection('site_settings').doc('main').get()).catch(()=>null)
     ]);
-
     const sortByOrder=docs=>docs.sort((a,b)=>(a.order??99)-(b.order??99));
-    siteArtists = aSnap&&!aSnap.empty ? sortByOrder(aSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_ARTISTS;
-    siteReleases = rSnap&&!rSnap.empty ? sortByOrder(rSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_RELEASES;
-    siteServices = sSnap&&!sSnap.empty ? sortByOrder(sSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_SERVICES;
-    siteReviews = rvSnap&&!rvSnap.empty ? sortByOrder(rvSnap.docs.map(d=>({id:d.id,...d.data()}))) : FB_REVIEWS;
-    console.log('Loaded — Artists:',siteArtists.length,'Releases:',siteReleases.length);
-
-    if(stDoc&&stDoc.exists) applySettings(stDoc.data());
+    siteArtists=aSnap&&!aSnap.empty?sortByOrder(aSnap.docs.map(d=>({id:d.id,...d.data()}))):FB_ARTISTS;
+    siteReleases=rSnap&&!rSnap.empty?sortByOrder(rSnap.docs.map(d=>({id:d.id,...d.data()}))):FB_RELEASES;
+    siteServices=sSnap&&!sSnap.empty?sortByOrder(sSnap.docs.map(d=>({id:d.id,...d.data()}))):FB_SERVICES;
+    siteReviews=rvSnap&&!rvSnap.empty?sortByOrder(rvSnap.docs.map(d=>({id:d.id,...d.data()}))):FB_REVIEWS;
+    if(stDoc&&stDoc.exists)applySettings(stDoc.data());
     const heroDoc=await withTimeout(db.collection('site_settings').doc('hero').get()).catch(()=>null);
-    if(heroDoc&&heroDoc.exists) applyHero(heroDoc.data());
-
+    if(heroDoc&&heroDoc.exists)applyHero(heroDoc.data());
   }catch(e){
-    console.error('Firebase error:',e.message);
-    siteArtists=FB_ARTISTS; siteReleases=FB_RELEASES; siteServices=FB_SERVICES; siteReviews=FB_REVIEWS;
+    siteArtists=FB_ARTISTS;siteReleases=FB_RELEASES;siteServices=FB_SERVICES;siteReviews=FB_REVIEWS;
   }finally{
-    // ALWAYS render and hide loader regardless of success or failure
-    clearTimeout(LOAD_TIMEOUT);
-    renderRoster(); renderCatalogue(); renderServices(); renderReviews(); populateArtistFilter();
-    hideLoader();
+    renderRoster();renderCatalogue();renderServices();renderReviews();populateArtistFilter();
   }
 }
-// Alias so both names work
-function loadSiteContent(){ loadAllContent(); }
+function loadSiteContent(){loadAllContent();}
 
 function applySettings(s){
-  if(!s) return;
+  if(!s)return;
   siteSettings=s;
   if(s.email){const el=document.getElementById('footer-email');if(el){el.href='mailto:'+s.email;el.textContent=s.email;}}
-  if(s.instagramUrl||s.instagram){
-    const el=document.getElementById('footer-instagram');
-    if(el){if(s.instagramUrl)el.href=s.instagramUrl;if(s.instagram)el.textContent=s.instagram.startsWith('@')?s.instagram:'@'+s.instagram;}
-  }
+  if(s.instagramUrl||s.instagram){const el=document.getElementById('footer-instagram');if(el){if(s.instagramUrl)el.href=s.instagramUrl;if(s.instagram)el.textContent=s.instagram.startsWith('@')?s.instagram:'@'+s.instagram;}}
   if(s.footerTagline){const el=document.getElementById('footer-tagline');if(el)el.innerHTML=s.footerTagline;}
   const demoPortal=s.demoPortal||'https://tir-demo-portal.vercel.app/';
   ['nav-demo-btn','mob-demo-btn','hero-demo-btn','cta-demo-btn','footer-demo-link','anr-demo-btn','dist-demo-btn'].forEach(id=>{const el=document.getElementById(id);if(el)el.href=demoPortal;});
@@ -814,7 +974,7 @@ function applySettings(s){
 }
 
 function applyHero(h){
-  if(!h) return;
+  if(!h)return;
   if(h.eyebrow){const el=document.getElementById('hero-eyebrow');if(el)el.textContent=h.eyebrow;}
   if(h.subtitle){const el=document.getElementById('hero-subtitle');if(el)el.textContent=h.subtitle;}
   if(h.body){const el=document.getElementById('hero-body');if(el)el.textContent=h.body;}
@@ -830,41 +990,26 @@ function applyHero(h){
   if(h.planSub){const el=document.getElementById('plan-sub');if(el)el.textContent=h.planSub;}
   if(h.planFeatures&&h.planFeatures.length){
     const el=document.getElementById('plan-features');
-    if(el)el.innerHTML=h.planFeatures.map(f=>{
-      const muted=f.startsWith('—');
-      const txt=f.replace(/^[✓—]\s*/,'');
-      return `<li class="${muted?'muted':''}">${txt}</li>`;
-    }).join('');
+    if(el)el.innerHTML=h.planFeatures.map(f=>{const muted=f.startsWith('—');const txt=f.replace(/^[✓—]\s*/,'');return `<li class="${muted?'muted':''}">${txt}</li>`;}).join('');
   }
   if(h.responseTime){const el=document.getElementById('anr-response');if(el)el.textContent='Response within '+h.responseTime;}
 }
 
-// ═══════════════════════════════════════════
-// RENDER ROSTER
-// ═══════════════════════════════════════════
 function renderRoster(){
-  const grid=document.getElementById('tir-roster-grid');
-  if(!grid) return;
-  if(!siteArtists.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">NO ARTISTS YET</div>';return;}
-  grid.innerHTML=siteArtists.map((a,i)=>{
-    const imgHtml=a.imageUrl
-      ?`<img src="${esc(a.imageUrl)}" alt="${esc(a.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy"/><div class="roster-placeholder" style="display:none;position:absolute;inset:0">🎤</div>`
-      :`<div class="roster-placeholder">🎤</div>`;
-    return `<div class="roster-card" onclick="openArtistPanel(${i})" style="position:relative">
-      ${a.imageUrl?`<img src="${esc(a.imageUrl)}" alt="${esc(a.name)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s" />`:`<div class="roster-placeholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem;background:var(--gray)">🎤</div>`}
-      <div class="roster-card-overlay">
-        <div class="roster-card-name">${esc(a.name)}</div>
-        <div class="roster-card-genre">${esc(a.genre)}</div>
-      </div>
-    </div>`;
-  }).join('');
+  const grid=document.getElementById('tir-roster-grid');if(!grid)return;
+  if(!siteArtists.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">NO ARTISTS YET</div>';return;}
+  grid.innerHTML=siteArtists.map((a,i)=>`<div class="roster-card" onclick="openArtistPanel(${i})" style="position:relative">
+    ${a.imageUrl?`<img src="${esc(a.imageUrl)}" alt="${esc(a.name)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s" />`:`<div class="roster-placeholder">🎤</div>`}
+    <div class="roster-card-overlay">
+      <div class="roster-card-name">${esc(a.name)}</div>
+      <div class="roster-card-genre">${esc(a.genre)}</div>
+    </div>
+  </div>`).join('');
 }
 
 function openArtistPanel(idx){
-  const a=siteArtists[idx];
-  if(!a) return;
+  const a=siteArtists[idx];if(!a)return;
   const s=siteSettings;
-  // Build platform links
   const platforms=[
     {key:'spotify',label:'Spotify',url:a.spotifyUrl,logo:s.logo_spotify||''},
     {key:'apple',label:'Apple Music',url:a.appleMusicUrl,logo:s.logo_apple||''},
@@ -873,17 +1018,8 @@ function openArtistPanel(idx){
     {key:'amazon',label:'Amazon Music',url:a.amazonUrl,logo:s.logo_amazon||''},
     {key:'instagram',label:'Instagram',url:a.instagramUrl,logo:'📸'},
   ].filter(p=>p.url);
-
-  const linksHtml=platforms.map(p=>{
-    const logoHtml=p.logo&&p.logo.startsWith('http')
-      ?`<img src="${p.logo}" alt="${p.label}" style="width:18px;height:18px;object-fit:contain;border-radius:3px" />`
-      :`<span style="font-size:14px">${p.logo||'🎵'}</span>`;
-    return `<a href="${esc(p.url)}" target="_blank" class="ap-link">${logoHtml}${p.label}</a>`;
-  }).join('');
-
-  const embedHtml=a.spotifyEmbedUrl
-    ?`<div style="padding:0 40px 0"><iframe src="${esc(a.spotifyEmbedUrl)}" width="100%" height="200" frameborder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture" loading="lazy" style="border-radius:8px;display:block"></iframe></div>`:'';
-
+  const linksHtml=platforms.map(p=>{const logoHtml=p.logo&&p.logo.startsWith('http')?`<img src="${p.logo}" alt="${p.label}" style="width:18px;height:18px;object-fit:contain;border-radius:3px" />`:`<span style="font-size:14px">${p.logo||'🎵'}</span>`;return `<a href="${esc(p.url)}" target="_blank" class="ap-link">${logoHtml}${p.label}</a>`;}).join('');
+  const embedHtml=a.spotifyEmbedUrl?`<div style="padding:0 40px 0"><iframe src="${esc(a.spotifyEmbedUrl)}" width="100%" height="200" frameborder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture" loading="lazy" style="border-radius:4px;display:block"></iframe></div>`:'';
   document.getElementById('ap-content').innerHTML=`
     ${a.imageUrl?`<img src="${esc(a.imageUrl)}" class="ap-img" alt="${esc(a.name)}" />`:`<div class="ap-img-placeholder">🎤</div>`}
     <div class="ap-body">
@@ -897,61 +1033,40 @@ function openArtistPanel(idx){
   document.body.style.overflow='hidden';
 }
 
-function closeArtistPanel(){
-  document.getElementById('artist-panel').classList.remove('open');
-  document.body.style.overflow='';
-}
+function closeArtistPanel(){document.getElementById('artist-panel').classList.remove('open');document.body.style.overflow='';}
 
-// ═══════════════════════════════════════════
-// RENDER CATALOGUE
-// ═══════════════════════════════════════════
 function populateArtistFilter(){
-  const sel=document.getElementById('cat-artist-filter');
-  if(!sel) return;
+  const sel=document.getElementById('cat-artist-filter');if(!sel)return;
   const artists=[...new Set(siteReleases.map(r=>r.artist).filter(Boolean))];
   sel.innerHTML='<option value="all">ALL ARTISTS</option>'+artists.map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join('');
 }
 
-function filterCat(type,btn){
-  catFilter.type=type;
-  document.querySelectorAll('.cat-filter-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderCatalogue();
-}
+function filterCat(type,btn){catFilter.type=type;document.querySelectorAll('.cat-filter-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderCatalogue();}
 function filterCatType(val){catFilter.type=val;renderCatalogue();}
 function filterCatArtist(val){catFilter.artist=val;renderCatalogue();}
 
 function renderCatalogue(){
-  const grid=document.getElementById('tir-releases-grid');
-  if(!grid) return;
+  const grid=document.getElementById('tir-releases-grid');if(!grid)return;
   let list=siteReleases;
-  if(catFilter.type&&catFilter.type!=='all') list=list.filter(r=>r.type===catFilter.type);
-  if(catFilter.artist&&catFilter.artist!=='all') list=list.filter(r=>r.artist===catFilter.artist);
+  if(catFilter.type&&catFilter.type!=='all')list=list.filter(r=>r.type===catFilter.type);
+  if(catFilter.artist&&catFilter.artist!=='all')list=list.filter(r=>r.artist===catFilter.artist);
   if(!list.length){grid.innerHTML='<div class="cat-empty" style="grid-column:1/-1">NO RELEASES FOUND</div>';return;}
   grid.innerHTML=list.map((r,i)=>{
-    const artHtml=r.artworkUrl
-      ?`<img src="${esc(r.artworkUrl)}" alt="${esc(r.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .4s" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="cat-art-placeholder" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center">${esc(r.title)}</div>`
-      :`<div class="cat-art-placeholder">${esc(r.title)}</div>`;
+    const artHtml=r.artworkUrl?`<img src="${esc(r.artworkUrl)}" alt="${esc(r.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .4s" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="cat-art-placeholder" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center">${esc(r.title)}</div>`:`<div class="cat-art-placeholder">${esc(r.title)}</div>`;
     const realIdx=siteReleases.indexOf(r);
     return `<div class="cat-card fade-in" style="animation-delay:${i*.04}s" onclick="openRelease(${realIdx})">
       <div class="cat-art" style="position:relative">${artHtml}</div>
       <div class="cat-title">${esc(r.title)}</div>
       <div class="cat-artist">${esc(r.artist)}</div>
-      <div><span class="cat-type">${r.type||'SINGLE'}</span> <span style="font-size:.65rem;color:var(--gray3);margin-left:6px;font-family:var(--font-mono)">${r.year||''}</span></div>
+      <div><span class="cat-type">${r.type||'SINGLE'}</span> <span style="font-size:.65rem;color:rgba(255,255,255,.25);margin-left:6px;font-family:var(--font-mono)">${r.year||''}</span></div>
     </div>`;
   }).join('');
   setTimeout(()=>document.querySelectorAll('.fade-in').forEach(el=>el.classList.add('visible')),50);
 }
 
-// ═══════════════════════════════════════════
-// RELEASE DETAIL
-// ═══════════════════════════════════════════
 function openRelease(idx){
-  const r=siteReleases[idx];
-  if(!r) return;
+  const r=siteReleases[idx];if(!r)return;
   const s=siteSettings;
-
-  // Build platform streaming links
   const streamPlatforms=[
     {key:'spotify',label:'Spotify',sub:'Stream',url:r.spotifyUrl,logo:s.logo_spotify||''},
     {key:'apple',label:'Apple Music',sub:'Stream',url:r.appleMusicUrl,logo:s.logo_apple||''},
@@ -961,52 +1076,19 @@ function openRelease(idx){
     {key:'tidal',label:'Tidal',sub:'Stream',url:r.tidalUrl,logo:s.logo_tidal||''},
     {key:'smartlink',label:'Smart Link',sub:'All Platforms',url:r.smartlinkUrl,logo:'🔗'},
   ].filter(p=>p.url);
-
-  const platformsHtml=streamPlatforms.map(p=>{
-    const logoHtml=p.logo&&p.logo.startsWith('http')
-      ?`<img src="${p.logo}" alt="${p.label}" style="width:24px;height:24px;object-fit:contain;border-radius:4px" />`
-      :`<span style="font-size:18px">${p.logo||'🎵'}</span>`;
-    return `<a href="${esc(p.url)}" target="_blank" class="rel-platform-link">
-      <div class="rel-platform-logo">${logoHtml}</div>
-      <span class="rel-platform-name">${p.label}</span>
-      <span class="rel-platform-sub">${p.sub} →</span>
-    </a>`;
-  }).join('');
-
-  // Related releases (same artist, not this one)
+  const platformsHtml=streamPlatforms.map(p=>{const logoHtml=p.logo&&p.logo.startsWith('http')?`<img src="${p.logo}" alt="${p.label}" style="width:24px;height:24px;object-fit:contain;border-radius:4px" />`:`<span style="font-size:18px">${p.logo||'🎵'}</span>`;return `<a href="${esc(p.url)}" target="_blank" class="rel-platform-link"><div class="rel-platform-logo">${logoHtml}</div><span class="rel-platform-name">${p.label}</span><span class="rel-platform-sub">${p.sub} →</span></a>`;}).join('');
   const related=siteReleases.filter((_r,i)=>i!==idx&&_r.artist===r.artist).slice(0,3);
-  const relatedHtml=related.length?`
-    <div class="rel-more">
-      <h3>MORE FROM ${esc(r.artist).toUpperCase()}</h3>
-      <div class="rel-more-grid">
-        ${related.map((rr,ri)=>{
-          const ri2=siteReleases.indexOf(rr);
-          return `<div class="cat-card" onclick="openRelease(${ri2})" style="cursor:pointer">
-            <div class="cat-art" style="position:relative">
-              ${rr.artworkUrl?`<img src="${esc(rr.artworkUrl)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .4s" />`:`<div class="cat-art-placeholder">${esc(rr.title)}</div>`}
-            </div>
-            <div class="cat-title">${esc(rr.title)}</div>
-            <div class="cat-artist">${esc(rr.artist)}</div>
-            <div><span class="cat-type">${rr.type||'SINGLE'}</span></div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>`:'';
-
+  const relatedHtml=related.length?`<div class="rel-more"><h3>MORE FROM ${esc(r.artist).toUpperCase()}</h3><div class="rel-more-grid">${related.map((rr)=>{const ri2=siteReleases.indexOf(rr);return `<div class="cat-card" onclick="openRelease(${ri2})" style="cursor:pointer"><div class="cat-art" style="position:relative">${rr.artworkUrl?`<img src="${esc(rr.artworkUrl)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .4s" />`:`<div class="cat-art-placeholder">${esc(rr.title)}</div>`}</div><div class="cat-title">${esc(rr.title)}</div><div class="cat-artist">${esc(rr.artist)}</div><div><span class="cat-type">${rr.type||'SINGLE'}</span></div></div>`;}).join('')}</div></div>`:'';
   const firstStreamUrl=streamPlatforms[0]?.url||'#';
-  const heroStyle=r.artworkUrl?`background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%)`:'background:var(--gray)';
-
   document.getElementById('release-detail-content').innerHTML=`
-    <div style="${heroStyle}">
+    <div style="background:var(--gray)">
       <div class="rel-hero-inner">
-        <div class="rel-artwork">
-          ${r.artworkUrl?`<img src="${esc(r.artworkUrl)}" alt="${esc(r.title)}" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="rel-artwork-placeholder">🎵</div>`}
-        </div>
+        <div class="rel-artwork">${r.artworkUrl?`<img src="${esc(r.artworkUrl)}" alt="${esc(r.title)}" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="rel-artwork-placeholder">🎵</div>`}</div>
         <div class="rel-info-top">
           <div class="rel-title-big">${esc(r.title)}</div>
           <div class="rel-meta-row">
-            <div class="rel-meta-item"><div class="rel-meta-label">YEAR</div><div class="rel-meta-value">${r.year||'—'}</div></div>
-            <div class="rel-meta-item"><div class="rel-meta-label">ARTIST</div><div class="rel-meta-value">${esc(r.artist)}</div></div>
+            <div><div class="rel-meta-label">YEAR</div><div class="rel-meta-value">${r.year||'—'}</div></div>
+            <div><div class="rel-meta-label">ARTIST</div><div class="rel-meta-value">${esc(r.artist)}</div></div>
             <a href="${firstStreamUrl}" target="_blank" class="btn-stream">STREAM HERE</a>
           </div>
         </div>
@@ -1014,77 +1096,47 @@ function openRelease(idx){
     </div>
     <div class="rel-body">
       <div>
-        <div style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gray4);margin-bottom:1rem;text-transform:uppercase">About This Release</div>
-        <div class="rel-desc">${r.description?(esc(r.description).replace(/\n/g,'<br/>')):'<span style="color:var(--gray3)">No description provided.</span>'}</div>
-        <div style="margin-top:2rem;display:flex;gap:12px;flex-wrap:wrap">
-          <span style="font-size:.65rem;border:1px solid var(--border);padding:4px 12px;font-family:var(--font-mono);letter-spacing:.1em;color:var(--gray4)">${r.type||'SINGLE'}</span>
-          ${r.year?`<span style="font-size:.65rem;border:1px solid var(--border);padding:4px 12px;font-family:var(--font-mono);letter-spacing:.1em;color:var(--gray4)">${r.year}</span>`:''}
-          ${r.genre?`<span style="font-size:.65rem;border:1px solid var(--border);padding:4px 12px;font-family:var(--font-mono);letter-spacing:.1em;color:var(--gray4)">${esc(r.genre)}</span>`:''}
+        <div style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:rgba(255,255,255,.3);margin-bottom:1rem;text-transform:uppercase">About This Release</div>
+        <div class="rel-desc">${r.description?(esc(r.description).replace(/\n/g,'<br/>')):'<span style="color:rgba(255,255,255,.2)">No description provided.</span>'}</div>
+        <div style="margin-top:2rem;display:flex;gap:10px;flex-wrap:wrap">
+          <span style="font-size:.65rem;border:1px solid var(--border);padding:4px 12px;font-family:var(--font-mono);letter-spacing:.1em;color:rgba(255,255,255,.3)">${r.type||'SINGLE'}</span>
+          ${r.year?`<span style="font-size:.65rem;border:1px solid var(--border);padding:4px 12px;font-family:var(--font-mono);letter-spacing:.1em;color:rgba(255,255,255,.3)">${r.year}</span>`:''}
+          ${r.genre?`<span style="font-size:.65rem;border:1px solid var(--border);padding:4px 12px;font-family:var(--font-mono);letter-spacing:.1em;color:rgba(255,255,255,.3)">${esc(r.genre)}</span>`:''}
         </div>
       </div>
       <div>
-        <div style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--gold);margin-bottom:1.5rem;text-transform:uppercase">STREAM HERE</div>
-        ${platformsHtml||'<div style="color:var(--gray3);font-size:.8rem">No streaming links added yet.</div>'}
+        <div style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--red);margin-bottom:1.5rem;text-transform:uppercase">STREAM HERE</div>
+        ${platformsHtml||'<div style="color:rgba(255,255,255,.2);font-size:.8rem">No streaming links added yet.</div>'}
       </div>
     </div>
     ${relatedHtml}`;
-
   showView('release');
 }
 
-// ═══════════════════════════════════════════
-// RENDER SERVICES
-// ═══════════════════════════════════════════
 function renderServices(){
-  const grid=document.getElementById('tir-services-grid');
-  if(!grid) return;
-  if(!siteServices.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3)">No services yet.</div>';return;}
-  grid.innerHTML=siteServices.map(s=>`
-    <div class="service-block">
-      <div class="service-icon-wrap">${s.icon||'⚡'}</div>
-      <div class="service-block-name">${esc(s.name)}</div>
-      <div class="service-block-desc">${esc(s.description)}</div>
-    </div>`).join('');
+  const grid=document.getElementById('tir-services-grid');if(!grid)return;
+  if(!siteServices.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2)">No services yet.</div>';return;}
+  grid.innerHTML=siteServices.map(s=>`<div class="service-block"><div class="service-icon-wrap">${s.icon||'⚡'}</div><div class="service-block-name">${esc(s.name)}</div><div class="service-block-desc">${esc(s.description)}</div></div>`).join('');
 }
 
-// ═══════════════════════════════════════════
-// RENDER REVIEWS
-// ═══════════════════════════════════════════
 function renderReviews(){
-  const grid=document.getElementById('tir-reviews-grid');
-  if(!grid) return;
-  if(!siteReviews.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:var(--gray3)">No reviews yet.</div>';return;}
-  grid.innerHTML=siteReviews.map(r=>`
-    <div class="review-tile">
-      <div class="r-stars">${'★'.repeat(r.stars||5)}</div>
-      <p class="r-quote">${esc(r.text)}</p>
-      <div class="r-author">${esc(r.author)}</div>
-      <div class="r-role">${esc(r.role)}</div>
-    </div>`).join('');
+  const grid=document.getElementById('tir-reviews-grid');if(!grid)return;
+  if(!siteReviews.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2)">No reviews yet.</div>';return;}
+  grid.innerHTML=siteReviews.map(r=>`<div class="review-tile"><div class="r-stars">${'★'.repeat(r.stars||5)}</div><p class="r-quote">${esc(r.text)}</p><div class="r-author">${esc(r.author)}</div><div class="r-role">${esc(r.role)}</div></div>`).join('');
 }
 
-// ═══════════════════════════════════════════
-// VIEW ROUTER
-// ═══════════════════════════════════════════
 const VIEW_HISTORY=[];
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const v=document.getElementById('view-'+name);
   if(v){v.classList.add('active');window.scrollTo(0,0);}
-  document.querySelectorAll('.nav-links a').forEach(a=>{
-    a.classList.toggle('active',a.dataset.view===name);
-  });
+  document.querySelectorAll('.nav-links a').forEach(a=>{a.classList.toggle('active',a.dataset.view===name);});
   VIEW_HISTORY.push(name);
   history.pushState({view:name},'',window.location.pathname);
 }
 
-window.addEventListener('popstate',e=>{
-  if(e.state?.view) showView(e.state.view);
-});
+window.addEventListener('popstate',e=>{if(e.state?.view)showView(e.state.view);});
 
-// ═══════════════════════════════════════════
-// NAV & MOBILE
-// ═══════════════════════════════════════════
 function toggleMob(){
   const m=document.getElementById('mob-menu');
   const open=m.classList.toggle('open');
@@ -1095,21 +1147,6 @@ function toggleMob(){
 function closeMob(){document.getElementById('mob-menu').classList.remove('open');document.querySelectorAll('.ham span').forEach(s=>{s.style.transform='';s.style.opacity=''});document.body.style.overflow='';}
 window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30);});
 
-// ═══════════════════════════════════════════
-// CURSOR
-// ═══════════════════════════════════════════
-const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-(function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';cur.style.background='var(--white)';});
-  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';cur.style.background='var(--gold)';});
-});
-
-// ═══════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════
 function esc(v){return(v||'').toString().replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3000);}
 loadSiteContent();
