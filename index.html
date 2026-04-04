@@ -41,7 +41,7 @@ const db=firebase.firestore();
   --font-mono:'DM Mono',monospace;
 }
 html{scroll-behavior:smooth}
-body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden;max-width:100vw}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden}
 
 .view{display:none;min-height:100vh}
 .view.active{display:block}
@@ -62,18 +62,17 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 .nav-btn.red:hover{background:var(--red2);border-color:var(--red2)}
 .ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
 .ham span{display:block;width:22px;height:2px;background:var(--white);transition:all .3s}
-@media(max-width:900px){.nav-links{display:none}.ham{display:flex}nav{padding:0 16px}.nav-right .nav-btn{display:none}}
+@media(max-width:900px){.nav-links{display:none}.ham{display:flex}nav{padding:0 20px}}
 
 /* MOBILE MENU */
-.mob-menu{position:fixed;inset:0;z-index:900;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;opacity:0;pointer-events:none;transition:opacity .4s}
+.mob-menu{position:fixed;inset:0;z-index:900;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;opacity:0;pointer-events:none;transition:opacity .4s}
 .mob-menu.open{opacity:1;pointer-events:all}
-.mob-menu a{font-family:var(--font-display);font-size:clamp(1.8rem,8vw,3rem);font-weight:800;letter-spacing:.05em;color:var(--white);text-decoration:none;cursor:pointer;transition:color .2s}
+.mob-menu a{font-family:var(--font-display);font-size:3rem;font-weight:800;letter-spacing:.05em;color:var(--white);text-decoration:none;cursor:pointer;transition:color .2s}
 .mob-menu a:hover{color:var(--red)}
 
 /* ══ HERO ══ */
 #view-home{position:relative;overflow:hidden}
 .hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 40px 70px;position:relative;overflow:hidden}
-@media(max-width:600px){.hero{padding:0 20px 50px}}
 .hero-bg{position:absolute;inset:0;background:#0A0A0A}
 .hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(204,0,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(204,0,0,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom,transparent,black 20%,black 80%,transparent)}
 .hero-accent{position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent 0%,rgba(204,0,0,.06) 100%)}
@@ -82,7 +81,6 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 .hero-title .line-red{color:var(--red)}
 .hero-title .line-outline{color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.2)}
 .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:3rem;position:relative;z-index:1;flex-wrap:wrap;gap:2rem}
-@media(max-width:600px){.hero-bottom{flex-direction:column;align-items:flex-start;gap:1.5rem;margin-top:2rem}}
 .hero-desc{font-size:.85rem;color:rgba(255,255,255,.5);max-width:320px;line-height:1.8;letter-spacing:.03em}
 .hero-desc strong{color:var(--white);display:block;margin-bottom:.5rem;font-family:var(--font-display);font-size:.7rem;letter-spacing:.2em;font-weight:700}
 .hero-ctas{display:flex;gap:10px;flex-wrap:wrap}
@@ -96,7 +94,6 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 .ticker-track{display:flex;animation:ticker 35s linear infinite;width:max-content}
 .ticker-item{font-family:var(--font-display);font-size:.75rem;font-weight:700;letter-spacing:.25em;color:rgba(255,255,255,.3);white-space:nowrap;padding:0 2.5rem;text-transform:uppercase}
 .ticker-item .dot{color:var(--red);margin-right:2.5rem}
-@media(max-width:600px){.ticker-item{font-size:.6rem;padding:0 1.5rem;letter-spacing:.15em}}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ══ SECTION PAGE VIEWS ══ */
@@ -104,7 +101,7 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 .page-title{font-family:var(--font-display);font-size:clamp(3.5rem,9vw,9rem);font-weight:900;letter-spacing:-.01em;line-height:.9;margin-bottom:1rem;text-transform:uppercase}
 .page-title span{color:var(--red)}
 .page-sub{font-size:.72rem;color:rgba(255,255,255,.3);letter-spacing:.2em;text-transform:uppercase;font-family:var(--font-mono)}
-@media(max-width:600px){.page-hero{padding:90px 16px 32px}.page-title{font-size:clamp(2.5rem,12vw,5rem)}}
+@media(max-width:600px){.page-hero{padding:90px 20px 40px}}
 
 /* ══ ABOUT ══ */
 #view-about .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:80px 40px;max-width:1400px;margin:0 auto;align-items:start}
@@ -169,7 +166,7 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 .cat-type{display:inline-block;font-size:.55rem;letter-spacing:.15em;color:var(--red);border:1px solid var(--border-red);padding:2px 8px;margin-top:6px;font-family:var(--font-mono);text-transform:uppercase}
 .cat-empty{grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2)}
 @media(max-width:1100px){.cat-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:768px){.cat-grid{grid-template-columns:repeat(2,1fr);padding:0;gap:1px}.cat-filters{padding:14px 16px}}
+@media(max-width:768px){.cat-grid{grid-template-columns:repeat(2,1fr);padding:0;gap:1px}.cat-filters{padding:14px 20px}}
 @media(max-width:400px){.cat-grid{grid-template-columns:1fr}}
 
 /* ══ RELEASE DETAIL ══ */
@@ -215,7 +212,7 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 .service-block-name{font-family:var(--font-display);font-size:1.2rem;font-weight:800;letter-spacing:.06em;margin-bottom:1rem;text-transform:uppercase}
 .service-block-desc{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.8}
 @media(max-width:900px){#view-services .services-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:500px){#view-services .services-grid{grid-template-columns:1fr}.service-block{padding:2rem 1.5rem}}
+@media(max-width:500px){#view-services .services-grid{grid-template-columns:1fr}}
 
 /* ══ DISTRIBUTION ══ */
 #view-distribution .dist-body{max-width:1400px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
@@ -272,7 +269,6 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 /* ══ HOME QUICK NAV ══ */
 .home-nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--border);max-width:100%}
 .home-nav-block{background:var(--black);padding:3.5rem 3rem;cursor:pointer;transition:background .3s;border:1px solid var(--border)}
-@media(max-width:768px){.home-nav-grid{grid-template-columns:1fr}.home-nav-block{padding:2.5rem 1.5rem}}
 .home-nav-block:hover{background:rgba(204,0,0,.04)}
 .home-nav-label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:rgba(255,255,255,.25);margin-bottom:1rem;text-transform:uppercase}
 .home-nav-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);font-weight:900;margin-bottom:1rem;text-transform:uppercase}
@@ -281,7 +277,6 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 
 /* ══ CTA ══ */
 .cta-block{text-align:center;padding:8rem 40px;border-top:1px solid var(--border);background:linear-gradient(to bottom,var(--black),rgba(204,0,0,.04),var(--black))}
-@media(max-width:600px){.cta-block{padding:5rem 20px}.cta-btns a,.cta-btns button{width:100%;justify-content:center}}
 .cta-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,9rem);font-weight:900;line-height:.9;letter-spacing:-.01em;margin-bottom:2.5rem;text-transform:uppercase}
 .cta-title .red{color:var(--red)}
 .cta-sub{font-size:.88rem;color:rgba(255,255,255,.4);margin-bottom:2.5rem}
@@ -298,7 +293,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 .footer-link:hover{color:var(--white)}
 .footer-bottom{border-top:1px solid var(--border);padding-top:1.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.65rem;color:rgba(255,255,255,.2);letter-spacing:.08em;font-family:var(--font-mono)}
 @media(max-width:900px){footer{padding:3rem 20px 2rem}.footer-grid{grid-template-columns:1fr 1fr;gap:2rem}}
-@media(max-width:480px){.footer-grid{grid-template-columns:1fr;gap:1.5rem}.footer-bottom{flex-direction:column;gap:.5rem}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr;gap:1.5rem}}
 
 /* ══ BIG FULL-WIDTH CTA RED BAND ══ */
 .red-band{background:var(--red);padding:6rem 40px;text-align:left;overflow:hidden;position:relative}
@@ -319,8 +314,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 .toast.on{opacity:1;transform:translateY(0)}
 
 /* 24-48H BANNER */
-.delivery-banner{background:rgba(204,0,0,.06);border-top:1px solid var(--border-red);border-bottom:1px solid var(--border-red);padding:1rem 40px;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
-@media(max-width:600px){.delivery-banner{padding:1rem 16px}}
+.delivery-banner{background:rgba(204,0,0,.06);border-top:1px solid var(--border-red);border-bottom:1px solid var(--border-red);padding:1rem 40px;display:flex;align-items:center;gap:1rem}
 .delivery-banner .badge{background:var(--red);color:var(--white);font-family:var(--font-display);font-size:.75rem;font-weight:800;letter-spacing:.15em;padding:4px 14px;text-transform:uppercase;flex-shrink:0}
 .delivery-banner p{font-size:.82rem;color:rgba(255,255,255,.5);font-family:var(--font-mono);letter-spacing:.05em}
 .delivery-banner p strong{color:var(--white)}
@@ -706,16 +700,6 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     <h2>11. Contact</h2>
     <p>For any privacy-related questions or concerns, contact us at:<br/><strong>support@theimaginaryrecords.in</strong><br/>Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K, 193504, India.</p>
   </div>
-  <div style="border-top:1px solid rgba(255,255,255,.08);padding:2rem 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:2rem">
-    <button onclick="goBack()" style="font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);padding:8px 20px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='#CC0000';this.style.color='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.5)'">← BACK</button>
-    <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
-      <a onclick="showView('privacy')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Privacy Policy</a>
-      <a onclick="showView('terms')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Terms</a>
-      <a onclick="showView('agreement')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Agreement</a>
-      <a onclick="showView('home')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Home</a>
-    </div>
-    <span style="font-size:.65rem;color:rgba(255,255,255,.15);font-family:'DM Mono',monospace">© 2026 THE IMAGINARY RECORDS</span>
-  </div>
 </div>
 
 <!-- ═══ VIEW: TERMS & CONDITIONS ═══ -->
@@ -768,16 +752,6 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     <h2>12. Contact</h2>
     <p>For questions about these Terms, contact us at <strong>support@theimaginaryrecords.in</strong>.</p>
   </div>
-  <div style="border-top:1px solid rgba(255,255,255,.08);padding:2rem 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:2rem">
-    <button onclick="goBack()" style="font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);padding:8px 20px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='#CC0000';this.style.color='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.5)'">← BACK</button>
-    <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
-      <a onclick="showView('privacy')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Privacy Policy</a>
-      <a onclick="showView('terms')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Terms</a>
-      <a onclick="showView('agreement')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Agreement</a>
-      <a onclick="showView('home')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Home</a>
-    </div>
-    <span style="font-size:.65rem;color:rgba(255,255,255,.15);font-family:'DM Mono',monospace">© 2026 THE IMAGINARY RECORDS</span>
-  </div>
 </div>
 
 <!-- ═══ VIEW: DISTRIBUTION AGREEMENT ═══ -->
@@ -794,7 +768,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     </div>
 
     <h2>Section 1 — Parties</h2>
-    <p><strong>Label:</strong> The Imaginary Records, a sole proprietorship owned and operated by Aabyd Khan, located at Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K, 193504, India. Contact: support@theimaginaryrecords.in / +91 9541543424.</p>
+    <p><strong>Label:</strong> The Imaginary Records, a sole proprietorship owned and operated by Aabyd Khan, located at Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K, 193504, India. Contact: theimaginaryrecords@gmail.com / +91 9541543424.</p>
     <p><strong>Artist:</strong> The individual, group, or entity that has agreed to distribute or sign music through TIR, as identified during registration or onboarding.</p>
 
     <h2>Section 2 — Grant of Rights</h2>
@@ -909,16 +883,6 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     </div>
 
     <p style="margin-top:2rem">Contact: <strong>support@theimaginaryrecords.in</strong> | +91 9541543424<br/>The Imaginary Records, Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K 193504, India.</p>
-  </div>
-  <div style="border-top:1px solid rgba(255,255,255,.08);padding:2rem 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:2rem">
-    <button onclick="goBack()" style="font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);padding:8px 20px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='#CC0000';this.style.color='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.5)'">← BACK</button>
-    <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
-      <a onclick="showView('privacy')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Privacy Policy</a>
-      <a onclick="showView('terms')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Terms</a>
-      <a onclick="showView('agreement')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Agreement</a>
-      <a onclick="showView('home')" style="font-size:.72rem;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Home</a>
-    </div>
-    <span style="font-size:.65rem;color:rgba(255,255,255,.15);font-family:'DM Mono',monospace">© 2026 THE IMAGINARY RECORDS</span>
   </div>
 </div>
 
@@ -1162,16 +1126,6 @@ function renderReviews(){
 }
 
 const VIEW_HISTORY=[];
-function goBack(){
-  if(VIEW_HISTORY.length>1){
-    VIEW_HISTORY.pop(); // remove current
-    const prev=VIEW_HISTORY[VIEW_HISTORY.length-1]||'home';
-    VIEW_HISTORY.pop(); // remove prev so showView re-adds it
-    showView(prev);
-  } else {
-    showView('home');
-  }
-}
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const v=document.getElementById('view-'+name);
@@ -1181,4 +1135,21 @@ function showView(name){
   history.pushState({view:name},'',window.location.pathname);
 }
 
-window.addEventListener('popstate',e=>{if(e.state?.view)showView
+window.addEventListener('popstate',e=>{if(e.state?.view)showView(e.state.view);});
+
+function toggleMob(){
+  const m=document.getElementById('mob-menu');
+  const open=m.classList.toggle('open');
+  const sp=document.querySelectorAll('.ham span');
+  if(open){sp[0].style.transform='translateY(6px) rotate(45deg)';sp[1].style.opacity='0';sp[2].style.transform='translateY(-6px) rotate(-45deg)';document.body.style.overflow='hidden';}
+  else{sp.forEach(s=>{s.style.transform='';s.style.opacity=''});document.body.style.overflow='';}
+}
+function closeMob(){document.getElementById('mob-menu').classList.remove('open');document.querySelectorAll('.ham span').forEach(s=>{s.style.transform='';s.style.opacity=''});document.body.style.overflow='';}
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30);});
+
+function esc(v){return(v||'').toString().replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3000);}
+loadSiteContent();
+</script>
+</body>
+</html>
