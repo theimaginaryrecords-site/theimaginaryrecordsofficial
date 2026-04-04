@@ -41,7 +41,7 @@ const db=firebase.firestore();
   --font-mono:'DM Mono',monospace;
 }
 html{scroll-behavior:smooth}
-body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden;max-width:100vw}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden}
 
 .view{display:none;min-height:100vh}
 .view.active{display:block}
@@ -62,18 +62,17 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 .nav-btn.red:hover{background:var(--red2);border-color:var(--red2)}
 .ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
 .ham span{display:block;width:22px;height:2px;background:var(--white);transition:all .3s}
-@media(max-width:900px){.nav-links{display:none}.ham{display:flex}nav{padding:0 16px}.nav-right .nav-btn{display:none}}
+@media(max-width:900px){.nav-links{display:none}.ham{display:flex}nav{padding:0 20px}}
 
 /* MOBILE MENU */
 .mob-menu{position:fixed;inset:0;z-index:900;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;opacity:0;pointer-events:none;transition:opacity .4s}
 .mob-menu.open{opacity:1;pointer-events:all}
-.mob-menu a{font-family:var(--font-display);font-size:clamp(1.6rem,7vw,3rem);font-weight:800;letter-spacing:.05em;color:var(--white);text-decoration:none;cursor:pointer;transition:color .2s}
+.mob-menu a{font-family:var(--font-display);font-size:3rem;font-weight:800;letter-spacing:.05em;color:var(--white);text-decoration:none;cursor:pointer;transition:color .2s}
 .mob-menu a:hover{color:var(--red)}
 
 /* ══ HERO ══ */
 #view-home{position:relative;overflow:hidden}
 .hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 40px 70px;position:relative;overflow:hidden}
-@media(max-width:600px){.hero{padding:0 20px 50px}}
 .hero-bg{position:absolute;inset:0;background:#0A0A0A}
 .hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(204,0,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(204,0,0,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom,transparent,black 20%,black 80%,transparent)}
 .hero-accent{position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent 0%,rgba(204,0,0,.06) 100%)}
@@ -102,7 +101,7 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 .page-title{font-family:var(--font-display);font-size:clamp(3.5rem,9vw,9rem);font-weight:900;letter-spacing:-.01em;line-height:.9;margin-bottom:1rem;text-transform:uppercase}
 .page-title span{color:var(--red)}
 .page-sub{font-size:.72rem;color:rgba(255,255,255,.3);letter-spacing:.2em;text-transform:uppercase;font-family:var(--font-mono)}
-@media(max-width:600px){.page-hero{padding:90px 16px 32px}.page-title{font-size:clamp(2.2rem,11vw,4rem)}}
+@media(max-width:600px){.page-hero{padding:90px 20px 40px}}
 
 /* ══ ABOUT ══ */
 #view-about .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:80px 40px;max-width:1400px;margin:0 auto;align-items:start}
@@ -270,7 +269,6 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 /* ══ HOME QUICK NAV ══ */
 .home-nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--border);max-width:100%}
 .home-nav-block{background:var(--black);padding:3.5rem 3rem;cursor:pointer;transition:background .3s;border:1px solid var(--border)}
-@media(max-width:768px){.home-nav-grid{grid-template-columns:1fr}.home-nav-block{padding:2rem 1.5rem}}
 .home-nav-block:hover{background:rgba(204,0,0,.04)}
 .home-nav-label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:rgba(255,255,255,.25);margin-bottom:1rem;text-transform:uppercase}
 .home-nav-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);font-weight:900;margin-bottom:1rem;text-transform:uppercase}
@@ -279,7 +277,6 @@ nav.scrolled{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bot
 
 /* ══ CTA ══ */
 .cta-block{text-align:center;padding:8rem 40px;border-top:1px solid var(--border);background:linear-gradient(to bottom,var(--black),rgba(204,0,0,.04),var(--black))}
-@media(max-width:600px){.cta-block{padding:4rem 20px}.cta-btns{flex-direction:column;align-items:center}.cta-btns a,.cta-btns button{width:100%;justify-content:center}}
 .cta-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,9rem);font-weight:900;line-height:.9;letter-spacing:-.01em;margin-bottom:2.5rem;text-transform:uppercase}
 .cta-title .red{color:var(--red)}
 .cta-sub{font-size:.88rem;color:rgba(255,255,255,.4);margin-bottom:2.5rem}
@@ -296,7 +293,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 .footer-link:hover{color:var(--white)}
 .footer-bottom{border-top:1px solid var(--border);padding-top:1.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.65rem;color:rgba(255,255,255,.2);letter-spacing:.08em;font-family:var(--font-mono)}
 @media(max-width:900px){footer{padding:3rem 20px 2rem}.footer-grid{grid-template-columns:1fr 1fr;gap:2rem}}
-@media(max-width:480px){.footer-grid{grid-template-columns:1fr;gap:1.5rem}.footer-bottom{flex-direction:column;gap:.5rem;text-align:center}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr;gap:1.5rem}}
 
 /* ══ BIG FULL-WIDTH CTA RED BAND ══ */
 .red-band{background:var(--red);padding:6rem 40px;text-align:left;overflow:hidden;position:relative}
@@ -317,8 +314,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 .toast.on{opacity:1;transform:translateY(0)}
 
 /* 24-48H BANNER */
-.delivery-banner{background:rgba(204,0,0,.06);border-top:1px solid var(--border-red);border-bottom:1px solid var(--border-red);padding:1rem 40px;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
-@media(max-width:600px){.delivery-banner{padding:.75rem 16px}}
+.delivery-banner{background:rgba(204,0,0,.06);border-top:1px solid var(--border-red);border-bottom:1px solid var(--border-red);padding:1rem 40px;display:flex;align-items:center;gap:1rem}
 .delivery-banner .badge{background:var(--red);color:var(--white);font-family:var(--font-display);font-size:.75rem;font-weight:800;letter-spacing:.15em;padding:4px 14px;text-transform:uppercase;flex-shrink:0}
 .delivery-banner p{font-size:.82rem;color:rgba(255,255,255,.5);font-family:var(--font-mono);letter-spacing:.05em}
 .delivery-banner p strong{color:var(--white)}
@@ -450,7 +446,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     <p class="cta-sub">Distribute globally in 24–48 hours. No fees, no catch. Keep 95% of your royalties.</p>
     <div class="cta-btns">
       <a id="cta-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary">SUBMIT YOUR DEMO <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-      <a id="cta-email-btn" href="/cdn-cgi/l/email-protection#1f6c6a6f6f706d6b5f6b777a76727e7876717e6d666d7a7c706d7b6c317671" class="btn-outline">EMAIL THE LABEL</a>
+      <a id="cta-email-btn" href="mailto:support@theimaginaryrecords.in" class="btn-outline">EMAIL THE LABEL</a>
     </div>
   </div>
 
@@ -479,7 +475,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
         <a class="footer-link" onclick="showView('privacy')">Privacy Policy</a>
         <a class="footer-link" onclick="showView('terms')">Terms & Conditions</a>
         <a class="footer-link" onclick="showView('agreement')">Distribution Agreement</a>
-        <a id="footer-email" href="/cdn-cgi/l/email-protection#13606663637c616753677b767a7e72747a7d72616a6176707c6177603d7a7d" class="footer-link"><span class="__cf_email__" data-cfemail="cebdbbbebea1bcba8ebaa6aba7a3afa9a7a0afbcb7bcabada1bcaabde0a7a0">[email&#160;protected]</span></a>
+        <a id="footer-email" href="mailto:support@theimaginaryrecords.in" class="footer-link">support@theimaginaryrecords.in</a>
         <a id="footer-instagram" href="https://www.instagram.com/theimaginaryrecords/" target="_blank" class="footer-link">@theimaginaryrecords</a>
       </div>
     </div>
@@ -694,7 +690,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     <h2>6. Data Retention</h2>
     <p>We retain your personal data for as long as your artist account remains active or as needed to provide services. Upon account termination, we retain data as required by law or for legitimate business purposes for up to 7 years.</p>
     <h2>7. Your Rights</h2>
-    <p>You have the right to: access your personal data; correct inaccurate data; request deletion of your data (subject to legal obligations); object to processing; and withdraw consent. To exercise these rights, contact us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="671412171708151327130f020e0a06000e0906151e15020408150314490e09">[email&#160;protected]</a></strong>.</p>
+    <p>You have the right to: access your personal data; correct inaccurate data; request deletion of your data (subject to legal obligations); object to processing; and withdraw consent. To exercise these rights, contact us at <strong>support@theimaginaryrecords.in</strong>.</p>
     <h2>8. Cookies</h2>
     <p>Our website may use cookies and similar tracking technologies to enhance your experience. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.</p>
     <h2>9. Children's Privacy</h2>
@@ -702,7 +698,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     <h2>10. Changes to This Policy</h2>
     <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last Updated" date.</p>
     <h2>11. Contact</h2>
-    <p>For any privacy-related questions or concerns, contact us at:<br/><strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3c4f494c4c534e487c48545955515d5b55525d4e454e595f534e584f125552">[email&#160;protected]</a></strong><br/>Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K, 193504, India.</p>
+    <p>For any privacy-related questions or concerns, contact us at:<br/><strong>support@theimaginaryrecords.in</strong><br/>Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K, 193504, India.</p>
   </div>
 </div>
 
@@ -754,7 +750,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     <h2>11. Changes to Terms</h2>
     <p>We reserve the right to modify these Terms at any time. Continued use of our services after modifications constitutes acceptance of the updated Terms.</p>
     <h2>12. Contact</h2>
-    <p>For questions about these Terms, contact us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dfacaaafafb0adab9fabb7bab6b2beb8b6b1beada6adbabcb0adbbacf1b6b1">[email&#160;protected]</a></strong>.</p>
+    <p>For questions about these Terms, contact us at <strong>support@theimaginaryrecords.in</strong>.</p>
   </div>
 </div>
 
@@ -772,7 +768,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     </div>
 
     <h2>Section 1 — Parties</h2>
-    <p><strong>Label:</strong> The Imaginary Records, a sole proprietorship owned and operated by Aabyd Khan, located at Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K, 193504, India. Contact: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8bffe3eee2e6eaece2e5eaf9f2f9eee8e4f9eff8cbece6eae2e7a5e8e4e6">[email&#160;protected]</a> / +91 9541543424.</p>
+    <p><strong>Label:</strong> The Imaginary Records, a sole proprietorship owned and operated by Aabyd Khan, located at Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K, 193504, India. Contact: theimaginaryrecords@gmail.com / +91 9541543424.</p>
     <p><strong>Artist:</strong> The individual, group, or entity that has agreed to distribute or sign music through TIR, as identified during registration or onboarding.</p>
 
     <h2>Section 2 — Grant of Rights</h2>
@@ -797,7 +793,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     <p>Royalties are processed and paid monthly, typically within 45–60 days of the close of each reporting period (as determined by our distribution partners). Payments are made via PayPal or other agreed methods. Artists must maintain valid payment information. Unclaimed royalties will be held for up to 12 months before being forfeited.</p>
 
     <h2>Section 7 — Royalty Disputes</h2>
-    <p>The Artist has a <strong>30-day window from the date of each royalty statement</strong> to raise disputes. Disputes must be submitted in writing to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f3808683839c8187b3879b969a9e92949a9d92818a8196909c819780dd9a9d">[email&#160;protected]</a> with specific details. TIR will investigate and respond within 15 business days. After the 30-day window, statements are deemed accepted.</p>
+    <p>The Artist has a <strong>30-day window from the date of each royalty statement</strong> to raise disputes. Disputes must be submitted in writing to support@theimaginaryrecords.in with specific details. TIR will investigate and respond within 15 business days. After the 30-day window, statements are deemed accepted.</p>
 
     <h2>Section 8 — Copyright Claims</h2>
     <p>If a copyright claim, Content ID dispute, or takedown notice is received by TIR related to the Artist's content, TIR will notify the Artist via email <strong>within 48 hours</strong> of receiving the notice. The Artist must respond with counter-claim documentation within 7 business days. Failure to respond may result in acceptance of the claim and removal of the affected content.</p>
@@ -886,13 +882,13 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
       <p><strong>By submitting music to TIR or registering as a TIR artist, you acknowledge that you have read, understood, and agreed to all terms in this Distribution Agreement. This Agreement is legally binding under Indian law.</strong></p>
     </div>
 
-    <p style="margin-top:2rem">Contact: <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95e6e0e5e5fae7e1d5e1fdf0fcf8f4f2fcfbf4e7ece7f0f6fae7f1e6bbfcfb">[email&#160;protected]</a></strong> | +91 9541543424<br/>The Imaginary Records, Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K 193504, India.</p>
+    <p style="margin-top:2rem">Contact: <strong>support@theimaginaryrecords.in</strong> | +91 9541543424<br/>The Imaginary Records, Village Gund Saderkote Bala, Block Hajin, District Bandipora, J&K 193504, India.</p>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 let siteArtists=[],siteReleases=[],siteServices=[],siteReviews=[],siteSettings={};
 let catFilter={type:'all',artist:'all'};
 
@@ -1140,3 +1136,20 @@ function showView(name){
 }
 
 window.addEventListener('popstate',e=>{if(e.state?.view)showView(e.state.view);});
+
+function toggleMob(){
+  const m=document.getElementById('mob-menu');
+  const open=m.classList.toggle('open');
+  const sp=document.querySelectorAll('.ham span');
+  if(open){sp[0].style.transform='translateY(6px) rotate(45deg)';sp[1].style.opacity='0';sp[2].style.transform='translateY(-6px) rotate(-45deg)';document.body.style.overflow='hidden';}
+  else{sp.forEach(s=>{s.style.transform='';s.style.opacity=''});document.body.style.overflow='';}
+}
+function closeMob(){document.getElementById('mob-menu').classList.remove('open');document.querySelectorAll('.ham span').forEach(s=>{s.style.transform='';s.style.opacity=''});document.body.style.overflow='';}
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30);});
+
+function esc(v){return(v||'').toString().replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3000);}
+loadSiteContent();
+</script>
+</body>
+</html>
