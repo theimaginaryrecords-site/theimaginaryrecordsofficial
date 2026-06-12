@@ -318,9 +318,103 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 .delivery-banner .badge{background:var(--red);color:var(--white);font-family:var(--font-display);font-size:.75rem;font-weight:800;letter-spacing:.15em;padding:4px 14px;text-transform:uppercase;flex-shrink:0}
 .delivery-banner p{font-size:.82rem;color:rgba(255,255,255,.5);font-family:var(--font-mono);letter-spacing:.05em}
 .delivery-banner p strong{color:var(--white)}
+
+/* ══ ANIMATIONS / GENZ POLISH ══ */
+@keyframes floatGlow{0%,100%{transform:translateY(0) scale(1);opacity:.5}50%{transform:translateY(-18px) scale(1.06);opacity:.85}}
+@keyframes pulseDot{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
+@keyframes shimmerText{0%{background-position:200% center}100%{background-position:-200% center}}
+@keyframes fillBar{to{transform:scaleX(1)}}
+
+/* glow orbs floating in background */
+.glow-orb{position:fixed;border-radius:50%;pointer-events:none;filter:blur(60px);z-index:0;opacity:.35;mix-blend-mode:screen}
+.glow-orb.o1{width:380px;height:380px;background:radial-gradient(circle,rgba(204,0,0,.5),transparent 70%);top:-100px;left:-100px;animation:floatGlow 14s ease-in-out infinite}
+.glow-orb.o2{width:300px;height:300px;background:radial-gradient(circle,rgba(255,40,40,.35),transparent 70%);bottom:0;right:-80px;animation:floatGlow 18s ease-in-out infinite reverse}
+
+/* magnetic / shine buttons */
+.btn-primary,.btn-outline,.btn-stream,.nav-btn.red{position:relative;overflow:hidden;isolation:isolate;transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease}
+.btn-primary::after,.btn-stream::after,.nav-btn.red::after{content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .6s ease;z-index:-1}
+.btn-primary:hover::after,.btn-stream:hover::after,.nav-btn.red:hover::after{left:140%}
+.btn-primary:hover,.btn-stream:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(204,0,0,.35)}
+.btn-outline:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,255,255,.08)}
+
+/* nav logo subtle pulse */
+.nav-logo span{display:inline-block;animation:pulseDot 2.4s ease-in-out infinite}
+
+/* hero title gradient shimmer on red word */
+.hero-title .line-red{background:linear-gradient(90deg,var(--red) 0%,var(--red3) 25%,var(--red) 50%,var(--red2) 75%,var(--red) 100%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmerText 6s linear infinite}
+
+/* scroll reveal variants */
+.scale-in{opacity:0;transform:scale(.92) translateY(24px);transition:opacity .6s cubic-bezier(.2,.8,.2,1),transform .6s cubic-bezier(.2,.8,.2,1)}
+.scale-in.visible{opacity:1;transform:scale(1) translateY(0)}
+.slide-left{opacity:0;transform:translateX(-50px);transition:opacity .7s ease,transform .7s ease}
+.slide-left.visible{opacity:1;transform:translateX(0)}
+.slide-right{opacity:0;transform:translateX(50px);transition:opacity .7s ease,transform .7s ease}
+.slide-right.visible{opacity:1;transform:translateX(0)}
+
+/* card hover lift + glow for grids */
+.roster-card,.cat-card,.service-block,.review-tile,.blog-card{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease}
+.cat-card:hover,.service-block:hover,.review-tile:hover,.blog-card:hover{box-shadow:0 16px 40px rgba(204,0,0,.12);z-index:2}
+
+/* animated counters underline */
+.stat-n{position:relative}
+.stat-n.counted::after{content:'';position:absolute;left:0;bottom:-6px;height:2px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:left;animation:fillBar .8s ease forwards .2s}
+
+/* ticker glow dot pulse + pause on hover */
+.ticker-item .dot{display:inline-block;animation:pulseDot 1.8s ease-in-out infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+
+/* platform logo chips - genz pill style */
+.plat-name{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border);border-radius:999px;transition:all .3s ease;cursor:default}
+.plat-name:hover{border-color:var(--red);background:rgba(204,0,0,.06);transform:translateY(-3px)}
+.plat-name img{width:16px;height:16px;object-fit:contain;border-radius:3px}
+
+/* scroll progress bar */
+#scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--red),var(--red3));z-index:1100;width:0%;transition:width .1s linear;box-shadow:0 0 10px rgba(204,0,0,.6)}
+
+/* back to top button */
+.to-top{position:fixed;bottom:24px;right:24px;width:46px;height:46px;border-radius:50%;background:var(--red);border:none;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:900;opacity:0;pointer-events:none;transform:translateY(20px) scale(.8);transition:all .3s ease;box-shadow:0 8px 24px rgba(204,0,0,.4)}
+.to-top.show{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
+.to-top:hover{background:var(--red2);transform:translateY(-3px) scale(1.05)}
+
+/* ══ BLOG ══ */
+#view-blog .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--border)}
+.blog-card{background:var(--black);cursor:pointer;border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.blog-card-img{width:100%;aspect-ratio:16/10;background:var(--gray);overflow:hidden;position:relative}
+.blog-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.blog-card:hover .blog-card-img img{transform:scale(1.07)}
+.blog-card-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.4rem;background:linear-gradient(135deg,var(--gray) 0%,var(--gray2) 100%)}
+.blog-card-body{padding:1.75rem;display:flex;flex-direction:column;flex:1}
+.blog-card-tag{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--red);text-transform:uppercase;margin-bottom:.6rem}
+.blog-card-title{font-family:var(--font-display);font-size:1.4rem;font-weight:800;letter-spacing:.02em;margin-bottom:.6rem;text-transform:uppercase;line-height:1.15}
+.blog-card-excerpt{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.blog-card-meta{font-size:.65rem;color:rgba(255,255,255,.3);font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:1rem;margin-top:auto}
+.blog-card-read{color:var(--red);font-weight:800}
+.blog-empty{grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em}
+@media(max-width:900px){#view-blog .blog-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){#view-blog .blog-grid{grid-template-columns:1fr}}
+
+/* BLOG POST DETAIL */
+.post-hero{position:relative;background:var(--gray);min-height:40vh;display:flex;align-items:flex-end;overflow:hidden}
+.post-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35}
+.post-hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:140px 40px 60px;width:100%}
+.post-tag{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.25em;color:var(--red);text-transform:uppercase;margin-bottom:1rem}
+.post-title{font-family:var(--font-display);font-size:clamp(2.2rem,6vw,5rem);font-weight:900;line-height:1.05;text-transform:uppercase;margin-bottom:1rem}
+.post-meta{font-size:.7rem;color:rgba(255,255,255,.4);font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase}
+.post-body{max-width:900px;margin:0 auto;padding:60px 40px 100px;font-size:1rem;line-height:2;color:rgba(255,255,255,.75)}
+.post-body p{margin-bottom:1.5rem}
+.post-body img{width:100%;border-radius:6px;margin:2rem 0}
+.post-body h2,.post-body h3{font-family:var(--font-display);text-transform:uppercase;margin:2.5rem 0 1rem;font-weight:800;letter-spacing:.03em}
+.post-back{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:.7rem;font-weight:800;letter-spacing:.15em;color:rgba(255,255,255,.4);text-transform:uppercase;cursor:pointer;margin-bottom:2rem;transition:color .2s}
+.post-back:hover{color:var(--red)}
+@media(max-width:600px){.post-hero-inner{padding:100px 20px 40px}.post-body{padding:40px 20px 60px}}
 </style>
 </head>
 <body>
+
+<div id="scroll-progress"></div>
+<div class="glow-orb o1"></div>
+<div class="glow-orb o2"></div>
+<button class="to-top" id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 
 <!-- CURSOR removed per request (no loading feature) -->
 
@@ -334,6 +428,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     <li><a onclick="showView('services')" data-view="services">SERVICES</a></li>
     <li><a onclick="showView('distribution')" data-view="distribution">DISTRIBUTION</a></li>
     <li><a onclick="showView('press')" data-view="press">PRESS</a></li>
+    <li><a onclick="showView('blog')" data-view="blog">BLOG</a></li>
   </ul>
   <div class="nav-right">
     <a href="https://tir-artist-portal.vercel.app/" target="_blank" class="nav-btn">ARTIST LOGIN</a>
@@ -350,6 +445,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
   <a onclick="closeMob();showView('services')">SERVICES</a>
   <a onclick="closeMob();showView('distribution')">DISTRIBUTION</a>
   <a onclick="closeMob();showView('press')">PRESS</a>
+  <a onclick="closeMob();showView('blog')">BLOG</a>
   <a href="https://tir-artist-portal.vercel.app/" target="_blank">ARTIST LOGIN</a>
   <a id="mob-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" style="color:var(--red)">SUBMIT DEMO</a>
 </div>
@@ -414,25 +510,25 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 
   <!-- Home quick nav -->
   <div class="home-nav-grid">
-    <div class="home-nav-block" onclick="showView('roster')">
+    <div class="home-nav-block scale-in" onclick="showView('roster')">
       <div class="home-nav-label">Our Artists</div>
       <div class="home-nav-title">ROSTER</div>
       <div class="home-nav-desc">Meet the artists of The Imaginary Records. Signed, distributed and developed under the TIR umbrella.</div>
       <div class="home-nav-arrow">VIEW ROSTER →</div>
     </div>
-    <div class="home-nav-block" onclick="showView('catalogue')">
+    <div class="home-nav-block scale-in" style="transition-delay:.08s" onclick="showView('catalogue')">
       <div class="home-nav-label">Latest Music</div>
       <div class="home-nav-title">CATALOGUE</div>
       <div class="home-nav-desc">Browse our full catalog of releases — singles, EPs and albums available on all major streaming platforms worldwide.</div>
       <div class="home-nav-arrow">VIEW CATALOGUE →</div>
     </div>
-    <div class="home-nav-block" onclick="showView('distribution')">
+    <div class="home-nav-block scale-in" style="transition-delay:.16s" onclick="showView('distribution')">
       <div class="home-nav-label">For Artists</div>
       <div class="home-nav-title">DISTRIBUTE</div>
       <div class="home-nav-desc">Free distribution. Keep 85% of your royalties. Release unlimited music to 200+ platforms in 24–48 hours.</div>
       <div class="home-nav-arrow">START DISTRIBUTING →</div>
     </div>
-    <div class="home-nav-block" onclick="showView('services')">
+    <div class="home-nav-block scale-in" style="transition-delay:.24s" onclick="showView('services')">
       <div class="home-nav-label">What We Do</div>
       <div class="home-nav-title">SERVICES</div>
       <div class="home-nav-desc">A&R development, mastering, VEVO, publishing, rights management and more — all under one roof.</div>
@@ -462,6 +558,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
         <a class="footer-link" onclick="showView('roster')">Roster</a>
         <a class="footer-link" onclick="showView('catalogue')">Catalogue</a>
         <a class="footer-link" onclick="showView('services')">Services</a>
+        <a class="footer-link" onclick="showView('blog')">Blog</a>
       </div>
       <div>
         <div class="footer-col-title">ARTISTS</div>
@@ -498,21 +595,22 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
     <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">THE IMAGINARY RECORDS</div>
   </div>
   <div class="about-grid">
-    <div class="about-text">
+    <div class="about-text slide-left">
       <p id="about-p1">The Imaginary Records is an independent record label born from the mountains of Kashmir — built by artists, for artists.</p>
       <p id="about-p2">We sign, develop, and distribute artists globally across hip hop, dark trap, lo-fi, UK drill, and beyond. Our model puts creative control in the hands of the artist, not the label.</p>
       <p id="about-p3">Whether you are a solo producer dropping instrumentals or a vocalist building your catalog, TIR provides the infrastructure, distribution, and industry network to take your music worldwide.</p>
-      <div class="platforms-row">
-        <span class="plat-name">SPOTIFY</span>
-        <span class="plat-name">APPLE MUSIC</span>
-        <span class="plat-name">AMAZON</span>
-        <span class="plat-name">YOUTUBE</span>
-        <span class="plat-name">TIDAL</span>
-        <span class="plat-name">DEEZER</span>
-        <span class="plat-name">+194 MORE</span>
+      <div class="platforms-row" id="platforms-row">
+        <span class="plat-name"><img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="" style="width:auto;height:14px"/></span>
+        <span class="plat-name"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Apple_Music_icon.svg" alt=""/>APPLE MUSIC</span>
+        <span class="plat-name"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Amazon_Music_icon.svg" alt=""/>AMAZON MUSIC</span>
+        <span class="plat-name"><img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt=""/>YOUTUBE MUSIC</span>
+        <span class="plat-name"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Tidal_logo.svg" alt="" style="width:auto;height:12px;filter:invert(1)"/></span>
+        <span class="plat-name"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Deezer_logo_2023.svg" alt="" style="width:auto;height:14px"/></span>
+        <span class="plat-name"><img src="https://upload.wikimedia.org/wikipedia/en/4/4e/SoundCloud_2024_icon.svg" alt=""/>SOUNDCLOUD</span>
+        <span class="plat-name">+193 MORE</span>
       </div>
     </div>
-    <div class="about-stats">
+    <div class="about-stats slide-right">
       <div class="stat-box"><div class="stat-n" id="stat-1n">160+</div><div class="stat-l" id="stat-1l">TRACKS RELEASED</div></div>
       <div class="stat-box"><div class="stat-n" id="stat-2n">200+</div><div class="stat-l" id="stat-2l">STORE PARTNERS</div></div>
       <div class="stat-box"><div class="stat-n" id="stat-3n">95%</div><div class="stat-l" id="stat-3l">ARTIST ROYALTIES</div></div>
@@ -644,6 +742,22 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
   <div class="reviews-grid" id="tir-reviews-grid">
     <div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
   </div>
+</div>
+
+<!-- ═══ VIEW: BLOG ═══ -->
+<div class="view" id="view-blog">
+  <div class="page-hero">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">BLOG<span>.</span></div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">NEWS · UPDATES · STORIES FROM TIR</div>
+  </div>
+  <div class="blog-grid" id="tir-blog-grid">
+    <div class="blog-empty">LOADING...</div>
+  </div>
+</div>
+
+<!-- ═══ VIEW: BLOG POST ═══ -->
+<div class="view" id="view-blogpost">
+  <div id="blogpost-content"></div>
 </div>
 
 <!-- ═══ VIEW: PRIVACY POLICY ═══ -->
@@ -889,16 +1003,18 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 <div class="toast" id="toast"></div>
 
 <script>
-let siteArtists=[],siteReleases=[],siteServices=[],siteReviews=[],siteSettings={};
+let siteArtists=[],siteReleases=[],siteServices=[],siteReviews=[],siteBlog=[],siteSettings={};
 let catFilter={type:'all',artist:'all'};
 
 const DEFAULT_LOGOS={
-  spotify:'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Green.png',
-  apple:'https://music.apple.com/assets/product/MusicNote_9th_gen_iPad.png',
+  spotify:'https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg',
+  apple:'https://upload.wikimedia.org/wikipedia/commons/5/5f/Apple_Music_icon.svg',
   jiosaavn:'https://upload.wikimedia.org/wikipedia/commons/4/44/JioSaavn_Logo.png',
   youtube:'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg',
-  amazon:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Amazon_Music_logo.svg/200px-Amazon_Music_logo.svg.png',
-  tidal:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Tidal_%28service%29_logo.svg/200px-Tidal_%28service%29_logo.svg.png'
+  amazon:'https://upload.wikimedia.org/wikipedia/commons/0/05/Amazon_Music_icon.svg',
+  tidal:'https://upload.wikimedia.org/wikipedia/commons/2/28/Tidal_%28service%29_logo.svg',
+  deezer:'https://upload.wikimedia.org/wikipedia/commons/4/43/Deezer_logo_2023.svg',
+  soundcloud:'https://upload.wikimedia.org/wikipedia/en/4/4e/SoundCloud_2024_icon.svg'
 };
 
 const FB_ARTISTS=[
@@ -939,11 +1055,12 @@ const FB_REVIEWS=[
 async function loadAllContent(){
   try{
     const withTimeout=(promise,ms=4000)=>Promise.race([promise,new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),ms))]);
-    const [aSnap,rSnap,sSnap,rvSnap,stDoc]=await Promise.all([
+    const [aSnap,rSnap,sSnap,rvSnap,bSnap,stDoc]=await Promise.all([
       withTimeout(db.collection('site_artists').get()).catch(()=>null),
       withTimeout(db.collection('site_releases').get()).catch(()=>null),
       withTimeout(db.collection('site_services').get()).catch(()=>null),
       withTimeout(db.collection('site_reviews').get()).catch(()=>null),
+      withTimeout(db.collection('site_blog').get()).catch(()=>null),
       withTimeout(db.collection('site_settings').doc('main').get()).catch(()=>null)
     ]);
     const sortByOrder=docs=>docs.sort((a,b)=>(a.order??99)-(b.order??99));
@@ -951,13 +1068,15 @@ async function loadAllContent(){
     siteReleases=rSnap&&!rSnap.empty?sortByOrder(rSnap.docs.map(d=>({id:d.id,...d.data()}))):FB_RELEASES;
     siteServices=sSnap&&!sSnap.empty?sortByOrder(sSnap.docs.map(d=>({id:d.id,...d.data()}))):FB_SERVICES;
     siteReviews=rvSnap&&!rvSnap.empty?sortByOrder(rvSnap.docs.map(d=>({id:d.id,...d.data()}))):FB_REVIEWS;
+    siteBlog=bSnap&&!bSnap.empty?sortByOrder(bSnap.docs.map(d=>({id:d.id,...d.data()}))).sort((a,b)=>new Date(b.date||b.createdAt||0)-new Date(a.date||a.createdAt||0)):[];
     if(stDoc&&stDoc.exists)applySettings(stDoc.data());
     const heroDoc=await withTimeout(db.collection('site_settings').doc('hero').get()).catch(()=>null);
     if(heroDoc&&heroDoc.exists)applyHero(heroDoc.data());
   }catch(e){
-    siteArtists=FB_ARTISTS;siteReleases=FB_RELEASES;siteServices=FB_SERVICES;siteReviews=FB_REVIEWS;
+    siteArtists=FB_ARTISTS;siteReleases=FB_RELEASES;siteServices=FB_SERVICES;siteReviews=FB_REVIEWS;siteBlog=[];
   }finally{
-    renderRoster();renderCatalogue();renderServices();renderReviews();populateArtistFilter();
+    renderRoster();renderCatalogue();renderServices();renderReviews();renderBlog();populateArtistFilter();
+    initScrollAnimations();
   }
 }
 function loadSiteContent(){loadAllContent();}
@@ -998,24 +1117,28 @@ function applyHero(h){
 function renderRoster(){
   const grid=document.getElementById('tir-roster-grid');if(!grid)return;
   if(!siteArtists.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">NO ARTISTS YET</div>';return;}
-  grid.innerHTML=siteArtists.map((a,i)=>`<div class="roster-card" onclick="openArtistPanel(${i})" style="position:relative">
+  grid.innerHTML=siteArtists.map((a,i)=>`<div class="roster-card scale-in" style="transition-delay:${(i%3)*.08}s;position:relative" onclick="openArtistPanel(${i})">
     ${a.imageUrl?`<img src="${esc(a.imageUrl)}" alt="${esc(a.name)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s" />`:`<div class="roster-placeholder">🎤</div>`}
     <div class="roster-card-overlay">
       <div class="roster-card-name">${esc(a.name)}</div>
       <div class="roster-card-genre">${esc(a.genre)}</div>
     </div>
   </div>`).join('');
+  setTimeout(()=>document.querySelectorAll('#tir-roster-grid .scale-in').forEach(el=>el.classList.add('visible')),50);
 }
 
 function openArtistPanel(idx){
   const a=siteArtists[idx];if(!a)return;
   const s=siteSettings;
   const platforms=[
-    {key:'spotify',label:'Spotify',url:a.spotifyUrl,logo:s.logo_spotify||''},
-    {key:'apple',label:'Apple Music',url:a.appleMusicUrl,logo:s.logo_apple||''},
-    {key:'jiosaavn',label:'JioSaavn',url:a.jioSaavnUrl,logo:s.logo_jiosaavn||''},
-    {key:'youtube',label:'YouTube',url:a.youtubeUrl,logo:s.logo_youtube||''},
-    {key:'amazon',label:'Amazon Music',url:a.amazonUrl,logo:s.logo_amazon||''},
+    {key:'spotify',label:'Spotify',url:a.spotifyUrl,logo:s.logo_spotify||DEFAULT_LOGOS.spotify},
+    {key:'apple',label:'Apple Music',url:a.appleMusicUrl,logo:s.logo_apple||DEFAULT_LOGOS.apple},
+    {key:'jiosaavn',label:'JioSaavn',url:a.jioSaavnUrl,logo:s.logo_jiosaavn||DEFAULT_LOGOS.jiosaavn},
+    {key:'youtube',label:'YouTube',url:a.youtubeUrl,logo:s.logo_youtube||DEFAULT_LOGOS.youtube},
+    {key:'amazon',label:'Amazon Music',url:a.amazonUrl,logo:s.logo_amazon||DEFAULT_LOGOS.amazon},
+    {key:'tidal',label:'Tidal',url:a.tidalUrl,logo:s.logo_tidal||DEFAULT_LOGOS.tidal},
+    {key:'deezer',label:'Deezer',url:a.deezerUrl,logo:s.logo_deezer||DEFAULT_LOGOS.deezer},
+    {key:'soundcloud',label:'SoundCloud',url:a.soundcloudUrl,logo:s.logo_soundcloud||DEFAULT_LOGOS.soundcloud},
     {key:'instagram',label:'Instagram',url:a.instagramUrl,logo:'📸'},
   ].filter(p=>p.url);
   const linksHtml=platforms.map(p=>{const logoHtml=p.logo&&p.logo.startsWith('http')?`<img src="${p.logo}" alt="${p.label}" style="width:18px;height:18px;object-fit:contain;border-radius:3px" />`:`<span style="font-size:14px">${p.logo||'🎵'}</span>`;return `<a href="${esc(p.url)}" target="_blank" class="ap-link">${logoHtml}${p.label}</a>`;}).join('');
@@ -1068,12 +1191,14 @@ function openRelease(idx){
   const r=siteReleases[idx];if(!r)return;
   const s=siteSettings;
   const streamPlatforms=[
-    {key:'spotify',label:'Spotify',sub:'Stream',url:r.spotifyUrl,logo:s.logo_spotify||''},
-    {key:'apple',label:'Apple Music',sub:'Stream',url:r.appleMusicUrl,logo:s.logo_apple||''},
-    {key:'jiosaavn',label:'JioSaavn',sub:'Stream',url:r.jioSaavnUrl,logo:s.logo_jiosaavn||''},
-    {key:'youtube',label:'YouTube Music',sub:'Stream',url:r.youtubeUrl,logo:s.logo_youtube||''},
-    {key:'amazon',label:'Amazon Music',sub:'Stream',url:r.amazonUrl,logo:s.logo_amazon||''},
-    {key:'tidal',label:'Tidal',sub:'Stream',url:r.tidalUrl,logo:s.logo_tidal||''},
+    {key:'spotify',label:'Spotify',sub:'Stream',url:r.spotifyUrl,logo:s.logo_spotify||DEFAULT_LOGOS.spotify},
+    {key:'apple',label:'Apple Music',sub:'Stream',url:r.appleMusicUrl,logo:s.logo_apple||DEFAULT_LOGOS.apple},
+    {key:'jiosaavn',label:'JioSaavn',sub:'Stream',url:r.jioSaavnUrl,logo:s.logo_jiosaavn||DEFAULT_LOGOS.jiosaavn},
+    {key:'youtube',label:'YouTube Music',sub:'Stream',url:r.youtubeUrl,logo:s.logo_youtube||DEFAULT_LOGOS.youtube},
+    {key:'amazon',label:'Amazon Music',sub:'Stream',url:r.amazonUrl,logo:s.logo_amazon||DEFAULT_LOGOS.amazon},
+    {key:'tidal',label:'Tidal',sub:'Stream',url:r.tidalUrl,logo:s.logo_tidal||DEFAULT_LOGOS.tidal},
+    {key:'deezer',label:'Deezer',sub:'Stream',url:r.deezerUrl,logo:s.logo_deezer||DEFAULT_LOGOS.deezer},
+    {key:'soundcloud',label:'SoundCloud',sub:'Stream',url:r.soundcloudUrl,logo:s.logo_soundcloud||DEFAULT_LOGOS.soundcloud},
     {key:'smartlink',label:'Smart Link',sub:'All Platforms',url:r.smartlinkUrl,logo:'🔗'},
   ].filter(p=>p.url);
   const platformsHtml=streamPlatforms.map(p=>{const logoHtml=p.logo&&p.logo.startsWith('http')?`<img src="${p.logo}" alt="${p.label}" style="width:24px;height:24px;object-fit:contain;border-radius:4px" />`:`<span style="font-size:18px">${p.logo||'🎵'}</span>`;return `<a href="${esc(p.url)}" target="_blank" class="rel-platform-link"><div class="rel-platform-logo">${logoHtml}</div><span class="rel-platform-name">${p.label}</span><span class="rel-platform-sub">${p.sub} →</span></a>`;}).join('');
@@ -1116,14 +1241,98 @@ function openRelease(idx){
 function renderServices(){
   const grid=document.getElementById('tir-services-grid');if(!grid)return;
   if(!siteServices.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2)">No services yet.</div>';return;}
-  grid.innerHTML=siteServices.map(s=>`<div class="service-block"><div class="service-icon-wrap">${s.icon||'⚡'}</div><div class="service-block-name">${esc(s.name)}</div><div class="service-block-desc">${esc(s.description)}</div></div>`).join('');
+  grid.innerHTML=siteServices.map((s,i)=>`<div class="service-block scale-in" style="transition-delay:${(i%3)*.08}s"><div class="service-icon-wrap">${s.icon||'⚡'}</div><div class="service-block-name">${esc(s.name)}</div><div class="service-block-desc">${esc(s.description)}</div></div>`).join('');
+  setTimeout(()=>document.querySelectorAll('#tir-services-grid .scale-in').forEach(el=>el.classList.add('visible')),50);
 }
 
 function renderReviews(){
   const grid=document.getElementById('tir-reviews-grid');if(!grid)return;
   if(!siteReviews.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2)">No reviews yet.</div>';return;}
-  grid.innerHTML=siteReviews.map(r=>`<div class="review-tile"><div class="r-stars">${'★'.repeat(r.stars||5)}</div><p class="r-quote">${esc(r.text)}</p><div class="r-author">${esc(r.author)}</div><div class="r-role">${esc(r.role)}</div></div>`).join('');
+  grid.innerHTML=siteReviews.map(r=>`<div class="review-tile fade-in"><div class="r-stars">${'★'.repeat(r.stars||5)}</div><p class="r-quote">${esc(r.text)}</p><div class="r-author">${esc(r.author)}</div><div class="r-role">${esc(r.role)}</div></div>`).join('');
+  setTimeout(()=>document.querySelectorAll('#tir-reviews-grid .fade-in').forEach(el=>el.classList.add('visible')),50);
 }
+
+function renderBlog(){
+  const grid=document.getElementById('tir-blog-grid');if(!grid)return;
+  if(!siteBlog.length){grid.innerHTML='<div class="blog-empty">NO POSTS YET — CHECK BACK SOON</div>';return;}
+  grid.innerHTML=siteBlog.map((p,i)=>{
+    const imgHtml=p.imageUrl?`<img src="${esc(p.imageUrl)}" alt="${esc(p.title)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="blog-card-img-placeholder" style="display:none">📰</div>`:`<div class="blog-card-img-placeholder">📰</div>`;
+    const dateStr=p.date?new Date(p.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
+    return `<div class="blog-card scale-in" style="transition-delay:${i*.06}s" onclick="openBlogPost(${i})">
+      <div class="blog-card-img">${imgHtml}</div>
+      <div class="blog-card-body">
+        <div class="blog-card-tag">${esc(p.tag||'TIR NEWS')}</div>
+        <div class="blog-card-title">${esc(p.title)}</div>
+        <div class="blog-card-excerpt">${esc(p.excerpt||'')}</div>
+        <div class="blog-card-meta"><span>${dateStr}</span><span class="blog-card-read">READ MORE →</span></div>
+      </div>
+    </div>`;
+  }).join('');
+  setTimeout(()=>document.querySelectorAll('#tir-blog-grid .scale-in').forEach(el=>el.classList.add('visible')),50);
+}
+
+function openBlogPost(idx){
+  const p=siteBlog[idx];if(!p)return;
+  const dateStr=p.date?new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'';
+  const bodyHtml=(p.content||'').split(/\n\s*\n/).map(para=>`<p>${esc(para).replace(/\n/g,'<br/>')}</p>`).join('');
+  document.getElementById('blogpost-content').innerHTML=`
+    <div class="post-hero">
+      ${p.imageUrl?`<img src="${esc(p.imageUrl)}" alt="${esc(p.title)}"/>`:''}
+      <div class="post-hero-inner">
+        <div class="post-tag">${esc(p.tag||'TIR NEWS')}</div>
+        <div class="post-title">${esc(p.title)}</div>
+        <div class="post-meta">${dateStr}${p.author?' · '+esc(p.author):''}</div>
+      </div>
+    </div>
+    <div class="post-body">
+      <div class="post-back" onclick="showView('blog')">← BACK TO BLOG</div>
+      ${bodyHtml||'<p style="color:rgba(255,255,255,.2)">No content.</p>'}
+    </div>`;
+  showView('blogpost');
+}
+
+/* ══ SCROLL ANIMATIONS, PROGRESS BAR, COUNTERS, BACK-TO-TOP ══ */
+function initScrollAnimations(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        en.target.classList.add('visible');
+        if(en.target.classList.contains('stat-n')&&!en.target.classList.contains('counted')){
+          animateCounter(en.target);
+        }
+      }
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.fade-in,.scale-in,.slide-left,.slide-right').forEach(el=>io.observe(el));
+  document.querySelectorAll('.stat-n').forEach(el=>io.observe(el));
+}
+
+function animateCounter(el){
+  const raw=el.textContent.trim();
+  const match=raw.match(/^([\d,.]+)(.*)$/);
+  if(!match){el.classList.add('counted');return;}
+  const num=parseFloat(match[1].replace(/,/g,''));
+  const suffix=match[2]||'';
+  if(isNaN(num)){el.classList.add('counted');return;}
+  el.classList.add('counted');
+  let cur=0;const dur=1200,start=performance.now();
+  function step(now){
+    const t=Math.min((now-start)/dur,1);
+    const eased=1-Math.pow(1-t,3);
+    cur=Math.round(num*eased);
+    el.textContent=(Number.isInteger(num)?cur:cur.toFixed(1))+suffix;
+    if(t<1)requestAnimationFrame(step);else el.textContent=raw;
+  }
+  requestAnimationFrame(step);
+}
+
+window.addEventListener('scroll',()=>{
+  const doc=document.documentElement;
+  const pct=(doc.scrollTop)/(doc.scrollHeight-doc.clientHeight)*100;
+  const bar=document.getElementById('scroll-progress');if(bar)bar.style.width=pct+'%';
+  const tt=document.getElementById('to-top');if(tt)tt.classList.toggle('show',doc.scrollTop>400);
+});
+
 
 const VIEW_HISTORY=[];
 function showView(name){
@@ -1133,6 +1342,7 @@ function showView(name){
   document.querySelectorAll('.nav-links a').forEach(a=>{a.classList.toggle('active',a.dataset.view===name);});
   VIEW_HISTORY.push(name);
   history.pushState({view:name},'',window.location.pathname);
+  setTimeout(initScrollAnimations,60);
 }
 
 window.addEventListener('popstate',e=>{if(e.state?.view)showView(e.state.view);});
