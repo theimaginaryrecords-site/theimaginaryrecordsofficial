@@ -306,7 +306,7 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 .divider-text{font-family:var(--font-display);font-size:clamp(1rem,2vw,1.5rem);font-weight:800;letter-spacing:.3em;color:rgba(255,255,255,.08);text-transform:uppercase;text-align:center;padding:2rem 40px;border-top:1px solid var(--border)}
 
 /* FADE IN */
-.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade-in{opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease}
 .fade-in.visible{opacity:1;transform:translateY(0)}
 
 /* TOAST */
@@ -320,15 +320,12 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 .delivery-banner p strong{color:var(--white)}
 
 /* ══ ANIMATIONS / GENZ POLISH ══ */
-@keyframes floatGlow{0%,100%{transform:translateY(0) scale(1);opacity:.5}50%{transform:translateY(-18px) scale(1.06);opacity:.85}}
 @keyframes pulseDot{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
 @keyframes shimmerText{0%{background-position:200% center}100%{background-position:-200% center}}
 @keyframes fillBar{to{transform:scaleX(1)}}
 
 /* glow orbs floating in background */
-.glow-orb{position:fixed;border-radius:50%;pointer-events:none;filter:blur(60px);z-index:0;opacity:.35;mix-blend-mode:screen}
-.glow-orb.o1{width:380px;height:380px;background:radial-gradient(circle,rgba(204,0,0,.5),transparent 70%);top:-100px;left:-100px;animation:floatGlow 14s ease-in-out infinite}
-.glow-orb.o2{width:300px;height:300px;background:radial-gradient(circle,rgba(255,40,40,.35),transparent 70%);bottom:0;right:-80px;animation:floatGlow 18s ease-in-out infinite reverse}
+/* (legacy glow-orb styles removed for performance) */
 
 /* magnetic / shine buttons */
 .btn-primary,.btn-outline,.btn-stream,.nav-btn.red{position:relative;overflow:hidden;isolation:isolate;transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease}
@@ -344,11 +341,11 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 .hero-title .line-red{background:linear-gradient(90deg,var(--red) 0%,var(--red3) 25%,var(--red) 50%,var(--red2) 75%,var(--red) 100%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmerText 6s linear infinite}
 
 /* scroll reveal variants */
-.scale-in{opacity:0;transform:scale(.92) translateY(24px);transition:opacity .6s cubic-bezier(.2,.8,.2,1),transform .6s cubic-bezier(.2,.8,.2,1)}
+.scale-in{opacity:0;transform:scale(.96) translateY(14px);transition:opacity .35s ease-out,transform .35s ease-out}
 .scale-in.visible{opacity:1;transform:scale(1) translateY(0)}
-.slide-left{opacity:0;transform:translateX(-50px);transition:opacity .7s ease,transform .7s ease}
+.slide-left{opacity:0;transform:translateX(-30px);transition:opacity .4s ease,transform .4s ease}
 .slide-left.visible{opacity:1;transform:translateX(0)}
-.slide-right{opacity:0;transform:translateX(50px);transition:opacity .7s ease,transform .7s ease}
+.slide-right{opacity:0;transform:translateX(30px);transition:opacity .4s ease,transform .4s ease}
 .slide-right.visible{opacity:1;transform:translateX(0)}
 
 /* card hover lift + glow for grids */
@@ -423,29 +420,17 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
   --ease-soft:cubic-bezier(.22,1,.36,1);
 }
 
-/* film grain overlay — fixed, above background, below content interactions */
+/* film grain overlay — static, lightweight */
 .grain-overlay{
   position:fixed;inset:0;z-index:5;pointer-events:none;
-  opacity:.05;mix-blend-mode:overlay;
+  opacity:.04;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation:grainShift 8s steps(8) infinite;
-}
-@keyframes grainShift{
-  0%{transform:translate(0,0)}12%{transform:translate(-2%,-3%)}24%{transform:translate(-4%,2%)}
-  37%{transform:translate(2%,-4%)}50%{transform:translate(-3%,3%)}62%{transform:translate(4%,1%)}
-  75%{transform:translate(-1%,4%)}87%{transform:translate(3%,-2%)}100%{transform:translate(0,0)}
 }
 /* cinematic vignette */
 .cine-vignette{
   position:fixed;inset:0;z-index:4;pointer-events:none;
   background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.55) 100%);
   mix-blend-mode:multiply;
-}
-/* subtle chromatic scanline shimmer */
-.cine-scanline{
-  position:fixed;inset:0;z-index:6;pointer-events:none;opacity:.025;
-  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.6) 0px,transparent 1px,transparent 3px);
-  mix-blend-mode:overlay;
 }
 
 /* ══ GLASS PANELS — applied to nav, cards, panels, modals ══ */
@@ -464,9 +449,9 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 }
 
 nav.scrolled{
-  background:rgba(10,10,10,.45)!important;
-  -webkit-backdrop-filter:blur(20px) saturate(160%);
-  backdrop-filter:blur(20px) saturate(160%);
+  background:rgba(10,10,10,.6)!important;
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--glass-border);
   box-shadow:0 8px 32px rgba(0,0,0,.4);
 }
@@ -474,12 +459,12 @@ nav.scrolled{
 /* glass cards: roster overlay, services, reviews, blog cards, stat boxes, home-nav blocks */
 .home-nav-block,.service-block,.review-tile,.blog-card,.stat-box,.cat-card,.ap-link,.plat-name{
   background:var(--glass-bg)!important;
-  -webkit-backdrop-filter:blur(14px) saturate(150%);
-  backdrop-filter:blur(14px) saturate(150%);
+  -webkit-backdrop-filter:blur(6px);
+  backdrop-filter:blur(6px);
   border:1px solid var(--glass-border)!important;
   box-shadow:0 4px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
   border-radius:14px;
-  transition:transform .5s var(--ease-spring),box-shadow .4s ease,border-color .4s ease,background .4s ease;
+  transition:transform .35s var(--ease-spring),box-shadow .35s ease,border-color .35s ease,background .35s ease;
 }
 .roster-card-overlay{
   background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.25) 55%,transparent 100%)!important;
@@ -513,13 +498,13 @@ nav.scrolled{
 
 /* artist panel + modal as frosted glass slab */
 .artist-panel-box{
-  background:rgba(14,14,14,.55)!important;
-  -webkit-backdrop-filter:blur(28px) saturate(180%);
-  backdrop-filter:blur(28px) saturate(180%);
+  background:rgba(14,14,14,.75)!important;
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
   border-left:1px solid var(--glass-border-red)!important;
 }
 .artist-panel-bg{
-  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
 }
 
 /* page-hero glass strip */
@@ -540,11 +525,11 @@ nav.scrolled{
 @keyframes fmBlurIn{from{opacity:0;filter:blur(12px);transform:translateY(16px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
 
 .fm-in{opacity:0}
-.fm-in.fm-go{animation:fmFadeUp .9s var(--ease-spring) forwards}
-.fm-in.fm-go.fm-blur{animation:fmBlurIn 1.1s var(--ease-spring) forwards}
-.fm-in.fm-go.fm-scale{animation:fmScaleIn .8s var(--ease-spring) forwards}
-.fm-in.fm-go.fm-left{animation:fmSlideL .9s var(--ease-spring) forwards}
-.fm-in.fm-go.fm-right{animation:fmSlideR .9s var(--ease-spring) forwards}
+.fm-in.fm-go{animation:fmFadeUp .5s var(--ease-spring) forwards}
+.fm-in.fm-go.fm-blur{animation:fmBlurIn .6s var(--ease-spring) forwards}
+.fm-in.fm-go.fm-scale{animation:fmScaleIn .45s var(--ease-spring) forwards}
+.fm-in.fm-go.fm-left{animation:fmSlideL .5s var(--ease-spring) forwards}
+.fm-in.fm-go.fm-right{animation:fmSlideR .5s var(--ease-spring) forwards}
 
 /* hero entrance choreography on load */
 .hero-tag-top.fm-go{animation:fmFadeUp .8s var(--ease-spring) .05s forwards}
@@ -563,13 +548,9 @@ nav.scrolled{
 .roster-card:hover{transform:translateY(-4px) scale(1.01)}
 
 /* gradient mesh ambient backdrop (liquid blobs) */
-.mesh-blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(90px);opacity:.28;mix-blend-mode:screen;will-change:transform}
-.mesh-blob.m1{width:520px;height:520px;background:radial-gradient(circle,rgba(204,0,0,.55),transparent 70%);top:8%;left:-12%;animation:meshDrift1 22s ease-in-out infinite}
-.mesh-blob.m2{width:460px;height:460px;background:radial-gradient(circle,rgba(255,40,40,.35),transparent 70%);bottom:-8%;right:-10%;animation:meshDrift2 26s ease-in-out infinite}
-.mesh-blob.m3{width:380px;height:380px;background:radial-gradient(circle,rgba(120,0,0,.4),transparent 70%);top:40%;right:25%;animation:meshDrift3 30s ease-in-out infinite}
-@keyframes meshDrift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8%,10%) scale(1.15)}}
-@keyframes meshDrift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-10%,-6%) scale(1.1)}}
-@keyframes meshDrift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-6%,12%) scale(.9)}}
+.mesh-blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(60px);opacity:.22;mix-blend-mode:screen}
+.mesh-blob.m1{width:480px;height:480px;background:radial-gradient(circle,rgba(204,0,0,.5),transparent 70%);top:8%;left:-12%}
+.mesh-blob.m2{width:420px;height:420px;background:radial-gradient(circle,rgba(255,40,40,.32),transparent 70%);bottom:-8%;right:-10%}
 
 /* glass scrollbar */
 ::-webkit-scrollbar{width:10px;height:10px}
@@ -587,14 +568,10 @@ nav.scrolled{
 
 <div class="grain-overlay"></div>
 <div class="cine-vignette"></div>
-<div class="cine-scanline"></div>
 <div class="mesh-blob m1"></div>
 <div class="mesh-blob m2"></div>
-<div class="mesh-blob m3"></div>
 
 <div id="scroll-progress"></div>
-<div class="glow-orb o1"></div>
-<div class="glow-orb o2"></div>
 <button class="to-top" id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 
 <!-- CURSOR removed per request (no loading feature) -->
@@ -1302,7 +1279,7 @@ function applyHero(h){
 function renderRoster(){
   const grid=document.getElementById('tir-roster-grid');if(!grid)return;
   if(!siteArtists.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">NO ARTISTS YET</div>';return;}
-  grid.innerHTML=siteArtists.map((a,i)=>`<div class="roster-card scale-in" style="transition-delay:${(i%3)*.08}s;position:relative" onclick="openArtistPanel(${i})">
+  grid.innerHTML=siteArtists.map((a,i)=>`<div class="roster-card scale-in" style="transition-delay:${(i%3)*.04}s;position:relative" onclick="openArtistPanel(${i})">
     ${a.imageUrl?`<img src="${esc(a.imageUrl)}" alt="${esc(a.name)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s" />`:`<div class="roster-placeholder">🎤</div>`}
     <div class="roster-card-overlay">
       <div class="roster-card-name">${esc(a.name)}</div>
@@ -1426,7 +1403,7 @@ function openRelease(idx){
 function renderServices(){
   const grid=document.getElementById('tir-services-grid');if(!grid)return;
   if(!siteServices.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2)">No services yet.</div>';return;}
-  grid.innerHTML=siteServices.map((s,i)=>`<div class="service-block scale-in" style="transition-delay:${(i%3)*.08}s"><div class="service-icon-wrap">${s.icon||'⚡'}</div><div class="service-block-name">${esc(s.name)}</div><div class="service-block-desc">${esc(s.description)}</div></div>`).join('');
+  grid.innerHTML=siteServices.map((s,i)=>`<div class="service-block scale-in" style="transition-delay:${(i%3)*.04}s"><div class="service-icon-wrap">${s.icon||'⚡'}</div><div class="service-block-name">${esc(s.name)}</div><div class="service-block-desc">${esc(s.description)}</div></div>`).join('');
   setTimeout(()=>document.querySelectorAll('#tir-services-grid .scale-in').forEach(el=>el.classList.add('visible')),50);
 }
 
@@ -1443,7 +1420,7 @@ function renderBlog(){
   grid.innerHTML=siteBlog.map((p,i)=>{
     const imgHtml=p.imageUrl?`<img src="${esc(p.imageUrl)}" alt="${esc(p.title)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="blog-card-img-placeholder" style="display:none">📰</div>`:`<div class="blog-card-img-placeholder">📰</div>`;
     const dateStr=p.date?new Date(p.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
-    return `<div class="blog-card scale-in" style="transition-delay:${i*.06}s" onclick="openBlogPost(${i})">
+    return `<div class="blog-card scale-in" style="transition-delay:${Math.min(i,6)*.04}s" onclick="openBlogPost(${i})">
       <div class="blog-card-img">${imgHtml}</div>
       <div class="blog-card-body">
         <div class="blog-card-tag">${esc(p.tag||'TIR NEWS')}</div>
@@ -1488,7 +1465,7 @@ function initScrollAnimations(){
         }
       }
     });
-  },{threshold:.15});
+  },{threshold:.05,rootMargin:'0px 0px -10% 0px'});
   document.querySelectorAll('.fade-in,.scale-in,.slide-left,.slide-right,.fm-in').forEach(el=>io.observe(el));
   document.querySelectorAll('.stat-n').forEach(el=>io.observe(el));
 }
