@@ -3,18 +3,132 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>The Imaginary Records</title>
-<script>
-(function(){
-  var c=document.createElement('canvas');c.width=64;c.height=64;
-  var ctx=c.getContext('2d');
-  ctx.fillStyle='#CC0000';ctx.beginPath();ctx.roundRect(0,0,64,64,10);ctx.fill();
-  ctx.fillStyle='#FFFFFF';ctx.font='bold 15px "Arial Narrow",Arial,sans-serif';
-  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('T·I·R',32,32);
-  var link=document.createElement('link');link.rel='icon';link.type='image/png';link.href=c.toDataURL('image/png');
-  document.head.appendChild(link);
-})();
+<title>The Imaginary Records — Independent Record Label from Kashmir, India</title>
+
+<!-- ═══ SEO META TAGS ═══ -->
+<meta name="description" content="The Imaginary Records is an independent record label born from the mountains of Kashmir — built by artists, for artists. We sign, develop, and distribute music globally to 200+ platforms."/>
+<meta name="keywords" content="The Imaginary Records, independent record label, Kashmir music, music distribution India, submit demo, artist distribution, TIR label, Aabyd Khan"/>
+<meta name="robots" content="index, follow"/>
+<meta name="author" content="The Imaginary Records"/>
+<meta name="theme-color" content="#CC0000"/>
+<link rel="canonical" href="https://theimaginaryrecords.in/"/>
+
+<!-- ═══ OPEN GRAPH (Facebook / WhatsApp / LinkedIn) ═══ -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="The Imaginary Records"/>
+<meta property="og:title" content="The Imaginary Records — Independent Record Label from Kashmir"/>
+<meta property="og:description" content="An independent record label born from Kashmir. Distributing artists globally to 200+ platforms in 24–48 hours. Keep 85% of your royalties."/>
+<meta property="og:url" content="https://theimaginaryrecords.in/"/>
+<meta property="og:image" content="https://theimaginaryrecords.in/og-image.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:locale" content="en_IN"/>
+
+<!-- ═══ TWITTER / X CARD ═══ -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The Imaginary Records — Independent Record Label from Kashmir"/>
+<meta name="twitter:description" content="Distributing artists globally to 200+ platforms in 24–48 hours. Keep 85% of your royalties."/>
+<meta name="twitter:image" content="https://theimaginaryrecords.in/og-image.jpg"/>
+
+<!-- ═══ FAVICON — SVG (shows everywhere, crisp on all screens) ═══ -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23CC0000'/%3E%3Ctext x='32' y='44' font-family='Arial Narrow%2CArial%2Csans-serif' font-weight='900' font-size='22' fill='white' text-anchor='middle' letter-spacing='2'%3ET%C2%B7I%C2%B7R%3C/text%3E%3C/svg%3E"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23CC0000'/%3E%3Ctext x='32' y='44' font-family='Arial Narrow%2CArial%2Csans-serif' font-weight='900' font-size='22' fill='white' text-anchor='middle' letter-spacing='2'%3ET%C2%B7I%C2%B7R%3C/text%3E%3C/svg%3E"/>
+
+<!-- ═══ JSON-LD STRUCTURED DATA — Makes Google show sitelinks ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://theimaginaryrecords.in/#organization",
+      "name": "The Imaginary Records",
+      "alternateName": "TIR",
+      "url": "https://theimaginaryrecords.in",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://theimaginaryrecords.in/logo.png",
+        "width": 400,
+        "height": 400
+      },
+      "description": "The Imaginary Records is an independent record label born from the mountains of Kashmir — built by artists, for artists. We sign, develop, and distribute music globally.",
+      "foundingDate": "2024",
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Hajin, Bandipora, Jammu & Kashmir, India"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Hajin",
+        "addressRegion": "Jammu & Kashmir",
+        "addressCountry": "IN"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "support@theimaginaryrecords.in",
+        "contactType": "customer support"
+      },
+      "sameAs": [
+        "https://www.instagram.com/theimaginaryrecords/",
+        "https://open.spotify.com/artist/38T4P8hX75BCHncTf8TLKm"
+      ],
+      "numberOfEmployees": {
+        "@type": "QuantitativeValue",
+        "value": 1
+      },
+      "areaServed": "Worldwide",
+      "slogan": "Your Music. Your Rights.",
+      "knowsAbout": ["Music Distribution", "Record Label", "Music Publishing", "A&R Development"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://theimaginaryrecords.in/#website",
+      "url": "https://theimaginaryrecords.in",
+      "name": "The Imaginary Records",
+      "description": "Independent record label from Kashmir, India. Global music distribution to 200+ platforms.",
+      "publisher": {"@id": "https://theimaginaryrecords.in/#organization"},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://theimaginaryrecords.in/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://theimaginaryrecords.in/#homepage",
+      "url": "https://theimaginaryrecords.in",
+      "name": "The Imaginary Records — Independent Record Label from Kashmir, India",
+      "description": "An independent record label born from Kashmir. Distributing artists globally to 200+ platforms in 24–48 hours.",
+      "isPartOf": {"@id": "https://theimaginaryrecords.in/#website"},
+      "about": {"@id": "https://theimaginaryrecords.in/#organization"},
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://theimaginaryrecords.in"},
+          {"@type":"ListItem","position":2,"name":"About","item":"https://theimaginaryrecords.in/#about"},
+          {"@type":"ListItem","position":3,"name":"Roster","item":"https://theimaginaryrecords.in/#roster"},
+          {"@type":"ListItem","position":4,"name":"Services","item":"https://theimaginaryrecords.in/#services"},
+          {"@type":"ListItem","position":5,"name":"Distribution","item":"https://theimaginaryrecords.in/#distribution"},
+          {"@type":"ListItem","position":6,"name":"Blog","item":"https://theimaginaryrecords.in/#blog"},
+          {"@type":"ListItem","position":7,"name":"Submit Demo","item":"https://tir-demo-portal.vercel.app/"}
+        ]
+      }
+    },
+    {
+      "@type": "ItemList",
+      "name": "The Imaginary Records — Site Sections",
+      "description": "Key pages and sections on The Imaginary Records website",
+      "itemListElement": [
+        {
+          "@type": "SiteLinksSearchBox",
+          "target": "https://theimaginaryrecords.in"
+        }
+      ]
+    }
+  ]
+}
 </script>
+
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
