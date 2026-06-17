@@ -2013,17 +2013,57 @@ window.addEventListener('scroll',()=>{
 
 
 const VIEW_HISTORY=[];
+
+/* ── URL ↔ view mapping ── */
+const TO_URL={
+  home:'/',about:'/about',roster:'/roster',catalogue:'/catalogue',
+  services:'/services',distribution:'/distribution',anr:'/anr',
+  press:'/press',blog:'/blog',blogpost:'/blog',contact:'/contact',
+  'release-detail':'/catalogue',privacy:'/privacy',
+  terms:'/terms',agreement:'/agreement'
+};
+const FROM_PATH={
+  '':'home','about':'about','roster':'roster','catalogue':'catalogue',
+  'services':'services','distribution':'distribution','anr':'anr',
+  'press':'press','blog':'blog','contact':'contact',
+  'privacy':'privacy','terms':'terms','agreement':'agreement'
+};
+
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const v=document.getElementById('view-'+name);
   if(v){v.classList.add('active');window.scrollTo(0,0);}
-  document.querySelectorAll('.nav-links a').forEach(a=>{a.classList.toggle('active',a.dataset.view===name);});
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.dataset.view===name);
+  });
   VIEW_HISTORY.push(name);
-  history.pushState({view:name},'',window.location.pathname);
+  const url=TO_URL[name]||('/'+name);
+  history.pushState({view:name},'',url);
   setTimeout(initScrollAnimations,60);
 }
 
-window.addEventListener('popstate',e=>{if(e.state?.view)showView(e.state.view);});
+/* Back/Forward button support */
+window.addEventListener('popstate',e=>{
+  if(e.state?.view){
+    showView(e.state.view);
+  } else {
+    const path=window.location.pathname.replace(/^\/|\/$/g,'');
+    showView(FROM_PATH[path]||'home');
+  }
+});
+
+/* Read URL on first load → show correct section */
+(function initRoute(){
+  const path=window.location.pathname.replace(/^\/|\/$/g,'');
+  const view=FROM_PATH[path]||'home';
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el=document.getElementById('view-'+view);
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.dataset.view===view);
+  });
+  history.replaceState({view:view},'',window.location.pathname);
+})();
 
 function toggleMob(){
   const m=document.getElementById('mob-menu');
