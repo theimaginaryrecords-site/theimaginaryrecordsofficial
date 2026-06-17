@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    { "source": "/about",        "destination": "/index.html" },
+    { "source": "/roster",       "destination": "/index.html" },
+    { "source": "/catalogue",    "destination": "/index.html" },
+    { "source": "/services",     "destination": "/index.html" },
+    { "source": "/distribution", "destination": "/index.html" },
+    { "source": "/anr",          "destination": "/index.html" },
+    { "source": "/press",        "destination": "/index.html" },
+    { "source": "/blog",         "destination": "/index.html" },
+    { "source": "/contact",      "destination": "/index.html" },
+    { "source": "/privacy",      "destination": "/index.html" },
+    { "source": "/terms",        "destination": "/index.html" },
+    { "source": "/agreement",    "destination": "/index.html" }
+  ]
+}
