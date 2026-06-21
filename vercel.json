@@ -5,6 +5,7 @@
     { "source": "/catalogue",    "destination": "/index.html" },
     { "source": "/services",     "destination": "/index.html" },
     { "source": "/distribution", "destination": "/index.html" },
+    { "source": "/pricing",      "destination": "/index.html" },
     { "source": "/anr",          "destination": "/index.html" },
     { "source": "/press",        "destination": "/index.html" },
     { "source": "/blog",         "destination": "/index.html" },
