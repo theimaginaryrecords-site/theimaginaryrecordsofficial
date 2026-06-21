@@ -523,19 +523,6 @@ footer{border-top:1px solid var(--border);padding:4rem 40px 2rem}
 .post-body h2,.post-body h3{font-family:var(--font-display);text-transform:uppercase;margin:2.5rem 0 1rem;font-weight:800;letter-spacing:.03em}
 .post-back{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:.7rem;font-weight:800;letter-spacing:.15em;color:rgba(255,255,255,.4);text-transform:uppercase;cursor:pointer;margin-bottom:2rem;transition:color .2s}
 .post-back:hover{color:var(--red)}
-
-/* ── SHARE BAR ── */
-.post-share{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:2rem 0;border-top:1px solid rgba(255,255,255,.08);margin-top:3rem}
-.post-share-label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.25em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-right:4px}
-.share-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:999px;font-family:var(--font-display);font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:rgba(255,255,255,.7);cursor:pointer;transition:all .25s ease}
-.share-btn:hover{transform:translateY(-2px)}
-.share-btn.wa{border-color:rgba(37,211,102,.3);color:#25d366}.share-btn.wa:hover{background:rgba(37,211,102,.1)}
-.share-btn.ig{border-color:rgba(225,48,108,.3);color:#e1306c}.share-btn.ig:hover{background:rgba(225,48,108,.1)}
-.share-btn.fb{border-color:rgba(24,119,242,.3);color:#1877f2}.share-btn.fb:hover{background:rgba(24,119,242,.1)}
-.share-btn.tw{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7)}.share-btn.tw:hover{background:rgba(255,255,255,.08)}
-.share-btn.cp{border-color:rgba(204,0,0,.3);color:var(--red)}.share-btn.cp:hover{background:rgba(204,0,0,.1)}
-.share-btn.cp.copied{color:#22c55e;border-color:rgba(34,197,94,.3)}
-@media(max-width:600px){.post-share{gap:8px}.share-btn{padding:8px 14px;font-size:.6rem}}
 @media(max-width:600px){.post-hero-inner{padding:100px 20px 40px}.post-body{padding:40px 20px 60px}}
 
 /* ══════════════════════════════════════════════
@@ -893,6 +880,30 @@ nav.scrolled{
   .hero-title .fm-line,.grain-overlay,.mesh-blob{animation:none!important;opacity:1!important}
   .plat-track,.plat-track.rev{animation:none!important}
 }
+/* ══ PRICING ══ */
+.pricing-section{max-width:1400px;margin:0 auto;padding:60px 40px 100px}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(255,255,255,.07);margin-top:1rem}
+.price-card{background:#0a0a0a;padding:2.75rem 2.25rem;display:flex;flex-direction:column;position:relative;transition:transform .35s var(--ease-spring,cubic-bezier(.16,1,.3,1)),box-shadow .35s ease}
+.price-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(204,0,0,.12);z-index:2}
+.price-card.featured{background:linear-gradient(165deg,rgba(204,0,0,.1) 0%,#0a0a0a 55%);border-top:2px solid var(--red)}
+.price-badge{position:absolute;top:-1px;right:1.75rem;background:var(--red);color:#fff;font-family:var(--font-display);font-size:.6rem;font-weight:800;letter-spacing:.15em;padding:6px 14px;text-transform:uppercase;border-radius:0 0 6px 6px}
+.price-name{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.25em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:1rem}
+.price-amount{font-family:var(--font-display);font-size:clamp(2.2rem,4vw,3rem);font-weight:900;letter-spacing:-.02em;line-height:1;margin-bottom:.4rem}
+.price-amount .per{font-size:.95rem;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:0}
+.price-royalty{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:.75rem;font-weight:800;letter-spacing:.08em;color:var(--red);text-transform:uppercase;margin-bottom:1.75rem;padding:6px 14px;border:1px solid rgba(204,0,0,.3);border-radius:999px;background:rgba(204,0,0,.06);width:fit-content}
+.price-tagline{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.7;margin-bottom:1.75rem;min-height:42px}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:.85rem;margin-bottom:2.25rem;flex:1}
+.price-features li{display:flex;align-items:flex-start;gap:10px;font-size:.82rem;color:rgba(255,255,255,.75);line-height:1.5}
+.price-features li svg{flex-shrink:0;margin-top:2px;color:var(--red)}
+.price-features li.sub-item{padding-left:26px;color:rgba(255,255,255,.5);font-size:.78rem}
+.price-features li.section-label{color:rgba(255,255,255,.3);font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;margin-top:.4rem;padding-bottom:.2rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.price-cta{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;border-radius:999px;font-family:var(--font-display);font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:all .25s ease}
+.price-cta.whatsapp{background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.3)}
+.price-cta.whatsapp:hover{background:rgba(37,211,102,.18);transform:translateY(-2px)}
+.price-cta.apply{background:linear-gradient(135deg,var(--red) 0%,var(--red2) 100%);color:#fff;box-shadow:0 4px 16px rgba(204,0,0,.3)}
+.price-cta.apply:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(204,0,0,.4)}
+.pricing-note{text-align:center;margin-top:3rem;font-size:.75rem;color:rgba(255,255,255,.3);font-family:var(--font-mono);letter-spacing:.05em}
+@media(max-width:900px){.pricing-grid{grid-template-columns:1fr}.pricing-section{padding:40px 20px 60px}}
 </style>
 </head>
 <body>
@@ -916,6 +927,7 @@ nav.scrolled{
     <li><a onclick="showView('catalogue')" data-view="catalogue">CATALOGUE</a></li>
     <li><a onclick="showView('services')" data-view="services">SERVICES</a></li>
     <li><a onclick="showView('distribution')" data-view="distribution">DISTRIBUTION</a></li>
+    <li><a onclick="showView('pricing')" data-view="pricing">PRICING</a></li>
     <li><a onclick="showView('press')" data-view="press">PRESS</a></li>
     <li><a onclick="showView('blog')" data-view="blog">BLOG</a></li>
   </ul>
@@ -933,6 +945,7 @@ nav.scrolled{
   <a onclick="closeMob();showView('catalogue')">CATALOGUE</a>
   <a onclick="closeMob();showView('services')">SERVICES</a>
   <a onclick="closeMob();showView('distribution')">DISTRIBUTION</a>
+  <a onclick="closeMob();showView('pricing')">PRICING</a>
   <a onclick="closeMob();showView('press')">PRESS</a>
   <a onclick="closeMob();showView('blog')">BLOG</a>
   <a href="https://tir-artist-portal.vercel.app/" target="_blank">ARTIST LOGIN</a>
@@ -1221,6 +1234,7 @@ nav.scrolled{
       <div>
         <div class="footer-col-title">ARTISTS</div>
         <a class="footer-link" onclick="showView('distribution')">Distribution</a>
+        <a class="footer-link" onclick="showView('pricing')">Pricing</a>
         <a class="footer-link" id="footer-demo-link" href="https://tir-demo-portal.vercel.app/" target="_blank">Submit Demo</a>
         <a class="footer-link" onclick="showView('press')">Press</a>
         <a class="footer-link" href="https://tir-artist-portal.vercel.app/" target="_blank">Artist Login</a>
@@ -1347,6 +1361,7 @@ nav.scrolled{
       <p>Not ready to sign? No problem. TIR also offers free distribution to independent artists who want global reach without a full signing deal.</p>
       <p>No upfront fees. Release unlimited music. Keep your rights. We take only 15% — that's it.</p>
       <a id="dist-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary" style="margin-top:1rem">JOIN FOR FREE <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a onclick="showView('pricing')" class="btn-outline" style="margin-top:1rem;margin-left:.75rem">VIEW ALL PLANS</a>
     </div>
     <div>
       <div class="plan-card">
@@ -1362,6 +1377,92 @@ nav.scrolled{
         </ul>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ═══ VIEW: PRICING ═══ -->
+<div class="view" id="view-pricing">
+  <div class="page-hero fm-in fm-blur">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">PRICING<span>.</span></div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">PLANS FOR EVERY STAGE OF YOUR CAREER</div>
+  </div>
+  <div class="pricing-section">
+    <div class="pricing-grid">
+
+      <!-- STARTER -->
+      <div class="price-card scale-in">
+        <div class="price-name">Starter</div>
+        <div class="price-amount">₹999<span class="per">/year</span></div>
+        <div class="price-royalty">90% ROYALTIES</div>
+        <div class="price-tagline">Great if you're just starting out and want your music live everywhere at low cost.</div>
+        <ul class="price-features">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Worldwide distribution to Spotify, Apple Music, YouTube Music & 150+ platforms</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Free ISRC and UPC for every release</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Guided release submission portal</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>All-in-one analytics dashboard</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Up to 100 releases per year</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Release within 4 days</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Email support · 2-day response time</li>
+        </ul>
+        <a href="https://wa.me/919541543424?text=Hi%20TIR%2C%20I%27m%20interested%20in%20the%20Starter%20Plan%20(%E2%82%B9999%2Fyear)" target="_blank" rel="noopener" class="price-cta whatsapp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.062.524 4.004 1.443 5.699L0 24l6.432-1.424A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-5.001-1.374l-.36-.214-3.716.823.838-3.625-.234-.373A9.79 9.79 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
+          CONTACT US
+        </a>
+      </div>
+
+      <!-- PRO (featured) -->
+      <div class="price-card featured scale-in" style="transition-delay:.08s">
+        <div class="price-badge">MOST POPULAR</div>
+        <div class="price-name">Pro</div>
+        <div class="price-amount">₹1599<span class="per">/year</span></div>
+        <div class="price-royalty">95% ROYALTIES</div>
+        <div class="price-tagline">Best if you want a stronger YouTube presence and faster, more hands-on support.</div>
+        <ul class="price-features">
+          <li class="section-label">Everything in Starter, plus</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Custom YouTube Content ID handled for you — your revenue stays protected</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Catalog migration</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Priority release scheduling</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Music video distribution</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Release within 2 days</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Dolby Atmos distribution</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Access to all upcoming features</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>YouTube Official Artist Channel</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>1-day (or few-hour) support response time</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Free cover art generation on demand</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Priority support via email/WhatsApp</li>
+        </ul>
+        <a href="https://wa.me/919541543424?text=Hi%20TIR%2C%20I%27m%20interested%20in%20the%20Pro%20Plan%20(%E2%82%B91599%2Fyear)" target="_blank" rel="noopener" class="price-cta whatsapp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.062.524 4.004 1.443 5.699L0 24l6.432-1.424A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-5.001-1.374l-.36-.214-3.716.823.838-3.625-.234-.373A9.79 9.79 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
+          CONTACT US
+        </a>
+      </div>
+
+      <!-- CUSTOM LABEL -->
+      <div class="price-card scale-in" style="transition-delay:.16s">
+        <div class="price-name">Custom Label</div>
+        <div class="price-amount" style="font-size:clamp(1.6rem,3vw,2.2rem)">Tailored<br/>Pricing</div>
+        <div class="price-royalty">FREE / % DEAL</div>
+        <div class="price-tagline">For established labels and artists with larger catalogs or specific needs.</div>
+        <ul class="price-features">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Custom % for distribution</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Custom % on YouTube / Meta / TikTok</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited primary artists</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited featuring & remixer artists</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited tracks and releases</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Free splitting of royalties</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Access to music video distribution</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>YouTube Content ID</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>YouTube Official Artist Channel (OAC)</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Dedicated account manager</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Custom contract terms, branding & promotional support</li>
+        </ul>
+        <a href="https://tir-demo-portal.vercel.app/" target="_blank" rel="noopener" class="price-cta apply">
+          APPLY NOW <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+    </div>
+    <div class="pricing-note">All plans include free ISRC/UPC codes, transparent royalty reporting, and no lock-in contracts · Prices in INR, billed annually</div>
   </div>
 </div>
 
@@ -1936,28 +2037,10 @@ function renderHomeBlog(){
   }).join('');
 }
 
-/* ── Slug generator: "My Blog Title!" → "my-blog-title" ── */
-function toSlug(title){
-  return (title||'post').toLowerCase()
-    .replace(/[^a-z0-9\s-]/g,'').trim()
-    .replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,80);
-}
-
 function openBlogPost(idx){
   const p=siteBlog[idx];if(!p)return;
-  const slug=p.slug||toSlug(p.title);
-  const fullUrl='https://theimaginaryrecords.in/blog/'+slug;
   const dateStr=p.date?new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'';
   const bodyHtml=(p.content||'').split(/\n\s*\n/).map(para=>`<p>${esc(para).replace(/\n/g,'<br/>')}</p>`).join('');
-
-  /* share URLs */
-  const encodedUrl=encodeURIComponent(fullUrl);
-  const encodedTitle=encodeURIComponent(p.title||'');
-  const waUrl=`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`;
-  const fbUrl=`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-  const twUrl=`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
-  const igNote='Copy the link and share it in your Instagram story or bio.';
-
   document.getElementById('blogpost-content').innerHTML=`
     <div class="post-hero">
       ${p.imageUrl?`<img src="${esc(p.imageUrl)}" alt="${esc(p.title)}"/>`:''}
@@ -1970,57 +2053,8 @@ function openBlogPost(idx){
     <div class="post-body">
       <div class="post-back" onclick="showView('blog')">← BACK TO BLOG</div>
       ${bodyHtml||'<p style="color:rgba(255,255,255,.2)">No content.</p>'}
-      <div class="post-share">
-        <span class="post-share-label">Share</span>
-        <a class="share-btn wa" href="${waUrl}" target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.062.524 4.004 1.443 5.699L0 24l6.432-1.424A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-5.001-1.374l-.36-.214-3.716.823.838-3.625-.234-.373A9.79 9.79 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
-          WhatsApp
-        </a>
-        <a class="share-btn ig" href="https://www.instagram.com/" target="_blank" rel="noopener" onclick="copyLink('${fullUrl}',event);alert('Link copied! Paste it in your Instagram story or bio.')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg>
-          Instagram
-        </a>
-        <a class="share-btn fb" href="${fbUrl}" target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-          Facebook
-        </a>
-        <a class="share-btn tw" href="${twUrl}" target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          X / Twitter
-        </a>
-        <button class="share-btn cp" id="copy-btn-${idx}" onclick="copyLink('${fullUrl}',event,this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          Copy Link
-        </button>
-      </div>
     </div>`;
-
-  /* push clean URL: /blog/my-post-slug */
-  history.pushState({view:'blogpost',slug,idx},'','/blog/'+slug);
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById('view-blogpost').classList.add('active');
-  window.scrollTo(0,0);
-}
-
-function copyLink(url, e, btn){
-  e && e.preventDefault();
-  navigator.clipboard.writeText(url).then(()=>{
-    if(btn){
-      btn.classList.add('copied');
-      btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
-      setTimeout(()=>{
-        btn.classList.remove('copied');
-        btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy Link';
-      },2500);
-    }
-  }).catch(()=>{
-    /* fallback for older browsers */
-    const ta=document.createElement('textarea');
-    ta.value=url;ta.style.position='fixed';ta.style.opacity='0';
-    document.body.appendChild(ta);ta.select();
-    document.execCommand('copy');document.body.removeChild(ta);
-    if(btn){btn.innerHTML='✓ Copied!';setTimeout(()=>{btn.innerHTML='Copy Link';},2000);}
-  });
+  showView('blogpost');
 }
 
 /* ══ SCROLL ANIMATIONS, PROGRESS BAR, COUNTERS, BACK-TO-TOP ══ */
@@ -2093,18 +2127,17 @@ window.addEventListener('scroll',()=>{
 
 
 const VIEW_HISTORY=[];
-
 const TO_URL={
   home:'/',about:'/about',roster:'/roster',catalogue:'/catalogue',
-  services:'/services',distribution:'/distribution',anr:'/anr',
-  press:'/press',blog:'/blog',blogpost:'/blog',contact:'/contact',
+  services:'/services',distribution:'/distribution',pricing:'/pricing',
+  anr:'/anr',press:'/press',blog:'/blog',blogpost:'/blog',contact:'/contact',
   'release-detail':'/catalogue',privacy:'/privacy',
   terms:'/terms',agreement:'/agreement'
 };
 const FROM_PATH={
   '':'home','about':'about','roster':'roster','catalogue':'catalogue',
-  'services':'services','distribution':'distribution','anr':'anr',
-  'press':'press','blog':'blog','contact':'contact',
+  'services':'services','distribution':'distribution','pricing':'pricing',
+  'anr':'anr','press':'press','blog':'blog','contact':'contact',
   'privacy':'privacy','terms':'terms','agreement':'agreement'
 };
 
@@ -2112,68 +2145,27 @@ function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const v=document.getElementById('view-'+name);
   if(v){v.classList.add('active');window.scrollTo(0,0);}
-  document.querySelectorAll('.nav-links a').forEach(a=>{
-    a.classList.toggle('active',a.dataset.view===name);
-  });
+  document.querySelectorAll('.nav-links a').forEach(a=>{a.classList.toggle('active',a.dataset.view===name);});
   VIEW_HISTORY.push(name);
   const url=TO_URL[name]||('/'+name);
   history.pushState({view:name},'',url);
   setTimeout(initScrollAnimations,60);
 }
 
-/* Back/Forward button */
 window.addEventListener('popstate',e=>{
-  if(e.state?.view==='blogpost'&&e.state?.idx!=null){
-    openBlogPost(e.state.idx);return;
-  }
   if(e.state?.view){showView(e.state.view);return;}
-  const parts=window.location.pathname.replace(/^\/|\/$/g,'').split('/');
-  if(parts[0]==='blog'&&parts[1]){
-    /* someone navigated to /blog/slug via back button */
-    const idx=siteBlog.findIndex(p=>(p.slug||toSlug(p.title))===parts[1]);
-    if(idx>-1){openBlogPost(idx);}else{showView('blog');}
-    return;
-  }
-  showView(FROM_PATH[parts[0]]||'home');
+  const path=window.location.pathname.replace(/^\/|\/$/g,'');
+  showView(FROM_PATH[path]||'home');
 });
 
-/* Read URL on first page load */
 (function initRoute(){
-  const pathname=window.location.pathname.replace(/^\/|\/$/g,'');
-  const parts=pathname.split('/');
-
-  function activate(viewName){
-    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-    const el=document.getElementById('view-'+viewName);
-    if(el)el.classList.add('active');
-    document.querySelectorAll('.nav-links a').forEach(a=>{
-      a.classList.toggle('active',a.dataset.view===viewName);
-    });
-    history.replaceState({view:viewName},'',window.location.pathname);
-  }
-
-  if(parts[0]==='blog'&&parts[1]){
-    /* /blog/some-post-slug — wait for Firestore data then open post */
-    activate('blog');
-    const tryOpenSlug=()=>{
-      const slug=parts[1];
-      const idx=siteBlog.findIndex(p=>(p.slug||toSlug(p.title))===slug);
-      if(idx>-1){openBlogPost(idx);}
-      else{activate('blog');}
-    };
-    if(siteBlog.length){tryOpenSlug();}
-    else{
-      /* Data not loaded yet — wait up to 4s */
-      let attempts=0;
-      const wait=setInterval(()=>{
-        attempts++;
-        if(siteBlog.length){clearInterval(wait);tryOpenSlug();}
-        else if(attempts>20){clearInterval(wait);activate('blog');}
-      },200);
-    }
-  } else {
-    activate(FROM_PATH[parts[0]]||'home');
-  }
+  const path=window.location.pathname.replace(/^\/|\/$/g,'');
+  const view=FROM_PATH[path]||'home';
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el=document.getElementById('view-'+view);
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>{a.classList.toggle('active',a.dataset.view===view);});
+  history.replaceState({view:view},'',window.location.pathname);
 })();
 
 function toggleMob(){
