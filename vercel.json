@@ -14,5 +14,8 @@
     { "source": "/privacy",      "destination": "/index.html" },
     { "source": "/terms",        "destination": "/index.html" },
     { "source": "/agreement",    "destination": "/index.html" }
-  ]
+  ],
+  "analytics": {
+    "enable": true
+  }
 }
