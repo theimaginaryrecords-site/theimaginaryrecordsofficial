@@ -134,7 +134,7 @@
 }
 </script>
 
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
@@ -915,6 +915,238 @@ nav.scrolled{
 .price-cta.apply:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(204,0,0,.4)}
 .pricing-note{text-align:center;margin-top:3rem;font-size:.75rem;color:rgba(255,255,255,.3);font-family:var(--font-mono);letter-spacing:.05em}
 @media(max-width:900px){.pricing-grid{grid-template-columns:1fr}.pricing-section{padding:40px 20px 60px}}
+
+/* ═══════════════════════════════════════════════════════════════
+   SPATIAL UI — LIQUID GLASS THEME
+   Full visual re-skin. No class names, IDs, copy, or JS behaviour
+   below this line changes anything about structure or features —
+   only surfaces, color, type, depth and motion.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root{
+  /* environment */
+  --sp-0:#050609;--sp-1:#0a0c12;--sp-2:#11141c;--sp-3:#181c26;
+  /* brand accent, kept from TIR red, tuned for glow */
+  --red:#FF3B3B;--red2:#FF5C4D;--red3:#FF8A72;--dark-red:#B4241F;
+  --accent:#FF3B3B;--accent-2:#FF6A57;--accent-glow:rgba(255,59,59,.38);
+  /* spatial ambient light — used sparingly, for depth only */
+  --aurora-violet:#7C6CFF;--aurora-blue:#4DA3FF;--aurora-amber:#FFB86B;
+  /* base surface vocabulary — most component rules above read these */
+  --black:#0a0c12;--white:#F5F6FA;--off-white:#EDEEF4;
+  --gray:#141821;--gray2:#1B202B;--gray3:#8A8FA3;--gray4:#5B6070;
+  --border:rgba(255,255,255,.10);--border-red:rgba(255,59,59,.35);
+  /* glass tokens */
+  --glass:rgba(255,255,255,.055);--glass-2:rgba(255,255,255,.09);
+  --glass-border:rgba(255,255,255,.16);--glass-hi:rgba(255,255,255,.5);
+  --glass-blur:blur(28px) saturate(180%);
+  --glass-shadow:0 24px 60px -12px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.10);
+  --glass-shadow-sm:0 10px 30px -8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);
+  --r-lg:28px;--r-md:20px;--r-sm:14px;
+  --ease-liquid:cubic-bezier(.19,1,.22,1);
+  /* typography — Spatial UI reads as clean geometric sans, not condensed grotesque */
+  --font-display:'Space Grotesk','Barlow Condensed',sans-serif;
+  --font-body:'Inter','Barlow',sans-serif;
+  --font-mono:'JetBrains Mono','DM Mono',monospace;
+}
+
+/* ── Base environment: deep spatial gradient, not flat black ── */
+html,body{background:
+    radial-gradient(60% 50% at 15% 0%,rgba(124,108,255,.16),transparent 60%),
+    radial-gradient(50% 45% at 100% 10%,rgba(255,59,59,.14),transparent 60%),
+    radial-gradient(60% 60% at 50% 100%,rgba(77,163,255,.10),transparent 60%),
+    var(--sp-0)!important;
+  background-attachment:fixed;
+}
+body{font-family:var(--font-body);letter-spacing:.01em}
+::selection{background:rgba(255,59,59,.35);color:#fff}
+
+/* ── Ambient aurora blobs — softer, drifting, more "spatial light" ── */
+.mesh-blob{filter:blur(110px)!important;opacity:.5!important;mix-blend-mode:screen;animation:auroraDrift 22s ease-in-out infinite alternate}
+.mesh-blob.m1{background:radial-gradient(circle,var(--aurora-violet),transparent 70%)!important;width:560px!important;height:560px!important}
+.mesh-blob.m2{background:radial-gradient(circle,var(--red),transparent 70%)!important;width:520px!important;height:520px!important;animation-delay:-8s}
+@keyframes auroraDrift{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(40px,-30px) scale(1.12)}
+}
+.cine-vignette{background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.55) 100%)!important}
+.grain-overlay{opacity:.02!important}
+
+/* ── Liquid glass sheen sweep, reused on every interactive glass surface ── */
+@keyframes none{0%{opacity:1}} /* placeholder guard, no-op */
+.btn-primary,.btn-outline,.nav-btn,.price-cta,.share-btn,
+.home-nav-block,.service-block,.review-tile,.blog-card,.stat-box,.cat-card,
+.ap-link,.plat-name,.roster-card,.why-card,.bento-stat,.stream-logo-tile,
+.process-step,.home-blog-card,.price-card,.plan-card,.step-box,
+.rel-platform-link,.legal-body .highlight{
+  position:relative;isolation:isolate;overflow:hidden;
+}
+.btn-primary::after,.btn-outline::after,.nav-btn::after,.price-cta::after,
+.home-nav-block::after,.service-block::after,.review-tile::after,.blog-card::after,
+.stat-box::after,.cat-card::after,.roster-card::after,.why-card::after,
+.bento-stat::after,.stream-logo-tile::after,.process-step::after,
+.home-blog-card::after,.price-card::after,.plan-card::after,.step-box::after,
+.rel-platform-link::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.16) 50%,transparent 65%);
+  background-size:220% 220%;background-position:-120% -120%;
+  transition:background-position .9s var(--ease-liquid);
+}
+.btn-primary:hover::after,.btn-outline:hover::after,.nav-btn:hover::after,
+.price-cta:hover::after,.home-nav-block:hover::after,.service-block:hover::after,
+.review-tile:hover::after,.blog-card:hover::after,.stat-box:hover::after,
+.cat-card:hover::after,.roster-card:hover::after,.why-card:hover::after,
+.bento-stat:hover::after,.stream-logo-tile:hover::after,.process-step:hover::after,
+.home-blog-card:hover::after,.price-card:hover::after,.plan-card:hover::after,
+.step-box:hover::after,.rel-platform-link:hover::after{
+  background-position:120% 120%;
+}
+
+/* ── Floating glass dock nav ── */
+nav{
+  top:16px!important;left:16px!important;right:16px!important;height:64px!important;
+  width:auto!important;max-width:1400px;margin:0 auto;padding:0 26px!important;
+  border-radius:999px!important;
+  background:rgba(16,18,26,.5)!important;
+  -webkit-backdrop-filter:var(--glass-blur)!important;backdrop-filter:var(--glass-blur)!important;
+  border:1px solid var(--glass-border)!important;
+  box-shadow:var(--glass-shadow-sm);
+  transition:background .35s ease,box-shadow .35s ease,transform .3s ease;
+}
+nav.scrolled{background:rgba(12,14,20,.72)!important;box-shadow:var(--glass-shadow)}
+.nav-logo span{color:var(--red);animation:logoPulse 3s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{opacity:1}50%{opacity:.55}}
+.nav-links a{font-family:var(--font-display)}
+.nav-links a.active{color:var(--white);text-shadow:0 0 18px var(--accent-glow)}
+@media(max-width:900px){nav{left:10px!important;right:10px!important;top:10px!important;border-radius:24px!important}}
+.mob-menu{background:rgba(6,7,10,.92)!important;-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px)}
+.mob-menu a:hover{color:var(--red);text-shadow:0 0 24px var(--accent-glow)}
+
+/* nudge sections down slightly for the detached floating nav */
+.page-hero{padding-top:128px!important}
+@media(max-width:600px){.page-hero{padding-top:104px!important}}
+
+/* ── Buttons: liquid glass pills ── */
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%)!important;
+  border:1px solid rgba(255,255,255,.3)!important;
+  box-shadow:0 10px 32px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.4)!important;
+  transition:transform .35s var(--ease-liquid),box-shadow .35s ease!important;
+}
+.btn-primary:hover{transform:translateY(-3px) scale(1.015);box-shadow:0 16px 44px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.5)!important}
+.btn-outline,.nav-btn{
+  background:var(--glass)!important;-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-border)!important;color:var(--white)!important;
+  transition:transform .35s var(--ease-liquid),background .3s ease,border-color .3s ease!important;
+}
+.btn-outline:hover,.nav-btn:hover{background:var(--glass-2)!important;border-color:rgba(255,255,255,.32)!important;transform:translateY(-3px)}
+.nav-btn.red{background:linear-gradient(135deg,var(--accent),var(--accent-2))!important;border-color:rgba(255,255,255,.3)!important}
+
+/* ── Ticker → glass capsule ── */
+.ticker{
+  margin:96px 20px 0;border-radius:999px!important;
+  border:1px solid var(--glass-border)!important;
+  background:var(--glass)!important;-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  box-shadow:var(--glass-shadow-sm);
+}
+#view-home .hero{padding-bottom:24px!important}
+
+/* ── Generic surface takeover for every "card" component ──
+   Same content, same grid math — just a floating frosted panel
+   instead of a flat hairline tile. */
+.home-nav-block,.service-block,.review-tile,.blog-card,.stat-box,.cat-card,
+.roster-card,.why-card,.bento-stat,.stream-logo-tile,.process-step,
+.home-blog-card,.price-card,.plan-card,.step-box,.rel-platform-link,.ap-link,
+.plat-name,.legal-body .highlight,.artist-panel-box{
+  background:var(--glass)!important;
+  -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-border)!important;
+  border-radius:var(--r-md)!important;
+  box-shadow:var(--glass-shadow-sm);
+  transition:transform .45s var(--ease-liquid),box-shadow .45s var(--ease-liquid),
+             border-color .3s ease,background .3s ease!important;
+}
+.home-nav-block:hover,.service-block:hover,.review-tile:hover,.blog-card:hover,
+.stat-box:hover,.cat-card:hover,.roster-card:hover,.why-card:hover,
+.bento-stat:hover,.stream-logo-tile:hover,.process-step:hover,
+.home-blog-card:hover,.price-card:hover,.step-box:hover,.rel-platform-link:hover{
+  transform:translateY(-6px);
+  border-color:rgba(255,59,59,.4)!important;
+  box-shadow:var(--glass-shadow);
+}
+.price-card.featured{background:linear-gradient(165deg,rgba(255,59,59,.16),var(--glass) 60%)!important;border-color:rgba(255,59,59,.4)!important}
+.why-card.big{background:linear-gradient(135deg,rgba(255,59,59,.18),var(--glass) 60%)!important}
+.bento-stat.wide{background:linear-gradient(135deg,rgba(124,108,255,.18),var(--glass) 60%)!important}
+.plan-card{background:linear-gradient(165deg,rgba(255,59,59,.12),var(--glass) 65%)!important;border:1px solid rgba(255,59,59,.4)!important;border-radius:var(--r-lg)!important}
+.artist-panel-box{border-left:1px solid var(--glass-border)!important;background:rgba(10,12,18,.7)!important}
+.artist-panel-bg{background:rgba(4,5,8,.7)!important;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.ap-close{background:var(--glass)!important;-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border)!important}
+.ap-close:hover{background:linear-gradient(135deg,var(--accent),var(--accent-2))!important;border-color:transparent!important}
+
+/* real gaps between glass tiles instead of hairline-mesh grids */
+#view-about .about-stats,#view-roster .roster-grid,.cat-grid,
+#view-services .services-grid,#view-press .reviews-grid,.home-nav-grid,
+.why-grid,.stats-bento-grid,.streaming-logos,.process-steps,.home-blog-grid,
+.pricing-grid,#view-blog .blog-grid{
+  background:transparent!important;gap:18px!important;padding:0!important;
+}
+.process-connector{display:none!important}
+.roster-card,.cat-art,.blog-card-img,.home-blog-img,.stream-logo-tile img{border-radius:var(--r-sm)}
+.cat-card{padding:20px!important}
+
+/* images sit inside rounded glass frames */
+.blog-card-img,.home-blog-img,.rel-artwork,.post-hero img,.ap-img,.cat-art{border-radius:var(--r-sm) var(--r-sm) 0 0;overflow:hidden}
+.rel-artwork{border-radius:var(--r-md);overflow:hidden}
+.ap-img{border-radius:var(--r-md) var(--r-md) 0 0}
+
+/* filters / selects → glass pills */
+.cat-filter-btn,.cat-filter-select{
+  background:var(--glass)!important;-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-border)!important;border-radius:999px!important;
+}
+.cat-filter-btn:hover,.cat-filter-btn.active{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2))!important;border-color:transparent!important;
+}
+
+/* pricing / cta buttons already pill via earlier rule — recolor glow */
+.price-cta.whatsapp{background:rgba(37,211,102,.14)!important;-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur)}
+.price-cta.apply{background:linear-gradient(135deg,var(--accent),var(--accent-2))!important;box-shadow:0 8px 26px var(--accent-glow)!important}
+
+/* scroll progress + back-to-top → glass/gradient */
+#scroll-progress{background:linear-gradient(90deg,var(--aurora-violet),var(--accent),var(--aurora-amber))!important;box-shadow:0 0 16px var(--accent-glow)!important}
+.to-top{
+  background:var(--glass)!important;-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-border)!important;box-shadow:var(--glass-shadow-sm)!important;
+}
+.to-top:hover{background:linear-gradient(135deg,var(--accent),var(--accent-2))!important;transform:translateY(-4px) scale(1.06)}
+
+/* hero title shimmer recolored to spatial palette */
+.hero-title .line-red{
+  background:linear-gradient(90deg,var(--accent) 0%,var(--aurora-amber) 25%,var(--accent) 50%,var(--aurora-violet) 75%,var(--accent) 100%)!important;
+  background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-title .line-outline{-webkit-text-stroke:2px rgba(255,255,255,.16)!important}
+.hero-bg{background:transparent!important}
+.hero-lines{background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px)!important}
+.hero-accent{background:linear-gradient(135deg,transparent 0%,rgba(124,108,255,.12) 100%)!important}
+
+/* scrollbar to match */
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14)!important}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)!important}
+
+/* keep the existing perf guard, but tune the mobile solid fallback to the new palette */
+@media(max-width:768px){
+  .home-nav-block,.service-block,.review-tile,.blog-card,
+  .stat-box,.cat-card,.ap-link,.plat-name,.roster-card,.why-card,
+  .bento-stat,.stream-logo-tile,.process-step,.home-blog-card,.price-card,
+  .plan-card,.step-box,.rel-platform-link{
+    background:#12141c!important;border:1px solid rgba(255,255,255,.12)!important;
+    border-radius:var(--r-md)!important;
+  }
+  nav,nav.scrolled{background:rgba(10,11,16,.94)!important}
+  .ticker{background:#12141c!important}
+  .artist-panel-box{background:#0b0d13!important}
+}
+
 </style>
 </head>
 <body>
