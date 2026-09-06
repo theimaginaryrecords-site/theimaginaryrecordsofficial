@@ -1147,6 +1147,56 @@ nav.scrolled{background:rgba(12,14,20,.72)!important;box-shadow:var(--glass-shad
   .artist-panel-box{background:#0b0d13!important}
 }
 
+
+/* ═══════════════════════════════════════════════════════════════
+   FIXES — 1) hero word clipping  2) home quick-nav on mobile
+            3) Tidal / streaming logo overflow
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 1) Space Grotesk is a wider, non-condensed face. At the sizes used
+   for big uppercase headlines (hero, page titles, etc.) it made long
+   words like "IMAGINARY" and "DISTRIBUTE" wider than their box, and
+   the box clips overflow — so letters (or the whole word) vanished.
+   Put the condensed face back as the primary display font site-wide;
+   Space Grotesk still carries the UI chrome (nav, buttons, pills)
+   further down so the spatial feel stays on the small type. */
+:root{
+  --font-display:'Barlow Condensed','Space Grotesk',sans-serif;
+}
+.nav-logo,.nav-links a,.nav-btn,.btn-primary,.btn-outline,.price-cta,
+.cat-filter-btn,.share-btn,.mob-menu a{
+  font-family:'Space Grotesk','Barlow Condensed',sans-serif!important;
+}
+
+/* Safety net: even condensed text shouldn't be able to hide behind
+   a hard clip if a word is ever borderline — let it shrink instead. */
+.hero-title,.page-title,.home-nav-title,.why-title,.cta-title,
+.rel-title-big,.streaming-title,.home-blog-title{
+  overflow-wrap:normal;word-break:normal;
+}
+
+/* 2) The quick-nav grid (Distribute / Roster / Catalogue / Services)
+   never had a mobile breakpoint, unlike the "Why TIR" cards below it —
+   two columns squeezed a 4rem uppercase word and, combined with the
+   glass panel's overflow:hidden, clipped it. Stack it like the others. */
+@media(max-width:640px){
+  .home-nav-grid{grid-template-columns:1fr!important}
+  .home-nav-block{padding:2.25rem 1.75rem!important}
+  .home-nav-title{font-size:clamp(2.1rem,9vw,2.8rem)!important;line-height:1.05}
+}
+
+/* 3) Streaming-platform logos (Tidal etc.) come in as wide wordmark
+   images. height:32px + width:auto let a wide logo blow past the
+   glass tile's width, and the tile's own overflow:hidden then hard-
+   cropped it. Cap both dimensions so object-fit can letterbox safely. */
+.stream-logo-tile img{
+  height:32px!important;
+  width:auto!important;
+  max-width:82%!important;
+  object-fit:contain!important;
+  display:block;margin:0 auto;
+}
+
 </style>
 </head>
 <body>
