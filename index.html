@@ -1197,6 +1197,48 @@ nav.scrolled{background:rgba(12,14,20,.72)!important;box-shadow:var(--glass-shad
   display:block;margin:0 auto;
 }
 
+
+/* ═══════════════════════════════════════════════════════════════
+   FIXES ROUND 2 — 1) "IMAGINARY" truly invisible  2) nav logo wraps
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 1) -webkit-background-clip:text was not clipping reliably on the
+   browsers actually used (only revealed by the text-selection
+   highlight) — a solid rectangle painted instead of gradient-filled
+   letters. Ditch the clip-to-text trick entirely and use a plain,
+   always-visible solid color with a soft glow instead. This is the
+   single rule that wins everywhere (mobile fallback removed, no more
+   fork between desktop/mobile behaviour). */
+.hero-title .line-red{
+  background:none!important;
+  -webkit-background-clip:initial!important;
+  background-clip:initial!important;
+  -webkit-text-fill-color:currentColor!important;
+  color:var(--accent)!important;
+  text-shadow:0 0 30px var(--accent-glow),0 0 70px rgba(255,59,59,.35)!important;
+  animation:heroGlowPulse 3s ease-in-out infinite!important;
+}
+@keyframes heroGlowPulse{
+  0%,100%{text-shadow:0 0 30px var(--accent-glow),0 0 70px rgba(255,59,59,.35)}
+  50%{text-shadow:0 0 46px var(--accent-glow),0 0 100px rgba(255,59,59,.5)}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-title .line-red{animation:none!important}
+}
+
+/* 2) The logo ("T·I·R") was getting squeezed by its flex siblings
+   (Artist Login / Submit Demo / hamburger) in the floating nav pill
+   on narrow screens and wrapping onto two lines. Lock it to one line
+   and tighten the surrounding chrome on small phones so everything
+   fits in the row, matching how it already sits correctly on desktop. */
+.nav-logo{white-space:nowrap!important;flex-shrink:0!important}
+@media(max-width:480px){
+  nav{padding:0 16px!important}
+  .nav-logo{font-size:1.15rem!important;letter-spacing:2px!important}
+  .nav-right{gap:6px!important}
+  .nav-btn{padding:7px 12px!important;font-size:.58rem!important;letter-spacing:.08em!important}
+}
+
 </style>
 </head>
 <body>
