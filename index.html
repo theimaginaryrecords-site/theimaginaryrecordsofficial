@@ -88,6 +88,7 @@ const db=firebase.firestore();
     <li><a href="/distribution/" data-view="distribution">DISTRIBUTION</a></li>
             <li><a href="/services/" data-view="services">SERVICES</a></li>
     <li><a href="/press/" data-view="press">PRESS</a></li>
+    <li><a href="/faq/">FAQ</a></li>
     <li><a href="/blog/" data-view="blog">BLOG</a></li>
   </ul>
   <div class="nav-right">
@@ -102,6 +103,8 @@ const db=firebase.firestore();
       <a href="/services/">SERVICES</a>
   <a href="/press/">PRESS</a>
   <a href="/blog/">BLOG</a>
+  <a href="/faq/">FAQ</a>
+  <a href="/contact/">CONTACT</a>
   <a href="https://tir-artist-portal.vercel.app/" target="_blank">CLIENT LOGIN</a>
   <a id="mob-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" style="color:var(--red)">SUBMIT DEMO</a>
 </div>
@@ -160,13 +163,13 @@ const db=firebase.firestore();
 
   <!-- Home quick nav -->
   <div class="home-nav-grid">
-    <div class="home-nav-block scale-in" onclick="showView('distribution')">
+    <div class="home-nav-block scale-in" href="/distribution/">
       <div class="home-nav-label">For Artists & Labels</div>
       <div class="home-nav-title">DISTRIBUTE</div>
       <div class="home-nav-desc">Release unlimited music to 200+ platforms in 24–48 hours. Keep upto 85% of your royalties. No lock-in contracts.</div>
       <div class="home-nav-arrow">START DISTRIBUTING →</div>
     </div>
-    <div class="home-nav-block scale-in" style="transition-delay:.08s" onclick="showView('services')">
+    <div class="home-nav-block scale-in" style="transition-delay:.08s" href="/services/">
       <div class="home-nav-label">What We Do</div>
       <div class="home-nav-title">SERVICES</div>
       <div class="home-nav-desc">Distribution, mastering, VEVO, Content ID, publishing and rights management — all under one roof.</div>
@@ -326,7 +329,7 @@ const db=firebase.firestore();
         <div class="stream-logo-tile"><img src="https://e7.pngegg.com/pngimages/127/739/png-clipart-logo-soundcloud-computer-icons-soundcloud-logo-logo-black-thumbnail.png" alt="SoundCloud"/><span class="slabel">SoundCloud</span></div>
         <div class="stream-logo-tile"><img src="https://store-images.s-microsoft.com/image/apps.16138.13510798886169200.51883b14-b870-433d-9a3a-2dbb79555f10.e93bab3d-0287-4434-b45b-014d9a818be6" alt="JioSaavn"/><span class="slabel">JioSaavn</span></div>
         <div class="stream-logo-tile" style="background:rgba(204,0,0,.04)"><span style="font-family:var(--font-display);font-size:1.2rem;font-weight:900;color:var(--red)">+192</span><span class="slabel">More Stores</span></div>
-        <div class="stream-logo-tile" style="cursor:pointer;background:rgba(204,0,0,.04)" onclick="showView('distribution')"><span style="font-family:var(--font-display);font-size:.7rem;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.4)">VIEW ALL →</span></div>
+        <div class="stream-logo-tile" style="cursor:pointer;background:rgba(204,0,0,.04)" href="/distribution/"><span style="font-family:var(--font-display);font-size:.7rem;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.4)">VIEW ALL →</span></div>
       </div>
     </div>
   </div>
@@ -336,7 +339,7 @@ const db=firebase.firestore();
     <div class="home-blog-inner">
       <div class="home-blog-header">
         <div class="home-blog-title">LATEST<br/>FROM THE LABEL</div>
-        <button class="btn-outline" onclick="showView('blog')" style="white-space:nowrap">SEE ALL POSTS →</button>
+        <button class="btn-outline" href="/blog/" style="white-space:nowrap">SEE ALL POSTS →</button>
       </div>
       <div class="home-blog-grid" id="home-blog-grid">
         <div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,.15);font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em">LOADING POSTS...</div>
@@ -354,44 +357,7 @@ const db=firebase.firestore();
     </div>
   </div>
 
-  <footer>
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand">THE <span>IMAGINARY</span> RECORDS</div>
-        <div class="footer-tagline" id="footer-tagline">An independent music distribution company from Kashmir, India.<br/>Releasing your music to 200+ platforms worldwide.</div>
-      </div>
-      <div>
-        <div class="footer-col-title">LABEL</div>
-        <a class="footer-link" onclick="showView('about')">About</a>
-                        <a class="footer-link" onclick="showView('services')">Services</a>
-        <a class="footer-link" onclick="showView('blog')">Blog</a>
-      </div>
-      <div>
-        <div class="footer-col-title">ARTISTS</div>
-        <a class="footer-link" onclick="showView('distribution')">Distribution</a>
-        <a class="footer-link" id="footer-demo-link" href="https://tir-demo-portal.vercel.app/" target="_blank">Submit Demo</a>
-        <a class="footer-link" onclick="showView('press')">Press</a>
-        <a class="footer-link" href="https://tir-artist-portal.vercel.app/" target="_blank">Client Login</a>
-      </div>
-      <div>
-        <div class="footer-col-title">LEGAL</div>
-        <a class="footer-link" onclick="showView('privacy')">Privacy Policy</a>
-        <a class="footer-link" onclick="showView('terms')">Terms & Conditions</a>
-        <a class="footer-link" onclick="showView('agreement')">Distribution Agreement</a>
-        <a id="footer-email" href="mailto:support@theimaginaryrecords.in" class="footer-link">support@theimaginaryrecords.in</a>
-        <a id="footer-instagram" href="https://www.instagram.com/theimaginaryrecords/" target="_blank" class="footer-link">@theimaginaryrecords</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2024 THE IMAGINARY RECORDS. ALL RIGHTS RESERVED.</span>
-      <span style="display:flex;gap:2rem">
-        <a onclick="showView('privacy')" style="color:inherit;text-decoration:none;cursor:pointer">PRIVACY</a>
-        <a onclick="showView('terms')" style="color:inherit;text-decoration:none;cursor:pointer">TERMS</a>
-        <a onclick="showView('agreement')" style="color:inherit;text-decoration:none;cursor:pointer">AGREEMENT</a>
-      </span>
-      <span>KASHMIR, INDIA</span>
-    </div>
-  </footer>
+  
 </div>
 </main>
 <footer>
@@ -411,6 +377,8 @@ const db=firebase.firestore();
         <a class="footer-link" href="/distribution/">Distribution</a>
         <a class="footer-link" id="footer-demo-link" href="https://tir-demo-portal.vercel.app/" target="_blank">Submit Demo</a>
         <a class="footer-link" href="/press/">Press</a>
+        <a class="footer-link" href="/faq/">FAQ</a>
+        <a class="footer-link" href="/contact/">Contact</a>
         <a class="footer-link" href="https://tir-artist-portal.vercel.app/" target="_blank">Client Login</a>
       </div>
       <div>
