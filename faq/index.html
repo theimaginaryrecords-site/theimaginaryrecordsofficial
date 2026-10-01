@@ -116,22 +116,6 @@ const db=firebase.firestore();
     },
     {
       "@type": "Question",
-      "name": "How long does it take for my song to go live on Spotify?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Once your release passes our quality check, delivery to stores takes 24\u201348 hours. Spotify and most major platforms then need a few days to process and publish it. In practice, submit your release at least 1\u20132 weeks before your planned release date so everything is live on time."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How long does JioSaavn or Gaana take?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Indian platforms like JioSaavn, Gaana, Wynk and Hungama generally go live within the same window as global stores \u2014 a few days after delivery. Timelines vary slightly by platform and by how clean your metadata is, which is why we review every release before sending it out."
-      }
-    },
-    {
-      "@type": "Question",
       "name": "Which platforms will my music reach?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -148,14 +132,6 @@ const db=firebase.firestore();
     },
     {
       "@type": "Question",
-      "name": "How much does Spotify pay per stream in India?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "There is no fixed rate \u2014 it varies by the listener's plan, country and month. In India, independent artists typically see roughly \u20b90.12 to \u20b90.25 per stream. One lakh (100,000) Indian streams therefore earns somewhere around \u20b912,000\u2013\u20b925,000 before your distributor's share. Anyone promising an exact per-stream rate is guessing."
-      }
-    },
-    {
-      "@type": "Question",
       "name": "When and how do I get paid?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -164,10 +140,114 @@ const db=firebase.firestore();
     },
     {
       "@type": "Question",
+      "name": "How do I submit a demo to The Imaginary Records?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the Submit Demo option on our website and send your best 1\u20133 finished tracks with a short introduction about yourself. We listen to everything. If it's a fit, we'll reach out about distribution; if not, we'll tell you honestly rather than leaving you hanging."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if a store rejects my release?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rejections are almost always fixable \u2014 usually artwork issues, metadata typos, or audio problems. We'll tell you exactly what the store flagged and you can correct it and resubmit at no extra cost. This is why we quality-check every release before delivery."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I choose the right music distributor?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Compare five things: (1) the real cost \u2014 fees plus royalty share, (2) payout method \u2014 do they pay to Indian banks, and how often, (3) delivery speed, (4) whether you keep your rights and can leave easily, and (5) support \u2014 can you reach a human? Be wary of \"free forever\" offers that take huge royalty cuts or lock you in."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you accept all genres and languages?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes \u2014 hip-hop, pop, lo-fi, devotional, folk, film music, anything, in any language: Hindi, Punjabi, Kashmiri, Tamil, English, and beyond. Good music is good music. As a Kashmir-based label we have a special soft spot for Kashmiri artists, but our roster is open to everyone."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I contact support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Email us at support@theimaginaryrecords.in or call/WhatsApp +91 9541543424. For release-specific questions, artists on the portal can also raise a support ticket from inside their account."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take for my song to go live on Spotify?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Once your release passes our quality check, delivery to stores takes 24\u201348 hours. Spotify and most major platforms then need a few days to process and publish it. In practice, submit your release at least 1\u20132 weeks before your planned release date so everything is live on time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does JioSaavn or Gaana take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Indian platforms like JioSaavn, Gaana, Wynk and Hungama generally go live within the same window as global stores \u2014 a few days after delivery. Timelines vary slightly by platform and by how clean your metadata is, which is why we review every release before sending it out."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What audio quality should I upload?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Upload a WAV file, 44.1 kHz / 16-bit minimum (24-bit preferred), with your final master \u2014 no clipping, no MP3s. Stores transcode everything themselves, so give them the highest quality source you have. Artwork must be a square JPG or PNG, at least 3000\u00d73000 pixels, with no blurry text or social media handles on it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I release a cover song?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cover songs need a licence from the original songwriter or publisher before they can be distributed \u2014 releasing one without permission can get your release taken down and your account penalised. If you have the proper licence, we can distribute it. If you're unsure, ask us before uploading."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I change my artist name after releasing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Changing an artist name after release is messy \u2014 stores treat it as a new artist, which splits your profile and playlists. Choose your artist name carefully before your first release. If you must change it, talk to us first and we'll advise on the cleanest way to do it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I schedule my release for a future date?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You pick the release date when you submit, and we recommend setting it at least 2\u20133 weeks out. That gives stores time to go live and gives you time to pitch for Spotify editorial playlists, which require your release to be delivered at least 7 days before release day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does Spotify pay per stream in India?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no fixed rate \u2014 it varies by the listener's plan, country and month. In India, independent artists typically see roughly \u20b90.12 to \u20b90.25 per stream. One lakh (100,000) Indian streams therefore earns somewhere around \u20b912,000\u2013\u20b925,000 before your distributor's share. Anyone promising an exact per-stream rate is guessing."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "Do I need to pay tax on my royalties?",
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Royalty income is taxable in India like any other income. We are not tax advisors, so we recommend speaking to a chartered accountant about how to report it. Keep your royalty statements \u2014 the portal gives you a record of everything paid out."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I split royalties with collaborators?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. When you submit a release through the artist portal, you can add collaborators and set each person's percentage split. Royalties are then divided automatically according to the splits you set \u2014 no spreadsheets, no arguments later."
       }
     },
     {
@@ -217,86 +297,6 @@ const db=firebase.firestore();
         "@type": "Answer",
         "text": "Three main differences. First, we are built for Indian artists \u2014 INR bank payouts, support in your timezone, and delivery to the Indian platforms that actually matter here (JioSaavn, Gaana, Wynk, Hungama). Second, there is no yearly fee; you keep up to 85% instead of paying per release. Third, you deal with a real label team in Kashmir, not a ticket queue on another continent."
       }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I submit a demo to The Imaginary Records?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Use the Submit Demo option on our website and send your best 1\u20133 finished tracks with a short introduction about yourself. We listen to everything. If it's a fit, we'll reach out about distribution; if not, we'll tell you honestly rather than leaving you hanging."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What audio quality should I upload?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Upload a WAV file, 44.1 kHz / 16-bit minimum (24-bit preferred), with your final master \u2014 no clipping, no MP3s. Stores transcode everything themselves, so give them the highest quality source you have. Artwork must be a square JPG or PNG, at least 3000\u00d73000 pixels, with no blurry text or social media handles on it."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I release a cover song?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Cover songs need a licence from the original songwriter or publisher before they can be distributed \u2014 releasing one without permission can get your release taken down and your account penalised. If you have the proper licence, we can distribute it. If you're unsure, ask us before uploading."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I change my artist name after releasing?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Changing an artist name after release is messy \u2014 stores treat it as a new artist, which splits your profile and playlists. Choose your artist name carefully before your first release. If you must change it, talk to us first and we'll advise on the cleanest way to do it."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I schedule my release for a future date?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. You pick the release date when you submit, and we recommend setting it at least 2\u20133 weeks out. That gives stores time to go live and gives you time to pitch for Spotify editorial playlists, which require your release to be delivered at least 7 days before release day."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What happens if a store rejects my release?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Rejections are almost always fixable \u2014 usually artwork issues, metadata typos, or audio problems. We'll tell you exactly what the store flagged and you can correct it and resubmit at no extra cost. This is why we quality-check every release before delivery."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I split royalties with collaborators?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. When you submit a release through the artist portal, you can add collaborators and set each person's percentage split. Royalties are then divided automatically according to the splits you set \u2014 no spreadsheets, no arguments later."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I choose the right music distributor?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Compare five things: (1) the real cost \u2014 fees plus royalty share, (2) payout method \u2014 do they pay to Indian banks, and how often, (3) delivery speed, (4) whether you keep your rights and can leave easily, and (5) support \u2014 can you reach a human? Be wary of \"free forever\" offers that take huge royalty cuts or lock you in."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do you accept all genres and languages?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes \u2014 hip-hop, pop, lo-fi, devotional, folk, film music, anything, in any language: Hindi, Punjabi, Kashmiri, Tamil, English, and beyond. Good music is good music. As a Kashmir-based label we have a special soft spot for Kashmiri artists, but our roster is open to everyone."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I contact support?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Email us at support@theimaginaryrecords.in or call/WhatsApp +91 9541543424. For release-specific questions, artists on the portal can also raise a support ticket from inside their account."
-      }
     }
   ]
 }
@@ -336,89 +336,449 @@ const db=firebase.firestore();
   <div class="page-sub">YOUR QUESTIONS, ANSWERED</div>
 </div>
 
-<div class="page-content">
-  <h2>Frequently Asked Questions</h2>
-  <p>Everything Indian independent artists ask us about music distribution — answered honestly.</p>
+<div class="faq-wrap">
+  <p class="faq-intro">Everything Indian independent artists ask us about music distribution — answered honestly. Can't find your answer? <a href="/contact/">Talk to us</a>.</p>
+  <div class="faq-search">
+    <input type="text" id="faq-search" placeholder="Search questions..." autocomplete="off"/>
+  </div>
+  <div class="faq-cats">
+    <button class="faq-cat active" data-cat="all">All</button>
 
-  <h3>What is music distribution?</h3>
-  <p>Music distribution is how your song gets from your studio to Spotify, Apple Music, JioSaavn, Gaana, YouTube Music and 200+ other platforms worldwide. A distributor delivers your audio and metadata to the stores, collects the royalties your streams earn, and pays them to you. You cannot upload directly to Spotify or JioSaavn as an artist — you need a distributor in between.</p>
+    <button class="faq-cat" data-cat="getting-started">Getting Started</button>
 
-  <h3>How much does music distribution cost in India?</h3>
-  <p>It depends on the distributor. Some charge a yearly fee per release, some take a percentage of your royalties, and some do both. The Imaginary Records charges no joining fee — you keep up to 85% of the royalties your music earns, and we retain 15% as a service fee.</p>
+    <button class="faq-cat" data-cat="release">Releasing Music</button>
 
-  <h3>Is free music distribution really free?</h3>
-  <p>Usually there is a trade-off. Some "free" distributors take a large cut of your royalties, charge for basic features like Content ID or fast delivery, or make it hard to leave. Always read the terms before uploading. With TIR there is no joining fee and no hidden charges — the split is a flat 85% to you.</p>
+    <button class="faq-cat" data-cat="royalties">Royalties & Payouts</button>
 
-  <h3>How long does it take for my song to go live on Spotify?</h3>
-  <p>Once your release passes our quality check, delivery to stores takes 24–48 hours. Spotify and most major platforms then need a few days to process and publish it. In practice, submit your release at least 1–2 weeks before your planned release date so everything is live on time.</p>
+    <button class="faq-cat" data-cat="rights">Rights & Technical</button>
 
-  <h3>How long does JioSaavn or Gaana take?</h3>
-  <p>Indian platforms like JioSaavn, Gaana, Wynk and Hungama generally go live within the same window as global stores — a few days after delivery. Timelines vary slightly by platform and by how clean your metadata is, which is why we review every release before sending it out.</p>
+    <button class="faq-cat" data-cat="compare">Comparisons</button>
 
-  <h3>Which platforms will my music reach?</h3>
-  <p>We deliver to 200+ platforms worldwide, including Spotify, Apple Music, YouTube Music, JioSaavn, Gaana, Wynk Music, Hungama, Amazon Music, Deezer, Tidal, Pandora, Napster and iHeartRadio, plus Instagram and Facebook for reels and stories audio.</p>
+  </div>
+  <div class="faq-list" id="faq-list">
 
-  <h3>How do music royalties work?</h3>
-  <p>Every time someone streams your song on a platform, that platform pays a small royalty. Your distributor collects these from all platforms, takes its agreed share, and passes the rest to you. With TIR, you keep up to 85% of net royalties. Statements are available so you can see exactly what each platform paid.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">What is music distribution?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>Music distribution is how your song gets from your studio to Spotify, Apple Music, JioSaavn, Gaana, YouTube Music and 200+ other platforms worldwide. A distributor delivers your audio and metadata to the stores, collects the royalties your streams earn, and pays them to you. You cannot upload directly to Spotify or JioSaavn as an artist — you need a distributor in between.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>How much does Spotify pay per stream in India?</h3>
-  <p>There is no fixed rate — it varies by the listener's plan, country and month. In India, independent artists typically see roughly ₹0.12 to ₹0.25 per stream. One lakh (100,000) Indian streams therefore earns somewhere around ₹12,000–₹25,000 before your distributor's share. Anyone promising an exact per-stream rate is guessing.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">How much does music distribution cost in India?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>It depends on the distributor. Some charge a yearly fee per release, some take a percentage of your royalties, and some do both. The Imaginary Records charges no joining fee — you keep up to 85% of the royalties your music earns, and we retain 15% as a service fee.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>When and how do I get paid?</h3>
-  <p>Royalties are paid directly to your Indian bank account once they are available from the platforms. There is no minimum complicated paperwork — you provide your bank details in the portal, and payouts follow the schedule in your distribution agreement. You can track your earnings in the artist portal at any time.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Is free music distribution really free?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>Usually there is a trade-off. Some "free" distributors take a large cut of your royalties, charge for basic features like Content ID or fast delivery, or make it hard to leave. Always read the terms before uploading. With TIR there is no joining fee and no hidden charges — the split is a flat 85% to you.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>Do I need to pay tax on my royalties?</h3>
-  <p>Royalty income is taxable in India like any other income. We are not tax advisors, so we recommend speaking to a chartered accountant about how to report it. Keep your royalty statements — the portal gives you a record of everything paid out.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Which platforms will my music reach?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>We deliver to 200+ platforms worldwide, including Spotify, Apple Music, YouTube Music, JioSaavn, Gaana, Wynk Music, Hungama, Amazon Music, Deezer, Tidal, Pandora, Napster and iHeartRadio, plus Instagram and Facebook for reels and stories audio.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>What are ISRC and UPC codes?</h3>
-  <p>An ISRC is a unique code assigned to each individual track, and a UPC (barcode) identifies the whole release. Stores require them to track your streams and sales. You don't need to buy them yourself — we assign ISRC and UPC codes to every release free of charge.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">How do music royalties work?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>Every time someone streams your song on a platform, that platform pays a small royalty. Your distributor collects these from all platforms, takes its agreed share, and passes the rest to you. With TIR, you keep up to 85% of net royalties. Statements are available so you can see exactly what each platform paid.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>What is YouTube Content ID?</h3>
-  <p>Content ID is YouTube's system that detects when your music is used in other people's videos and lets you earn ad revenue from those uses instead of just blocking them. If someone uploads a video with your song in the background, Content ID can claim it on your behalf and the ad money comes to you through your distributor.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">When and how do I get paid?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>Royalties are paid directly to your Indian bank account once they are available from the platforms. There is no minimum complicated paperwork — you provide your bank details in the portal, and payouts follow the schedule in your distribution agreement. You can track your earnings in the artist portal at any time.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>Do I keep the rights to my music?</h3>
-  <p>Yes. Distribution is not a record deal — you keep 100% ownership of your masters and your publishing. You are only giving us the right to deliver your music to stores and collect royalties on your behalf, for the term of the agreement.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">How do I submit a demo to The Imaginary Records?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>Use the Submit Demo option on our website and send your best 1–3 finished tracks with a short introduction about yourself. We listen to everything. If it's a fit, we'll reach out about distribution; if not, we'll tell you honestly rather than leaving you hanging.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>Can I leave my distributor and take my music elsewhere?</h3>
-  <p>With TIR, yes. If you decide to move to another distributor, we process a takedown of your releases from our deliveries so you can re-deliver them elsewhere without duplicates or conflicts. Be careful with distributors that make takedowns slow or charge exit fees — ask about this before you sign up anywhere.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">What happens if a store rejects my release?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>Rejections are almost always fixable — usually artwork issues, metadata typos, or audio problems. We'll tell you exactly what the store flagged and you can correct it and resubmit at no extra cost. This is why we quality-check every release before delivery.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>Is there a contract or lock-in period?</h3>
-  <p>Yes, and we tell you upfront: our distribution agreement runs for 6 months per release. During that time we are your exclusive distributor for those tracks. After the term, you are free to renew, move elsewhere, or take your music down. We believe a short, clear term is fairer than the multi-year lock-ins some distributors impose.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">How do I choose the right music distributor?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>Compare five things: (1) the real cost — fees plus royalty share, (2) payout method — do they pay to Indian banks, and how often, (3) delivery speed, (4) whether you keep your rights and can leave easily, and (5) support — can you reach a human? Be wary of "free forever" offers that take huge royalty cuts or lock you in.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>How is The Imaginary Records different from DistroKid or TuneCore?</h3>
-  <p>Three main differences. First, we are built for Indian artists — INR bank payouts, support in your timezone, and delivery to the Indian platforms that actually matter here (JioSaavn, Gaana, Wynk, Hungama). Second, there is no yearly fee; you keep up to 85% instead of paying per release. Third, you deal with a real label team in Kashmir, not a ticket queue on another continent.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Do you accept all genres and languages?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>Yes — hip-hop, pop, lo-fi, devotional, folk, film music, anything, in any language: Hindi, Punjabi, Kashmiri, Tamil, English, and beyond. Good music is good music. As a Kashmir-based label we have a special soft spot for Kashmiri artists, but our roster is open to everyone.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>How do I submit a demo to The Imaginary Records?</h3>
-  <p>Use the Submit Demo option on our website and send your best 1–3 finished tracks with a short introduction about yourself. We listen to everything. If it's a fit, we'll reach out about distribution; if not, we'll tell you honestly rather than leaving you hanging.</p>
+    <div class="faq-item" data-cat="getting-started">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">How do I contact support?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Getting Started</span>
+          <p>Email us at <strong>support@theimaginaryrecords.in</strong> or call/WhatsApp <strong>+91 9541543424</strong>. For release-specific questions, artists on the portal can also raise a support ticket from inside their account.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>What audio quality should I upload?</h3>
-  <p>Upload a WAV file, 44.1 kHz / 16-bit minimum (24-bit preferred), with your final master — no clipping, no MP3s. Stores transcode everything themselves, so give them the highest quality source you have. Artwork must be a square JPG or PNG, at least 3000×3000 pixels, with no blurry text or social media handles on it.</p>
+    <div class="faq-item" data-cat="release">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">How long does it take for my song to go live on Spotify?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Releasing Music</span>
+          <p>Once your release passes our quality check, delivery to stores takes 24–48 hours. Spotify and most major platforms then need a few days to process and publish it. In practice, submit your release at least 1–2 weeks before your planned release date so everything is live on time.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>Can I release a cover song?</h3>
-  <p>Cover songs need a licence from the original songwriter or publisher before they can be distributed — releasing one without permission can get your release taken down and your account penalised. If you have the proper licence, we can distribute it. If you're unsure, ask us before uploading.</p>
+    <div class="faq-item" data-cat="release">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">How long does JioSaavn or Gaana take?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Releasing Music</span>
+          <p>Indian platforms like JioSaavn, Gaana, Wynk and Hungama generally go live within the same window as global stores — a few days after delivery. Timelines vary slightly by platform and by how clean your metadata is, which is why we review every release before sending it out.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>Can I change my artist name after releasing?</h3>
-  <p>Changing an artist name after release is messy — stores treat it as a new artist, which splits your profile and playlists. Choose your artist name carefully before your first release. If you must change it, talk to us first and we'll advise on the cleanest way to do it.</p>
+    <div class="faq-item" data-cat="release">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">What audio quality should I upload?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Releasing Music</span>
+          <p>Upload a WAV file, 44.1 kHz / 16-bit minimum (24-bit preferred), with your final master — no clipping, no MP3s. Stores transcode everything themselves, so give them the highest quality source you have. Artwork must be a square JPG or PNG, at least 3000×3000 pixels, with no blurry text or social media handles on it.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>Can I schedule my release for a future date?</h3>
-  <p>Yes. You pick the release date when you submit, and we recommend setting it at least 2–3 weeks out. That gives stores time to go live and gives you time to pitch for Spotify editorial playlists, which require your release to be delivered at least 7 days before release day.</p>
+    <div class="faq-item" data-cat="release">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Can I release a cover song?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Releasing Music</span>
+          <p>Cover songs need a licence from the original songwriter or publisher before they can be distributed — releasing one without permission can get your release taken down and your account penalised. If you have the proper licence, we can distribute it. If you're unsure, ask us before uploading.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>What happens if a store rejects my release?</h3>
-  <p>Rejections are almost always fixable — usually artwork issues, metadata typos, or audio problems. We'll tell you exactly what the store flagged and you can correct it and resubmit at no extra cost. This is why we quality-check every release before delivery.</p>
+    <div class="faq-item" data-cat="release">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Can I change my artist name after releasing?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Releasing Music</span>
+          <p>Changing an artist name after release is messy — stores treat it as a new artist, which splits your profile and playlists. Choose your artist name carefully before your first release. If you must change it, talk to us first and we'll advise on the cleanest way to do it.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>Can I split royalties with collaborators?</h3>
-  <p>Yes. When you submit a release through the artist portal, you can add collaborators and set each person's percentage split. Royalties are then divided automatically according to the splits you set — no spreadsheets, no arguments later.</p>
+    <div class="faq-item" data-cat="release">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Can I schedule my release for a future date?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Releasing Music</span>
+          <p>Yes. You pick the release date when you submit, and we recommend setting it at least 2–3 weeks out. That gives stores time to go live and gives you time to pitch for Spotify editorial playlists, which require your release to be delivered at least 7 days before release day.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>How do I choose the right music distributor?</h3>
-  <p>Compare five things: (1) the real cost — fees plus royalty share, (2) payout method — do they pay to Indian banks, and how often, (3) delivery speed, (4) whether you keep your rights and can leave easily, and (5) support — can you reach a human? Be wary of "free forever" offers that take huge royalty cuts or lock you in.</p>
+    <div class="faq-item" data-cat="royalties">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">How much does Spotify pay per stream in India?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Royalties & Payouts</span>
+          <p>There is no fixed rate — it varies by the listener's plan, country and month. In India, independent artists typically see roughly ₹0.12 to ₹0.25 per stream. One lakh (100,000) Indian streams therefore earns somewhere around ₹12,000–₹25,000 before your distributor's share. Anyone promising an exact per-stream rate is guessing.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>Do you accept all genres and languages?</h3>
-  <p>Yes — hip-hop, pop, lo-fi, devotional, folk, film music, anything, in any language: Hindi, Punjabi, Kashmiri, Tamil, English, and beyond. Good music is good music. As a Kashmir-based label we have a special soft spot for Kashmiri artists, but our roster is open to everyone.</p>
+    <div class="faq-item" data-cat="royalties">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Do I need to pay tax on my royalties?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Royalties & Payouts</span>
+          <p>Royalty income is taxable in India like any other income. We are not tax advisors, so we recommend speaking to a chartered accountant about how to report it. Keep your royalty statements — the portal gives you a record of everything paid out.</p>
+        </div>
+      </div>
+    </div>
 
-  <h3>How do I contact support?</h3>
-  <p>Email us at <strong>support@theimaginaryrecords.in</strong> or call/WhatsApp <strong>+91 9541543424</strong>. For release-specific questions, artists on the portal can also raise a support ticket from inside their account.</p>
+    <div class="faq-item" data-cat="royalties">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Can I split royalties with collaborators?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Royalties & Payouts</span>
+          <p>Yes. When you submit a release through the artist portal, you can add collaborators and set each person's percentage split. Royalties are then divided automatically according to the splits you set — no spreadsheets, no arguments later.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="rights">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">What are ISRC and UPC codes?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Rights & Technical</span>
+          <p>An ISRC is a unique code assigned to each individual track, and a UPC (barcode) identifies the whole release. Stores require them to track your streams and sales. You don't need to buy them yourself — we assign ISRC and UPC codes to every release free of charge.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="rights">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">What is YouTube Content ID?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Rights & Technical</span>
+          <p>Content ID is YouTube's system that detects when your music is used in other people's videos and lets you earn ad revenue from those uses instead of just blocking them. If someone uploads a video with your song in the background, Content ID can claim it on your behalf and the ad money comes to you through your distributor.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="rights">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Do I keep the rights to my music?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Rights & Technical</span>
+          <p>Yes. Distribution is not a record deal — you keep 100% ownership of your masters and your publishing. You are only giving us the right to deliver your music to stores and collect royalties on your behalf, for the term of the agreement.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="rights">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Can I leave my distributor and take my music elsewhere?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Rights & Technical</span>
+          <p>With TIR, yes. If you decide to move to another distributor, we process a takedown of your releases from our deliveries so you can re-deliver them elsewhere without duplicates or conflicts. Be careful with distributors that make takedowns slow or charge exit fees — ask about this before you sign up anywhere.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="rights">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">Is there a contract or lock-in period?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Rights & Technical</span>
+          <p>Yes, and we tell you upfront: our distribution agreement runs for 6 months per release. During that time we are your exclusive distributor for those tracks. After the term, you are free to renew, move elsewhere, or take your music down. We believe a short, clear term is fairer than the multi-year lock-ins some distributors impose.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="compare">
+      <button class="faq-q" aria-expanded="false">
+        <span class="faq-q-text">How is The Imaginary Records different from DistroKid or TuneCore?</span>
+        <span class="faq-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <span class="faq-cat-tag">Comparisons</span>
+          <p>Three main differences. First, we are built for Indian artists — INR bank payouts, support in your timezone, and delivery to the Indian platforms that actually matter here (JioSaavn, Gaana, Wynk, Hungama). Second, there is no yearly fee; you keep up to 85% instead of paying per release. Third, you deal with a real label team in Kashmir, not a ticket queue on another continent.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="faq-empty" id="faq-empty" style="display:none">
+    <p>No questions match your search. <a href="/contact/">Ask us directly</a>.</p>
+  </div>
+  <div class="faq-cta">
+    <h2>Still have questions?</h2>
+    <p>Our team replies to every genuine message — usually within a day.</p>
+    <div class="faq-cta-btns">
+      <a href="/contact/" class="btn-primary">CONTACT US</a>
+      <a href="/submit-demo/" class="btn-outline">SUBMIT DEMO</a>
+    </div>
+  </div>
 </div>
 
+<style>
+.faq-wrap{max-width:900px;margin:0 auto;padding:60px 40px 100px}
+.faq-intro{font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.65);margin-bottom:2.5rem;text-align:center}
+.faq-intro a{color:var(--red2)}
+.faq-search{margin-bottom:1.5rem}
+.faq-search input{width:100%;background:var(--gray);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;color:var(--white);font-size:1rem;font-family:inherit;outline:none;transition:border-color .2s}
+.faq-search input:focus{border-color:var(--red)}
+.faq-search input::placeholder{color:rgba(255,255,255,.3)}
+.faq-cats{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.5rem}
+.faq-cat{background:transparent;border:1px solid var(--border);color:rgba(255,255,255,.6);padding:.55rem 1.1rem;border-radius:100px;font-size:.82rem;letter-spacing:.05em;cursor:pointer;transition:all .2s;font-family:inherit;text-transform:uppercase}
+.faq-cat:hover{border-color:var(--red);color:var(--white)}
+.faq-cat.active{background:var(--red);border-color:var(--red);color:#fff}
+.faq-list{display:flex;flex-direction:column;gap:.9rem}
+.faq-item{background:var(--gray);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .25s,transform .25s}
+.faq-item:hover{border-color:rgba(204,0,0,.4)}
+.faq-item.open{border-color:var(--red)}
+.faq-q{width:100%;background:none;border:none;color:var(--white);padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;cursor:pointer;font-size:1.02rem;font-weight:600;text-align:left;font-family:inherit;line-height:1.5}
+.faq-icon{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--red2);transition:transform .3s,background .3s}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--red);color:#fff;border-color:var(--red)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-a-inner{padding:0 1.5rem 1.5rem}
+.faq-cat-tag{display:inline-block;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--red2);border:1px solid rgba(204,0,0,.35);padding:.25rem .7rem;border-radius:100px;margin-bottom:.8rem;font-family:var(--font-mono)}
+.faq-a-inner p{color:rgba(255,255,255,.7);line-height:1.85;font-size:.98rem;margin:0}
+.faq-empty{text-align:center;padding:3rem;color:rgba(255,255,255,.5)}
+.faq-cta{margin-top:4rem;text-align:center;background:linear-gradient(135deg,rgba(204,0,0,.12),rgba(204,0,0,.03));border:1px solid rgba(204,0,0,.25);border-radius:20px;padding:3.5rem 2rem}
+.faq-cta h2{font-family:var(--font-display);font-size:2.2rem;font-weight:800;margin-bottom:.8rem;text-transform:uppercase}
+.faq-cta p{color:rgba(255,255,255,.6);margin-bottom:1.8rem}
+.faq-cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+@media(max-width:600px){.faq-wrap{padding:40px 20px 80px}.faq-q{font-size:.95rem;padding:1.1rem 1.2rem}}
+</style>
+
+<script>
+(function(){
+  var items=document.querySelectorAll('.faq-item');
+  items.forEach(function(item){
+    var btn=item.querySelector('.faq-q');
+    var ans=item.querySelector('.faq-a');
+    btn.addEventListener('click',function(){
+      var isOpen=item.classList.contains('open');
+      items.forEach(function(o){o.classList.remove('open');o.querySelector('.faq-a').style.maxHeight=null;o.querySelector('.faq-q').setAttribute('aria-expanded','false');});
+      if(!isOpen){item.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';btn.setAttribute('aria-expanded','true');}
+    });
+  });
+  var cats=document.querySelectorAll('.faq-cat');
+  var search=document.getElementById('faq-search');
+  var empty=document.getElementById('faq-empty');
+  var activeCat='all';
+  function filter(){
+    var term=search.value.toLowerCase().trim();
+    var visible=0;
+    items.forEach(function(item){
+      var matchCat=activeCat==='all'||item.dataset.cat===activeCat;
+      var text=item.textContent.toLowerCase();
+      var matchTerm=!term||text.indexOf(term)>-1;
+      var show=matchCat&&matchTerm;
+      item.style.display=show?'':'none';
+      if(show)visible++;
+    });
+    empty.style.display=visible===0?'block':'none';
+  }
+  cats.forEach(function(c){
+    c.addEventListener('click',function(){
+      cats.forEach(function(o){o.classList.remove('active');});
+      c.classList.add('active');
+      activeCat=c.dataset.cat;
+      filter();
+    });
+  });
+  search.addEventListener('input',filter);
+})();
+</script>
 </main>
 <footer>
     <div class="footer-grid">
