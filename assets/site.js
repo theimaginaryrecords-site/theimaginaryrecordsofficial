@@ -316,7 +316,7 @@ const FROM_PATH={
   '':'home','about':'about',
   'services':'services','distribution':'distribution',
   'anr':'anr','press':'press','blog':'blog','contact':'contact',
-  'privacy':'privacy','terms':'terms','agreement':'agreement'
+  'privacy':'privacy','terms':'terms','agreement':'agreement','privacy-policy':'privacy','terms-conditions':'terms','distribution-agreement':'agreement','submit-demo':'anr','faq':'faq'
 };
 
 function showView(name){
