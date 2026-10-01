@@ -49,10 +49,9 @@
 
 
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script>
-firebase.initializeApp({
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>window.addEventListener("DOMContentLoaded",function(){try{if(!window.firebase)return;firebase.initializeApp({
   apiKey:"AIzaSyDq7PGSfxGfwAJhzpEVq0Bj2TBhCg09NTU",
   authDomain:"tir-portal.firebaseapp.com",
   projectId:"tir-portal",
@@ -60,8 +59,8 @@ firebase.initializeApp({
   messagingSenderId:"941411383328",
   appId:"1:941411383328:web:4b7b0aa63e2c7e44d82a445"
 });
-const db=firebase.firestore();
-</script>
+
+window.db=firebase.firestore();}catch(e){}try{if(window.loadSiteContent)loadSiteContent();}catch(e){}});</script>
 
 
 <link rel="stylesheet" href="/assets/site.css"/>

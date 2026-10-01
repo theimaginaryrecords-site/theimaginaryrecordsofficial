@@ -387,4 +387,3 @@ window.addEventListener('scroll',()=>{document.getElementById('nav').classList.t
 
 function esc(v){return(v||'').toString().replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3000);}
-loadSiteContent();
