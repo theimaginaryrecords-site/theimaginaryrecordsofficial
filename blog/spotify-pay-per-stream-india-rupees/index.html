@@ -65,6 +65,18 @@ const db=firebase.firestore();
 
 
 <link rel="stylesheet" href="/assets/site.css"/>
+<style>.blog-post{max-width:800px;margin:0 auto;padding:110px 40px 80px}
+.blog-hero-img{margin:-20px -40px 2.5rem;border-radius:16px;overflow:hidden;border:1px solid var(--border)}
+.blog-hero-img img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
+.blog-post h2{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.1;margin-bottom:1.5rem;text-transform:uppercase}
+.blog-post h3{font-size:1.3rem;margin:2.2rem 0 1rem;color:var(--white)}
+.blog-post p{color:rgba(255,255,255,.72);line-height:1.9;margin-bottom:1.2rem;font-size:1.02rem}
+.blog-post ul{color:rgba(255,255,255,.72);line-height:1.9;margin:0 0 1.2rem 1.2rem}
+.blog-post li{margin-bottom:.5rem}
+.blog-post strong{color:var(--white)}
+.blog-post a{color:var(--red2)}
+@media(max-width:600px){.blog-post{padding:90px 20px 60px}.blog-hero-img{margin:-10px -20px 2rem}}
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -110,7 +122,8 @@ const db=firebase.firestore();
   <a id="mob-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" style="color:var(--red)">SUBMIT DEMO</a>
 </div>
 <main>
-<article class="page-content">
+<article class="page-content blog-post">
+<div class="blog-hero-img"><img src="/assets/blog/blog-rupee-streams.webp" alt="How Much Does Spotify Pay Per Stream in India? (2026, in Rupees)" loading="lazy"/></div>
 
   <h2>How Much Does Spotify Pay Per Stream in India? (2026, in Rupees)</h2>
   <p>Every Indian independent artist asks this. The honest answer: there is no fixed rate — but there is a realistic range, and you can do useful maths with it.</p>
