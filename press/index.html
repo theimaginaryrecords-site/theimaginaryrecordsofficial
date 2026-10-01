@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Contact The Imaginary Records — Music Distribution India</title>
-<meta name="description" content="Contact The Imaginary Records: support@theimaginaryrecords.in, +91 9541543424. Kashmir-based music distribution for independent artists."/>
-<link rel="canonical" href="https://theimaginaryrecords.in/contact/"/>
+<title>Press — The Imaginary Records in the News</title>
+<meta name="description" content="Press coverage and announcements from The Imaginary Records, Kashmir&#x27;s independent music distribution label."/>
+<link rel="canonical" href="https://theimaginaryrecords.in/press/"/>
 
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -79,8 +79,8 @@ const db=firebase.firestore();
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "Contact The Imaginary Records",
-      "item": "https://theimaginaryrecords.in/contact/"
+      "name": "Press",
+      "item": "https://theimaginaryrecords.in/press/"
     }
   ]
 }
@@ -93,7 +93,7 @@ const db=firebase.firestore();
     <li><a href="/about/" data-view="about">ABOUT</a></li>
     <li><a href="/distribution/" data-view="distribution">DISTRIBUTION</a></li>
             <li><a href="/services/" data-view="services">SERVICES</a></li>
-    <li><a href="/press/" data-view="press">PRESS</a></li>
+    <li><a href="/press/" class="active" data-view="press">PRESS</a></li>
     <li><a href="/blog/" data-view="blog">BLOG</a></li>
   </ul>
   <div class="nav-right">
@@ -106,33 +106,22 @@ const db=firebase.firestore();
   <a href="/about/">ABOUT</a>
   <a href="/distribution/">DISTRIBUTION</a>
       <a href="/services/">SERVICES</a>
-  <a href="/press/">PRESS</a>
+  <a href="/press/" class="active">PRESS</a>
   <a href="/blog/">BLOG</a>
   <a href="https://tir-artist-portal.vercel.app/" target="_blank">CLIENT LOGIN</a>
   <a id="mob-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" style="color:var(--red)">SUBMIT DEMO</a>
 </div>
 <main>
-<div class="page-hero">
-  <div class="page-title">CONTACT<span>.</span></div>
-  <div class="page-sub">LET'S TALK</div>
-</div>
-<div class="page-content">
-  <h2>Get in Touch</h2>
-  <p>Questions about distribution, demos, or partnerships — reach out. We reply to every genuine message.</p>
-  <ul>
-    <li><strong>Email:</strong> <a href="mailto:support@theimaginaryrecords.in">support@theimaginaryrecords.in</a></li>
-    <li><strong>Phone:</strong> <a href="tel:+919541543424">+91 95415 43424</a></li>
-    <li><strong>Address:</strong> 381 Khan Mohalla, Gund Saderkote Bala, Hajin, Bandipora, Jammu &amp; Kashmir 193504</li>
-  </ul>
-  <h2>Artist Registration</h2>
-  <p>Want to release with us? Start here:</p>
-  <ul>
-    <li><a href="https://tir-artist-portal.vercel.app/" target="_blank" rel="noopener">Client Login — Artist Portal</a></li>
-    <li><a href="/submit-demo/">Submit a Demo</a></li>
-    <li><a href="/faq/">Read the FAQs</a></li>
-  </ul>
-</div>
+<div class="view active" id="view-press">
 
+  <div class="page-hero fm-in fm-blur">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">TESTIMONIALS<span>.</span></div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">WHAT ARTISTS SAY</div>
+  </div>
+  <div class="reviews-grid" id="tir-reviews-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
+  </div>
+</div>
 </main>
 <footer>
     <div class="footer-grid">
@@ -150,7 +139,7 @@ const db=firebase.firestore();
         <div class="footer-col-title">ARTISTS</div>
         <a class="footer-link" href="/distribution/">Distribution</a>
         <a class="footer-link" id="footer-demo-link" href="https://tir-demo-portal.vercel.app/" target="_blank">Submit Demo</a>
-        <a class="footer-link" href="/press/">Press</a>
+        <a class="footer-link" href="/press/" class="active">Press</a>
         <a class="footer-link" href="https://tir-artist-portal.vercel.app/" target="_blank">Client Login</a>
       </div>
       <div>

@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Contact The Imaginary Records — Music Distribution India</title>
-<meta name="description" content="Contact The Imaginary Records: support@theimaginaryrecords.in, +91 9541543424. Kashmir-based music distribution for independent artists."/>
-<link rel="canonical" href="https://theimaginaryrecords.in/contact/"/>
+<title>Services — Distribution, Mastering, VEVO &amp; Rights Management | TIR</title>
+<meta name="description" content="Music distribution, mastering, VEVO, Content ID, publishing and rights management for independent artists — all under one roof."/>
+<link rel="canonical" href="https://theimaginaryrecords.in/services/"/>
 
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -79,8 +79,8 @@ const db=firebase.firestore();
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "Contact The Imaginary Records",
-      "item": "https://theimaginaryrecords.in/contact/"
+      "name": "Services",
+      "item": "https://theimaginaryrecords.in/services/"
     }
   ]
 }
@@ -92,7 +92,7 @@ const db=firebase.firestore();
   <ul class="nav-links">
     <li><a href="/about/" data-view="about">ABOUT</a></li>
     <li><a href="/distribution/" data-view="distribution">DISTRIBUTION</a></li>
-            <li><a href="/services/" data-view="services">SERVICES</a></li>
+            <li><a href="/services/" class="active" data-view="services">SERVICES</a></li>
     <li><a href="/press/" data-view="press">PRESS</a></li>
     <li><a href="/blog/" data-view="blog">BLOG</a></li>
   </ul>
@@ -105,34 +105,23 @@ const db=firebase.firestore();
 <div class="mob-menu" id="mob-menu">
   <a href="/about/">ABOUT</a>
   <a href="/distribution/">DISTRIBUTION</a>
-      <a href="/services/">SERVICES</a>
+      <a href="/services/" class="active">SERVICES</a>
   <a href="/press/">PRESS</a>
   <a href="/blog/">BLOG</a>
   <a href="https://tir-artist-portal.vercel.app/" target="_blank">CLIENT LOGIN</a>
   <a id="mob-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" style="color:var(--red)">SUBMIT DEMO</a>
 </div>
 <main>
-<div class="page-hero">
-  <div class="page-title">CONTACT<span>.</span></div>
-  <div class="page-sub">LET'S TALK</div>
-</div>
-<div class="page-content">
-  <h2>Get in Touch</h2>
-  <p>Questions about distribution, demos, or partnerships — reach out. We reply to every genuine message.</p>
-  <ul>
-    <li><strong>Email:</strong> <a href="mailto:support@theimaginaryrecords.in">support@theimaginaryrecords.in</a></li>
-    <li><strong>Phone:</strong> <a href="tel:+919541543424">+91 95415 43424</a></li>
-    <li><strong>Address:</strong> 381 Khan Mohalla, Gund Saderkote Bala, Hajin, Bandipora, Jammu &amp; Kashmir 193504</li>
-  </ul>
-  <h2>Artist Registration</h2>
-  <p>Want to release with us? Start here:</p>
-  <ul>
-    <li><a href="https://tir-artist-portal.vercel.app/" target="_blank" rel="noopener">Client Login — Artist Portal</a></li>
-    <li><a href="/submit-demo/">Submit a Demo</a></li>
-    <li><a href="/faq/">Read the FAQs</a></li>
-  </ul>
-</div>
+<div class="view active" id="view-services">
 
+  <div class="page-hero fm-in fm-blur">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">SERVICES<span>.</span></div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">WHAT WE OFFER</div>
+  </div>
+  <div class="services-grid" id="tir-services-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:80px;color:rgba(255,255,255,.2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em">LOADING...</div>
+  </div>
+</div>
 </main>
 <footer>
     <div class="footer-grid">
@@ -143,7 +132,7 @@ const db=firebase.firestore();
       <div>
         <div class="footer-col-title">LABEL</div>
         <a class="footer-link" href="/about/">About</a>
-                        <a class="footer-link" href="/services/">Services</a>
+                        <a class="footer-link" href="/services/" class="active">Services</a>
         <a class="footer-link" href="/blog/">Blog</a>
       </div>
       <div>

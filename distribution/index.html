@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Contact The Imaginary Records — Music Distribution India</title>
-<meta name="description" content="Contact The Imaginary Records: support@theimaginaryrecords.in, +91 9541543424. Kashmir-based music distribution for independent artists."/>
-<link rel="canonical" href="https://theimaginaryrecords.in/contact/"/>
+<title>Music Distribution India — Release on Spotify, JioSaavn &amp; 200+ Platforms</title>
+<meta name="description" content="Free music distribution in India. Release unlimited songs on Spotify, JioSaavn, Gaana, Apple Music &amp; 200+ platforms in 24-48 hours. Keep 85% royalties."/>
+<link rel="canonical" href="https://theimaginaryrecords.in/distribution/"/>
 
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -79,8 +79,8 @@ const db=firebase.firestore();
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "Contact The Imaginary Records",
-      "item": "https://theimaginaryrecords.in/contact/"
+      "name": "Music Distribution India",
+      "item": "https://theimaginaryrecords.in/distribution/"
     }
   ]
 }
@@ -91,7 +91,7 @@ const db=firebase.firestore();
   <a class="nav-logo" href="/">T<span>·</span>I<span>·</span>R</a>
   <ul class="nav-links">
     <li><a href="/about/" data-view="about">ABOUT</a></li>
-    <li><a href="/distribution/" data-view="distribution">DISTRIBUTION</a></li>
+    <li><a href="/distribution/" class="active" data-view="distribution">DISTRIBUTION</a></li>
             <li><a href="/services/" data-view="services">SERVICES</a></li>
     <li><a href="/press/" data-view="press">PRESS</a></li>
     <li><a href="/blog/" data-view="blog">BLOG</a></li>
@@ -104,7 +104,7 @@ const db=firebase.firestore();
 </nav>
 <div class="mob-menu" id="mob-menu">
   <a href="/about/">ABOUT</a>
-  <a href="/distribution/">DISTRIBUTION</a>
+  <a href="/distribution/" class="active">DISTRIBUTION</a>
       <a href="/services/">SERVICES</a>
   <a href="/press/">PRESS</a>
   <a href="/blog/">BLOG</a>
@@ -112,27 +112,38 @@ const db=firebase.firestore();
   <a id="mob-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" style="color:var(--red)">SUBMIT DEMO</a>
 </div>
 <main>
-<div class="page-hero">
-  <div class="page-title">CONTACT<span>.</span></div>
-  <div class="page-sub">LET'S TALK</div>
-</div>
-<div class="page-content">
-  <h2>Get in Touch</h2>
-  <p>Questions about distribution, demos, or partnerships — reach out. We reply to every genuine message.</p>
-  <ul>
-    <li><strong>Email:</strong> <a href="mailto:support@theimaginaryrecords.in">support@theimaginaryrecords.in</a></li>
-    <li><strong>Phone:</strong> <a href="tel:+919541543424">+91 95415 43424</a></li>
-    <li><strong>Address:</strong> 381 Khan Mohalla, Gund Saderkote Bala, Hajin, Bandipora, Jammu &amp; Kashmir 193504</li>
-  </ul>
-  <h2>Artist Registration</h2>
-  <p>Want to release with us? Start here:</p>
-  <ul>
-    <li><a href="https://tir-artist-portal.vercel.app/" target="_blank" rel="noopener">Client Login — Artist Portal</a></li>
-    <li><a href="/submit-demo/">Submit a Demo</a></li>
-    <li><a href="/faq/">Read the FAQs</a></li>
-  </ul>
-</div>
+<div class="view active" id="view-distribution">
 
+  <div class="page-hero fm-in fm-blur">
+    <div class="page-title" style="max-width:1400px;margin:0 auto">DISTRIBUTION<span>.</span></div>
+    <div class="page-sub" style="max-width:1400px;margin:.5rem auto 0">FOR INDEPENDENT ARTISTS</div>
+  </div>
+  <div class="delivery-banner">
+    <div class="badge">24–48H</div>
+    <p>Your music distributed to <strong>200+ platforms worldwide</strong> in 24 to 48 hours. Every single time.</p>
+  </div>
+  <div class="dist-body">
+    <div class="dist-left">
+      <p>Not ready to sign? No problem. TIR also offers free distribution to independent artists who want global reach without a full signing deal.</p>
+      <p>No upfront fees. Release unlimited music. Keep your rights. We take only 15% — that's it.</p>
+      <a id="dist-demo-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" class="btn-primary" style="margin-top:1rem">JOIN FOR FREE <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+    <div>
+      <div class="plan-card">
+        <div class="plan-price" id="plan-price">$0</div>
+        <div class="plan-sub-txt" id="plan-sub">NO JOINING FEE · NO HIDDEN CHARGES</div>
+        <ul class="plan-features" id="plan-features">
+          <li>Unlimited releases</li>
+          <li>200+ streaming platforms</li>
+          <li>24–48 hour delivery</li>
+          <li>Keep upto 85% of royalties</li>
+          <li>100% rights ownership</li>
+          <li class="muted">Dedicated A&R (signed artists only)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 <footer>
     <div class="footer-grid">
@@ -148,7 +159,7 @@ const db=firebase.firestore();
       </div>
       <div>
         <div class="footer-col-title">ARTISTS</div>
-        <a class="footer-link" href="/distribution/">Distribution</a>
+        <a class="footer-link" href="/distribution/" class="active">Distribution</a>
         <a class="footer-link" id="footer-demo-link" href="https://tir-demo-portal.vercel.app/" target="_blank">Submit Demo</a>
         <a class="footer-link" href="/press/">Press</a>
         <a class="footer-link" href="https://tir-artist-portal.vercel.app/" target="_blank">Client Login</a>
