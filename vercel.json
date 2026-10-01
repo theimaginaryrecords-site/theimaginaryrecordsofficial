@@ -1,18 +1,1 @@
-{
-  "rewrites": [
-    { "source": "/about",        "destination": "/index.html" },
-    { "source": "/roster",       "destination": "/index.html" },
-    { "source": "/catalogue",    "destination": "/index.html" },
-    { "source": "/services",     "destination": "/index.html" },
-    { "source": "/distribution", "destination": "/index.html" },
-    { "source": "/pricing",      "destination": "/index.html" },
-    { "source": "/anr",          "destination": "/index.html" },
-    { "source": "/press",        "destination": "/index.html" },
-    { "source": "/blog",         "destination": "/index.html" },
-    { "source": "/blog/:slug",   "destination": "/index.html" },
-    { "source": "/contact",      "destination": "/index.html" },
-    { "source": "/privacy",      "destination": "/index.html" },
-    { "source": "/terms",        "destination": "/index.html" },
-    { "source": "/agreement",    "destination": "/index.html" }
-  ]
-}
+{"redirects":[{"destination":"/submit-demo/","permanent":true,"source":"/anr"},{"destination":"/privacy-policy/","permanent":true,"source":"/privacy"},{"destination":"/terms-conditions/","permanent":true,"source":"/terms"},{"destination":"/distribution-agreement/","permanent":true,"source":"/agreement"},{"destination":"/","permanent":true,"source":"/roster"},{"destination":"/","permanent":true,"source":"/catalogue"}]}

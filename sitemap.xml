@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://theimaginaryrecords.in/</loc>
-    <lastmod>2026-06-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+  <url><loc>https://theimaginaryrecords.in/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://theimaginaryrecords.in/about/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/distribution/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/services/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/submit-demo/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/press/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/blog/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/contact/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/faq/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/music-distribution-india/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/kashmiri-music-distribution/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/privacy-policy/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/terms-conditions/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/distribution-agreement/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/blog/free-music-distribution-india/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/blog/how-to-release-song-on-spotify-india/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://theimaginaryrecords.in/blog/spotify-pay-per-stream-india-rupees/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>
