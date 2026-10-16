@@ -17,17 +17,6 @@ document.addEventListener('click',function(e){var b=e.target.closest('[data-copy
 var u=b.getAttribute('data-copy-link');
 if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){var s=b.querySelector('span');
 if(s){s.textContent='Copied!';setTimeout(function(){s.textContent='Copy link';},2000);}});}});
-// FAQ accordion + search + category filter (old FAQ page)
-(function(){var items=document.querySelectorAll('.faq-item');if(!items.length)return;
-items.forEach(function(item){var btn=item.querySelector('.faq-q');var ans=item.querySelector('.faq-a');
-if(!btn||!ans)return;btn.addEventListener('click',function(){var open=item.classList.contains('open');
-items.forEach(function(i){i.classList.remove('open');var a=i.querySelector('.faq-a');if(a)a.style.display='none';
-var bb=i.querySelector('.faq-q');if(bb)bb.setAttribute('aria-expanded','false');});
-if(!open){item.classList.add('open');ans.style.display='block';btn.setAttribute('aria-expanded','true');}});});
-var inp=document.getElementById('faq-search');
-if(inp){inp.addEventListener('input',function(){var q=inp.value.toLowerCase();
-items.forEach(function(item){var t=item.textContent.toLowerCase();item.style.display=t.indexOf(q)>-1?'':'none';});});}
-document.querySelectorAll('.faq-cat').forEach(function(c){c.addEventListener('click',function(){
-document.querySelectorAll('.faq-cat').forEach(function(x){x.classList.remove('active');});c.classList.add('active');
-var cat=c.getAttribute('data-cat');
-items.forEach(function(item){item.style.display=(cat==='all'||item.getAttribute('data-cat')===cat)?'':'none';});});});})();
+// FAQ accordion REMOVED: the /faq/ page carries its own inline accordion
+// script (maxHeight + combined search/category filter). This duplicate handler
+// fought it on every click and left every answer closed.
