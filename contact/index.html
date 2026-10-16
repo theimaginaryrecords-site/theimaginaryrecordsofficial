@@ -33,6 +33,46 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5ECJHMK0D"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-R5ECJHMK0D");</script>
 <link rel="stylesheet" href="/assets/tir-new.css"/>
+<style>
+.cx-hero{position:relative;max-width:720px;height:260px;margin:8px auto}
+.cx-orbit{position:absolute;inset:0;border:1.5px dashed rgba(139,132,255,.35);border-radius:50%;transform:rotate(-4deg)}
+.cx-chip{position:absolute;display:flex;align-items:center;gap:8px;padding:9px 15px;border-radius:999px;background:rgba(10,9,24,.92);border:1px solid rgba(140,130,255,.3);font-family:Poppins,sans-serif;font-weight:600;font-size:.82rem;color:#fff;box-shadow:0 12px 30px rgba(0,0,0,.45);animation:ha-float 6s ease-in-out infinite}
+.cx-dot{width:10px;height:10px;border-radius:50%;flex:none}
+.cx-c1{top:6%;left:2%}.cx-c2{top:6%;right:2%;animation-delay:.8s}.cx-c3{bottom:6%;left:8%;animation-delay:1.6s}
+.cx-card{position:absolute;left:50%;top:50%;display:flex;align-items:center;gap:18px;padding:20px 24px;border-radius:22px;background:linear-gradient(150deg,#2a2680,#17144a);border:1px solid rgba(190,185,255,.45);box-shadow:0 24px 60px rgba(75,69,240,.35);animation:ha-float-card 6s ease-in-out infinite;animation-delay:.4s}
+.cx-env{width:86px;height:60px;flex:none}
+.cx-lines{display:flex;flex-direction:column;gap:8px}
+.cx-lines i{display:block;height:8px;border-radius:4px;background:rgba(255,255,255,.25)}
+.cx-lines i:nth-child(1){width:130px}.cx-lines i:nth-child(2){width:100px}.cx-lines i:nth-child(3){width:70px;background:rgba(139,132,255,.6)}
+.cx-send{width:44px;height:44px;flex:none;border-radius:50%;background:#ff4fa3;display:flex;align-items:center;justify-content:center;color:#fff}
+.cx-note{position:absolute;color:#8b84ff;font-size:1.6rem;line-height:1}
+.cx-n1{top:24%;left:32%;transform:rotate(-12deg)}.cx-n2{bottom:22%;right:30%;transform:rotate(14deg);font-size:1.3rem}
+.cx-star{position:absolute;color:#ff4fa3;font-size:1.1rem;line-height:1}
+.cx-s1{top:2%;right:28%}.cx-s2{bottom:8%;left:26%}
+.cx-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 8px}
+.cx-item{display:flex;flex-direction:column;gap:6px;padding:20px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(140,130,255,.25);text-decoration:none;color:#fff}
+a.cx-item:hover{border-color:rgba(255,79,163,.6)}
+.cx-ico{width:44px;height:44px;border-radius:12px;background:linear-gradient(150deg,#2a2680,#17144a);border:1px solid rgba(190,185,255,.4);display:flex;align-items:center;justify-content:center;color:#8b84ff}
+.cx-item b{font-family:Poppins,sans-serif;font-size:1rem}
+.cx-item span{font-size:.92rem;color:#fff;word-break:break-word}
+.cx-item small{font-size:.82rem;color:#cfcdf5;line-height:1.5}
+.cx-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:20px 0 8px}
+.cx-step{position:relative;padding:20px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(140,130,255,.25)}
+.cx-step .cx-ico{margin-bottom:12px}
+.cx-step b{font-family:Poppins,sans-serif;display:block;margin-bottom:6px}
+.cx-step p{font-size:.86rem;color:#cfcdf5;line-height:1.55;margin:0}
+.cx-num{position:absolute;top:14px;right:16px;font-family:Poppins,sans-serif;font-weight:700;font-size:1.6rem;color:rgba(139,132,255,.35)}
+.cx-band{display:flex;align-items:center;gap:18px;padding:20px;border-radius:18px;background:linear-gradient(150deg,#2a2680,#17144a);border:1px solid rgba(190,185,255,.45);margin:20px 0 8px;flex-wrap:wrap}
+.cx-vinyl{width:64px;height:64px;flex:none;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,#0a0a0a 0 2px,#1c1c1c 2px 4px);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 2px rgba(255,255,255,.08)}
+.cx-vlabel{width:26px;height:26px;border-radius:50%;background:#4b45f0;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.cx-band b{font-family:Poppins,sans-serif}
+.cx-band p{font-size:.86rem;color:#cfcdf5;margin:2px 0 0}
+.cx-btns{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto}
+@keyframes ha-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes ha-float-card{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-8px)}}
+@media(max-width:640px){.cx-hero{height:300px}.cx-card{flex-direction:column;padding:16px;gap:12px}.cx-lines i:nth-child(1){width:110px}.cx-grid{grid-template-columns:1fr}.cx-steps{grid-template-columns:1fr}.cx-c1{top:0;left:0}.cx-c2{top:0;right:0}.cx-c3{bottom:0;left:0}.cx-n1{top:30%;left:4%}.cx-n2{bottom:26%;right:4%}.cx-s1{top:16%;right:6%}.cx-s2{bottom:16%;left:6%}.cx-btns{margin-left:0}}
+@media(prefers-reduced-motion:reduce){.cx-chip,.cx-card{animation:none}}
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -57,29 +97,7 @@
 <body>
 <div class="aurora" aria-hidden="true"></div><div id="stars" aria-hidden="true"></div><nav class="tir-nav"><a class="logo" href="/">T<i>&middot;</i>I<i>&middot;</i>R</a><div class="links"><a href="/about/">About</a><a href="/distribution/">Distribution</a><a href="/services/">Services</a><a href="/submit-demo/">Submit Demo</a><a href="/press/">Press</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/contact/" class="active">Contact</a></div><div class="navr"><a class="tir-btn ghost" href="https://tir-artist-portal.vercel.app/" target="_blank" rel="noopener">Client login</a><a class="tir-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" rel="noopener">Submit Demo</a><button class="tir-ham" aria-label="Menu">&#9776;</button></div></nav><div class="tir-mob"><a href="/about/">About</a><a href="/distribution/">Distribution</a><a href="/services/">Services</a><a href="/submit-demo/">Submit Demo</a><a href="/press/">Press</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/contact/" class="active">Contact</a></div>
 <main class="tir-main">
-
-<div class="page-hero">
-  <div class="page-title">CONTACT<span>.</span></div>
-  <div class="page-sub">LET'S TALK</div>
-</div>
-<div class="page-content">
-  <h2>Get in Touch</h2>
-  <p>Questions about distribution, demos, or partnerships — reach out. We reply to every genuine message.</p>
-  <ul>
-    <li><strong>Email:</strong> <a href="mailto:support@theimaginaryrecords.in">support@theimaginaryrecords.in</a></li>
-    <li><strong>Phone:</strong> <a href="tel:+919541543424">+91 95415 43424</a></li>
-    <li><strong>Address:</strong> 381 Khan Mohalla, Gund Saderkote Bala, Hajin, Bandipora, Jammu &amp; Kashmir 193504</li>
-  </ul>
-  <h2>Artist Registration</h2>
-  <p>Want to release with us? Start here:</p>
-  <ul>
-    <li><a href="https://tir-artist-portal.vercel.app/" target="_blank" rel="noopener">Client Login — Artist Portal</a></li>
-    <li><a href="/submit-demo/">Submit a Demo</a></li>
-    <li><a href="/faq/">Read the FAQs</a></li>
-  </ul>
-</div>
-
-
+<div class="tir-page-hero"><h1>Contact The Imaginary Records</h1><p>Questions about distribution, demos, or partnerships — reach out. We reply to every genuine message.</p></div><div class="tir-prose"><div class="cx-hero" aria-hidden="true"><div class="cx-orbit"></div><div class="cx-chip cx-c1"><span class="cx-dot" style="background:#8b84ff"></span>Email</div><div class="cx-chip cx-c2"><span class="cx-dot" style="background:#1ED760"></span>Phone</div><div class="cx-chip cx-c3"><span class="cx-dot" style="background:#ff4fa3"></span>Instagram</div><span class="cx-note cx-n1">&#9835;</span><span class="cx-note cx-n2">&#9834;</span><span class="cx-star cx-s1">&#10022;</span><span class="cx-star cx-s2">&#10022;</span><div class="cx-card"><svg class="cx-env" viewBox="0 0 86 60"><rect x="2" y="6" width="82" height="48" rx="6" fill="#0a0918" stroke="#8b84ff" stroke-width="2"/><polyline points="4,12 43,36 82,12" fill="none" stroke="#8b84ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="62" y="14" width="12" height="12" rx="2" fill="#ff4fa3"/></svg><div class="cx-lines"><i></i><i></i><i></i></div><div class="cx-send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></div></div></div><h2>Get in Touch</h2><div class="cx-grid"><a class="cx-item" href="mailto:support@theimaginaryrecords.in"><span class="cx-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg></span><b>Email</b><span>support@theimaginaryrecords.in</span><small>For demos, distribution &amp; general questions.</small></a><a class="cx-item" href="tel:+919541543424"><span class="cx-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><b>Phone</b><span>+91 95415 43424</span><small>Direct line to the label.</small></a><a class="cx-item" href="https://www.instagram.com/theimaginaryrecords/" target="_blank" rel="noopener"><span class="cx-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span><b>Instagram</b><span>@theimaginaryrecords</span><small>DMs &amp; updates.</small></a><div class="cx-item"><span class="cx-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><b>Address</b><span>381 Khan Mohalla, Gund Saderkote Bala, Hajin, Bandipora, Jammu &amp; Kashmir 193504</span><small>Kashmir, India.</small></div></div><h2>What happens next</h2><div class="cx-steps"><div class="cx-step"><span class="cx-num">1</span><span class="cx-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span><b>You write</b><p>Send your message by email, phone or Instagram.</p></div><div class="cx-step"><span class="cx-num">2</span><span class="cx-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg></span><b>We read every message</b><p>Every genuine message is read by a real person.</p></div><div class="cx-step"><span class="cx-num">3</span><span class="cx-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></span><b>We reply</b><p>We will get back to you — demos go through the demo portal.</p></div></div><h2>Artist Registration</h2><p>Want to release with us? Start here:</p><div class="cx-band"><div class="cx-vinyl"><span class="cx-vlabel">&#9835;</span></div><div><b>Ready to release?</b><p>Open the artist portal, submit a demo, or read the FAQs first.</p></div><div class="cx-btns"><a class="tir-btn" href="https://tir-artist-portal.vercel.app/" target="_blank" rel="noopener">Client Login</a><a class="tir-btn ghost" href="/submit-demo/">Submit a Demo</a><a class="tir-btn ghost" href="/faq/">Read the FAQs</a></div></div></div><div class="tir-section c" style="text-align:center;padding:64px 0 80px"><h2>Ready to release your music?</h2><p class="lead">Submit your demo today. We listen to everything, and we reply honestly.</p><div class="cta-row" style="margin-top:24px"><a class="tir-btn" href="https://tir-demo-portal.vercel.app/" target="_blank" rel="noopener">Submit Your Demo</a><a class="tir-btn ghost" href="/distribution/">How Distribution Works</a></div></div>
 </main>
 <footer class="tir-footer"><div class="tir-wrap"><div class="tir-fg"><div><span class="footer-brand">The Imaginary Records</span><span style="max-width:260px">An independent music distribution company from Kashmir, India.</span></div><div><b>Label</b><a href="/about/">About</a><a href="/services/">Services</a><a href="/blog/">Blog</a></div><div><b>Artists</b><a href="/distribution/">Distribution</a><a href="https://tir-demo-portal.vercel.app/" target="_blank" rel="noopener">Submit Demo</a><a href="/press/">Press</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a><a href="https://tir-artist-portal.vercel.app/" target="_blank" rel="noopener">Client Login</a></div><div><b>Legal</b><a href="/privacy-policy/">Privacy Policy</a><a href="/terms-conditions/">Terms &amp; Conditions</a><a href="/distribution-agreement/">Distribution Agreement</a></div><div><b>Contact</b><a href="mailto:support@theimaginaryrecords.in">support@theimaginaryrecords.in</a><a href="https://www.instagram.com/theimaginaryrecords/" target="_blank" rel="noopener">@theimaginaryrecords</a><span>Kashmir, India</span></div></div><div class="tir-legal"><span>&copy; 2026 THE IMAGINARY RECORDS. ALL RIGHTS RESERVED.</span><span><a href="/privacy-policy/">Privacy</a> &nbsp; <a href="/terms-conditions/">Terms</a> &nbsp; <a href="/distribution-agreement/">Agreement</a></span><span>theimaginaryrecords.in</span></div></div></footer>
 <script src="/assets/tir-new.js"></script>
